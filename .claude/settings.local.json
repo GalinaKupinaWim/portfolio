@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk 'NR>=347 && NR<=430' /Users/galina/Downloads/portfolio-16.html)"
+    ]
+  }
+}
