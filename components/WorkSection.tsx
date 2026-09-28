@@ -18,16 +18,19 @@ const projects = [
   },
   {
     href: "/sfpl",
-    image: "/images/sfpl-card2.jpg",
+    image: "/images/sfpl-card-ia-clean.png",
     title: "SF Public Library — IA Redesign",
     cat: "Information Architecture · UX Research · Tree Testing",
+    fit: "contain",
+    bgColor: "#E6E6E6",
   },
   {
     href: null,
     image: null,
     bgColor: "#cfd4d8",
-    title: "Creative Studio",
-    cat: "Visual Design",
+    title: "Freelance Projects",
+    cat: "Selected client work · Available on request",
+    comingSoon: true,
   },
 ];
 
@@ -78,8 +81,13 @@ export default function WorkSection() {
                     src={p.image}
                     alt={p.title}
                     fill
-                    className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
+                    className={`${p.fit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-[600ms] group-hover:scale-105`}
                   />
+                )}
+                {p.comingSoon && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="coming-soon-badge">Coming Soon</span>
+                  </div>
                 )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
                   {p.href && (

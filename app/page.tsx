@@ -4,6 +4,7 @@ import WorkSection from "@/components/WorkSection";
 import AboutSection from "@/components/AboutSection";
 import Footer from "@/components/Footer";
 import AIChatWidget from "@/components/AIChatWidget";
+import ScrollCue from "@/components/ScrollCue";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       </main>
       <Footer />
       <AIChatWidget />
+      <ScrollCue />
     </>
   );
 }

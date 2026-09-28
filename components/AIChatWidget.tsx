@@ -6,18 +6,6 @@ interface Message {
   text: string;
 }
 
-const SYSTEM_PROMPT = `You are an AI assistant embedded in Galina Kupina's UX design portfolio. Your role is to help hiring managers and recruiters learn about Galina quickly and naturally.
-
-About Galina:
-- UX Designer specializing in UX Research, UX/UI Design, and Front-End development (HTML/CSS)
-- Case studies: AI-Powered SAT Prep Platform (PrepMate) — EdTech, team project, 10 weeks, Sept–Nov 2024. Personalized Nutrition App (NutriWise) — solo project, 20 weeks, Jan–Jun 2025
-- Tools: Figma, Miro, Canva, Vision Studio, GitHub, FigJam, Optimal Workshop
-- Skills: user interviews, usability testing, wireframing, prototyping, journey mapping, persona development
-- Email: galinauxdesign@gmail.com
-- Available for hire
-
-Keep answers short, friendly, and conversational — 2-4 sentences max. Never make up facts. If unsure, suggest they email Galina directly.`;
-
 const CHIPS = ["What's your process?", "See case studies", "Available for hire?", "Skills & tools"];
 
 function getFallbackReply(text: string): string {
@@ -25,11 +13,13 @@ function getFallbackReply(text: string): string {
   if (t.includes("process") || t.includes("approach"))
     return "Galina follows a research-first process — she starts with user interviews, builds personas and journey maps, then moves through wireframes, prototyping, and usability testing before finalising hi-fi designs.";
   if (t.includes("case") || t.includes("project") || t.includes("work"))
-    return "Galina has two case studies: PrepMate — an AI-powered SAT prep platform (EdTech, team project, 10 weeks), and a Personalized Nutrition App (solo, 20 weeks). Both are on this page!";
-  if (t.includes("hire") || t.includes("available") || t.includes("job"))
-    return "Yes, Galina is currently open to new opportunities! Reach out directly at galinauxdesign@gmail.com to start a conversation.";
-  if (t.includes("skill") || t.includes("tool") || t.includes("figma"))
-    return "Galina works with Figma, Miro, Canva, Vision Studio, and GitHub. Her skills span UX research, UX/UI design, usability testing, and front-end development (HTML/CSS).";
+    return "Galina has three case studies: PrepMate — an AI-powered SAT prep platform (EdTech, team project); NutriWise — a personalized nutrition app (solo); and the SF Public Library IA redesign (information architecture & tree testing, Berkeley team project). They're all on this page!";
+  if (t.includes("hire") || t.includes("available") || t.includes("job") || t.includes("position") || t.includes("role") || t.includes("looking") || t.includes("seeking") || t.includes("opportunit") || t.includes("open to"))
+    return "Yes — Galina is open to new opportunities. She's looking for Product Designer and UX Designer roles focused on AI product experiences — including 0→1 product design and human–AI interaction. Reach out at galinauxdesign@gmail.com to start a conversation.";
+  if (t.includes("skill") || t.includes("tool") || t.includes("figma") || t.includes("stack"))
+    return "Galina's toolkit — Design: Figma, Adobe Illustrator, InDesign, Framer, Canva. AI: Claude, Claude Code, ChatGPT, NotebookLM, Cursor, Figma Make, v0. Research & collab: Miro, Optimal Workshop. Code: HTML/CSS, GitHub. Her skills span UX research, information architecture, prototyping, usability testing, and AI-assisted product design & development.";
+  if (t.includes("experience") || t.includes("background") || t.includes("career") || t.includes("years") || t.includes("history") || t.includes("employ"))
+    return "Galina is a freelance UX/UI & Product Designer (since Nov 2025), with 10+ years across digital product work. She spent a decade as a Project Manager in digital product development at AcademProject — shipping CRM platforms, a photography marketplace, and mobile apps — with earlier roles in HR and operations. That business-and-people background shapes her pragmatic, user-centered approach. The full timeline is on her resume.";
   if (t.includes("contact") || t.includes("email") || t.includes("reach"))
     return "You can reach Galina at galinauxdesign@gmail.com — she typically responds within 24 hours.";
   if (t.includes("hello") || t.includes("hi") || t.includes("hey"))
@@ -37,10 +27,15 @@ function getFallbackReply(text: string): string {
   return "Great question! For a detailed answer, reach out to Galina directly at galinauxdesign@gmail.com — she'd love to chat.";
 }
 
+// Strip emoji / symbols so speech synthesis reads cleanly.
+function speakableText(text: string): string {
+  return text.replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, "").replace(/\s+/g, " ").trim();
+}
+
 export default function AIChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "bot", text: "Hi! 👋 I'm Galina's AI assistant. Ask me about her work, skills, or availability." },
+    { role: "bot", text: "Hi! 👋 I'm Galina's AI assistant. Ask me about her work, skills, or availability. You can type or use the mic to talk." },
   ]);
   const [showChips, setShowChips] = useState(true);
   const [input, setInput] = useState("");
@@ -48,9 +43,91 @@ export default function AIChatWidget() {
   const [history, setHistory] = useState<{ role: string; content: string }[]>([]);
   const msgEndRef = useRef<HTMLDivElement>(null);
 
+  // Voice
+  const [listening, setListening] = useState(false);
+  const [voiceOn, setVoiceOn] = useState(false);
+  const [sttSupported, setSttSupported] = useState(false);
+  const [ttsSupported, setTtsSupported] = useState(false);
+  const recognitionRef = useRef<unknown>(null);
+  const sendRef = useRef<(t: string) => void>(() => {});
+  const voiceOnRef = useRef(false);
+
   useEffect(() => {
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    voiceOnRef.current = voiceOn;
+    if (!voiceOn && typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }, [voiceOn]);
+
+  // Text-to-speech support
+  useEffect(() => {
+    setTtsSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+  }, []);
+
+  const speak = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const clean = speakableText(text);
+    if (!clean) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = "en-US";
+    u.rate = 1.03;
+    u.pitch = 1;
+    window.speechSynthesis.speak(u);
+  };
+
+  // Speech-to-text setup (Web Speech API)
+  useEffect(() => {
+    const SR =
+      (window as unknown as { SpeechRecognition?: new () => SpeechRecognition; webkitSpeechRecognition?: new () => SpeechRecognition }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition?: new () => SpeechRecognition }).webkitSpeechRecognition;
+    if (!SR) return;
+    setSttSupported(true);
+    const rec = new SR();
+    rec.lang = "en-US";
+    rec.interimResults = true;
+    rec.continuous = false;
+    rec.onresult = (e: SpeechRecognitionEvent) => {
+      let transcript = "";
+      for (let i = 0; i < e.results.length; i++) {
+        transcript += e.results[i][0].transcript;
+      }
+      setInput(transcript);
+      const last = e.results[e.results.length - 1];
+      if (last && last.isFinal) {
+        const finalText = transcript.trim();
+        setListening(false);
+        if (finalText) sendRef.current(finalText);
+      }
+    };
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
+    recognitionRef.current = rec;
+    return () => {
+      try {
+        rec.abort();
+      } catch {}
+    };
+  }, []);
+
+  const toggleMic = () => {
+    const rec = recognitionRef.current as SpeechRecognition | null;
+    if (!rec) return;
+    if (listening) {
+      try { rec.stop(); } catch {}
+      setListening(false);
+    } else {
+      setInput("");
+      try {
+        rec.start();
+        setListening(true);
+      } catch {}
+    }
+  };
 
   async function send(text: string) {
     if (!text.trim() || loading) return;
@@ -61,37 +138,36 @@ export default function AIChatWidget() {
     setHistory(newHistory);
     setLoading(true);
 
+    let reply = "";
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": (window as any).ANTHROPIC_API_KEY || "",
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 300,
-          system: SYSTEM_PROMPT,
-          messages: newHistory,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newHistory }),
       });
-      if (!res.ok) throw new Error("API error");
-      const data = await res.json();
-      const reply = data.content?.[0]?.text || "Happy to help — try emailing Galina directly at galinauxdesign@gmail.com!";
-      setMessages((m) => [...m, { role: "bot", text: reply }]);
-      setHistory((h) => [...h, { role: "assistant", content: reply }]);
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.reply) reply = data.reply;
+      }
     } catch {
-      const reply = getFallbackReply(text);
-      setMessages((m) => [...m, { role: "bot", text: reply }]);
-      setHistory((h) => [...h, { role: "assistant", content: reply }]);
+      // network error — fall through to the offline answer
     }
+    // No live answer (no server key, error, or empty) → use the built-in knowledge.
+    if (!reply) reply = getFallbackReply(text);
+
+    setMessages((m) => [...m, { role: "bot", text: reply }]);
+    setHistory((h) => [...h, { role: "assistant", content: reply }]);
+    if (voiceOnRef.current) speak(reply);
     setLoading(false);
   }
 
+  // Keep a stable ref so speech-recognition callbacks always call the latest send.
+  useEffect(() => {
+    sendRef.current = send;
+  });
+
   return (
-    <div className="fixed bottom-7 right-7 z-[300] flex flex-col items-end gap-3 pointer-events-none">
+    <div className="no-print fixed bottom-7 right-7 z-[300] flex flex-col items-end gap-3 pointer-events-none">
       {/* Chat window */}
       <div
         className={`w-[300px] bg-white rounded-2xl border border-[#e5e5e5] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] origin-bottom-right transition-all duration-300 ${
@@ -107,7 +183,34 @@ export default function AIChatWidget() {
               <div className="font-body text-[10px] text-[#888]">Galina&apos;s AI assistant</div>
             </div>
           </div>
-          <button onClick={() => setOpen(false)} className="bg-transparent border-none text-[#666] hover:text-white text-lg leading-none">×</button>
+          <div className="flex items-center gap-1.5">
+            {ttsSupported && (
+              <button
+                onClick={() => setVoiceOn((v) => !v)}
+                title={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
+                aria-label={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
+                aria-pressed={voiceOn}
+                className={`w-6 h-6 rounded-full border-none flex items-center justify-center transition-colors ${
+                  voiceOn ? "bg-[#4ade80] text-[#1a1a1a]" : "bg-transparent text-[#888] hover:text-white"
+                }`}
+              >
+                {voiceOn ? (
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                ) : (
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <line x1="23" y1="9" x2="17" y2="15" />
+                    <line x1="17" y1="9" x2="23" y2="15" />
+                  </svg>
+                )}
+              </button>
+            )}
+            <button onClick={() => setOpen(false)} aria-label="Close chat" className="bg-transparent border-none text-[#666] hover:text-white text-lg leading-none">×</button>
+          </div>
         </div>
 
         {/* Messages */}
@@ -155,14 +258,35 @@ export default function AIChatWidget() {
         <div className="px-3.5 py-2.5 border-t border-[#f0f0f0] flex gap-2 items-center">
           <input
             className="flex-1 border-none outline-none font-body text-[12px] text-[#333] bg-transparent placeholder-[#bbb]"
-            placeholder="Type a message…"
+            placeholder={listening ? "Listening…" : "Type or speak…"}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send(input)}
           />
+          {sttSupported && (
+            <button
+              onClick={toggleMic}
+              title={listening ? "Stop listening" : "Speak your question"}
+              aria-label={listening ? "Stop listening" : "Speak your question"}
+              aria-pressed={listening}
+              className={`w-7 h-7 rounded-full border-none flex items-center justify-center flex-shrink-0 transition-all ${
+                listening
+                  ? "bg-[#ef4444] mic-listening"
+                  : "bg-[#f0f0f0] hover:bg-[#e5e5e5]"
+              }`}
+            >
+              <svg width="12" height="12" fill="none" stroke={listening ? "#fff" : "#1a1a1a"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </button>
+          )}
           <button
             onClick={() => send(input)}
             disabled={loading}
+            aria-label="Send message"
             className="w-7 h-7 rounded-full bg-[#1a1a1a] border-none flex items-center justify-center flex-shrink-0 hover:opacity-80 disabled:opacity-30 transition-opacity"
           >
             <svg width="12" height="12" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24">
@@ -177,6 +301,7 @@ export default function AIChatWidget() {
       <button
         onClick={() => setOpen((o) => !o)}
         title="Chat with Galina's AI"
+        aria-label="Chat with Galina's AI"
         className="w-12 h-12 rounded-full bg-[#1a1a1a] border-none flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform pointer-events-auto"
       >
         {open ? (

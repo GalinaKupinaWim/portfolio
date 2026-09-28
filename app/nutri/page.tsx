@@ -245,7 +245,7 @@ export default function NutriPage() {
           style={{ borderColor: N.brandBorder }}
         >
           <div><InfoLabel>Role</InfoLabel><InfoVal>UX Researcher<br />UX/UI Designer</InfoVal></div>
-          <div><InfoLabel>Timeline</InfoLabel><InfoVal>20 weeks<br />(Jan – June 2025)</InfoVal></div>
+          <div><InfoLabel>Timeline</InfoLabel><InfoVal>20 weeks<br />(Jan – June 2025)<span className="block mt-2">AI Strategy · Dec. 2025</span></InfoVal></div>
           <div><InfoLabel>Team</InfoLabel><InfoVal>Solo Project</InfoVal></div>
           <div><InfoLabel>Tools</InfoLabel><InfoVal>Figma<br />FigJam<br />Optimal Workshop</InfoVal></div>
         </div>
@@ -589,7 +589,7 @@ export default function NutriPage() {
         <H3>The 4 AI Features</H3>
         <Body className="mb-6">
           Four AI capabilities emerged from research as the most valuable to users. Two were
-          prioritized for MVP based on impact and feasibility; the other two were scoped as
+          prioritized for MVP based on impact and feasibility, the other two were scoped as
           fast-follows.
         </Body>
         <div className="grid grid-cols-2 gap-5">
@@ -644,7 +644,7 @@ export default function NutriPage() {
         <H3>The Mixed-Initiative Model</H3>
         <Body className="mb-6">
           Rather than operating as a black-box autopilot, NutriWise uses a mixed-initiative
-          interaction model. The AI proposes; the user decides. Either can take the lead at any
+          interaction model. The AI proposes, the user decides. Either can take the lead at any
           moment, and control transfers fluidly between them.
         </Body>
         <div

@@ -223,7 +223,7 @@ export default function SATPage() {
       <div className="px-14 max-w-[1200px] mx-auto">
         <div className="grid grid-cols-4 gap-8 py-8 border-b border-[#E2E8F0] mt-10 mb-2">
           <div><InfoLabel>Role</InfoLabel><InfoVal>UX Researcher<br/>UX/UI Designer<br/>Front-End (HTML/CSS)</InfoVal></div>
-          <div><InfoLabel>Timeline</InfoLabel><InfoVal>10 Weeks<br/>Sept. – Nov. 2024</InfoVal></div>
+          <div><InfoLabel>Timeline</InfoLabel><InfoVal>10 Weeks<br/>Sept. – Nov. 2024<span className="block mt-2">AI Strategy · Feb. 2026</span></InfoVal></div>
           <div><InfoLabel>Team</InfoLabel><InfoVal>Galina Kupina<br/>Daniel Opoku<br/>Alen Ghavami</InfoVal></div>
           <div><InfoLabel>Tools</InfoLabel><InfoVal>Figma · Miro<br/>Canva · Vision Studio<br/>GitHub</InfoVal></div>
         </div>
@@ -550,7 +550,7 @@ export default function SATPage() {
             },
             {
               q: "Why design the AI to sound like a tutor, not a testing engine?",
-              a: "Tone decides whether a student leans in or shuts down. A flat \"You answered 7 of 10 correctly\" doesn’t help when someone is already struggling. But \"You’re getting closer on geometry — let’s try a slightly harder one\" keeps them in the seat. Voice wasn’t a copy decision; it was a design decision.",
+              a: "Tone decides whether a student leans in or shuts down. A flat \"You answered 7 of 10 correctly\" doesn’t help when someone is already struggling. But \"You’re getting closer on geometry — let’s try a slightly harder one\" keeps them in the seat.",
             },
           ].map(({ q, a }) => (
             <div
@@ -767,7 +767,7 @@ export default function SATPage() {
               },
               {
                 title: "Transparency",
-                risk: "A silent \"do this next\" doesn&apos;t teach anything. Students either follow blindly or stop trusting the system the first time it feels arbitrary. Either outcome is a loss.",
+                risk: "A silent \"do this next\" doesn’t teach anything. Students either follow blindly or stop trusting the system the first time it feels arbitrary. Either outcome is a loss.",
                 response: "Every recommendation comes with a small honest reason: which concept, which mistake pattern, which time of day. Score predictions show a range, not a verdict, so progress feels like possibility instead of pressure.",
               },
             ].map(({ title, risk, response }) => (
@@ -800,7 +800,7 @@ export default function SATPage() {
         <div className="px-14 max-w-[1200px] mx-auto">
           <H2>Impact & Results</H2>
           <Body className="max-w-2xl mb-10">
-            The design changes weren&apos;t just abstract improvements; they showed up clearly in
+            The design changes weren&apos;t just abstract improvements, they showed up clearly in
             how students used the product. A few of the numbers we&apos;re most proud of:
           </Body>
           <div className="grid grid-cols-2 gap-5">

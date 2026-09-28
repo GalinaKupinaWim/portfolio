@@ -14,6 +14,7 @@ const primary = [
 const cases = [
   { href: "/sat", label: "SAT PrepMate" },
   { href: "/nutri", label: "NutriWise" },
+  { href: "/sfpl", label: "SF Public Library" },
 ];
 
 export default function DropdownMenu({ open, onClose }: Props) {
@@ -64,13 +65,24 @@ export default function DropdownMenu({ open, onClose }: Props) {
       ))}
 
       <div className="dropdown-divider" />
+      <div className="dropdown-label">Contact</div>
       <a
         href="mailto:galinauxdesign@gmail.com"
         onClick={onClose}
         className="dropdown-item"
         role="menuitem"
       >
-        Contact
+        Email
+      </a>
+      <a
+        href="https://www.linkedin.com/in/galina-kupina-a219821a"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClose}
+        className="dropdown-item"
+        role="menuitem"
+      >
+        LinkedIn
       </a>
     </div>
   );

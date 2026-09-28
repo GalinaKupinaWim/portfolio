@@ -180,7 +180,7 @@ export default function GKUXIntroAnimation() {
       // Scale to fit container.
       const sx = w / 1920;
       const sy = h / 1080;
-      setScale(Math.min(sx, sy));
+      setScale(Math.min(sx, sy) * 1.2);
     };
     measure();
     const ro = new ResizeObserver(measure);

@@ -138,7 +138,7 @@ export default function ExperienceSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="experience-sec" className="px-16 py-20">
+    <section ref={sectionRef} id="experience-sec" className="px-16 pt-10 pb-20">
       <div className="flex justify-between items-end mb-14">
         <h2
           className="reveal font-body font-medium text-[#1a1a1a]"

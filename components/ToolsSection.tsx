@@ -6,19 +6,19 @@ type ToolRow = { label: string; tools: string[] };
 const TOOLS: ToolRow[] = [
   {
     label: "Design",
-    tools: ["Figma", "Adobe Illustrator", "Adobe InDesign", "Framer", "Canva"],
+    tools: ["Figma", "Adobe Illustrator", "InDesign", "Framer", "Canva"],
   },
   {
     label: "AI",
-    tools: ["Claude", "Claude Skills", "ChatGPT", "Cursor"],
+    tools: ["Claude", "Claude Code", "ChatGPT", "NotebookLM", "Cursor", "Figma Make", "v0"],
   },
   {
     label: "Research & Collab",
-    tools: ["Miro", "Optimal Workshop", "Notion"],
+    tools: ["Miro", "Optimal Workshop"],
   },
   {
     label: "Code",
-    tools: ["HTML / CSS", "GitHub", "Visual Studio"],
+    tools: ["HTML / CSS", "GitHub"],
   },
 ];
 

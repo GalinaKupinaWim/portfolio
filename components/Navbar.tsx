@@ -42,8 +42,27 @@ const letterBase: React.CSSProperties = {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number | null>(null);
   // Bumping animKey remounts the 4 letters → CSS animations replay from 0.
   const [animKey, setAnimKey] = useState(0);
+
+  const cancelClose = () => {
+    if (closeTimer.current !== null) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const openMenu = () => {
+    cancelClose();
+    setMenuOpen(true);
+  };
+  // Delay close so the mouse can cross the gap between button and dropdown.
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = window.setTimeout(() => setMenuOpen(false), 180);
+  };
+
+  useEffect(() => () => cancelClose(), []);
 
   // Close dropdown on outside click or ESC
   useEffect(() => {
@@ -109,7 +128,12 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <div ref={menuContainerRef} className="relative">
+        <div
+          ref={menuContainerRef}
+          className="relative"
+          onMouseEnter={openMenu}
+          onMouseLeave={scheduleClose}
+        >
           <button
             className="grid grid-cols-2 gap-[5px] p-1.5 bg-transparent border-none rounded-md transition-colors"
             onClick={() => setMenuOpen((o) => !o)}

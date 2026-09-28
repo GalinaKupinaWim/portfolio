@@ -224,8 +224,8 @@ export default function SFPLPage() {
       {/* ── Hero image ── */}
       <div className="px-14 max-w-[1200px] mx-auto">
         <div className="rounded-2xl overflow-hidden border" style={{ borderColor: SF.brandBorder }}>
-          <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-            <Image src="/images/sfpl-hero-lib.jpg" alt="San Francisco Public Library" fill className="object-cover object-center" priority />
+          <div className="relative w-full" style={{ aspectRatio: "1586/992" }}>
+            <Image src="/images/sfpl-card-ia-clean.png" alt="San Francisco Public Library — IA Redesign concept" fill className="object-contain" priority />
           </div>
         </div>
       </div>
