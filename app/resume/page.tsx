@@ -5,7 +5,6 @@ import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ToolsSection from "@/components/ToolsSection";
 import Footer from "@/components/Footer";
-import AIChatWidget from "@/components/AIChatWidget";
 
 export const metadata = {
   title: "Resume — Galina Kupina",
@@ -18,7 +17,7 @@ export default function ResumePage() {
     <>
       <Navbar />
       <main>
-        <section className="relative overflow-hidden px-16 pt-14 pb-2">
+        <section className="relative overflow-hidden px-5 md:px-16 pt-14 pb-2">
           {/* Warm beige blob — echoes the home hero background */}
           <div
             aria-hidden
@@ -43,7 +42,7 @@ export default function ResumePage() {
               Resume
             </p>
 
-            <div className="flex items-center justify-between gap-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-10">
               <div>
                 <h1
                   className="font-body font-medium text-[#1a1a1a] mb-3"
@@ -85,7 +84,7 @@ export default function ResumePage() {
               </div>
 
               {/* Contact card — fast email copy + LinkedIn QR (great for the PDF/print) */}
-              <div className="hidden md:block flex-shrink-0" style={{ width: "270px" }}>
+              <div className="flex-shrink-0 w-full max-w-[320px] md:w-[270px]">
                 <ResumeContactCard />
               </div>
             </div>
@@ -98,7 +97,6 @@ export default function ResumePage() {
         <ToolsSection />
       </main>
       <Footer />
-      <AIChatWidget />
     </>
   );
 }

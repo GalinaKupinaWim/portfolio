@@ -88,7 +88,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-[100] bg-white border-b border-[#e5e5e5] px-12 py-4 flex justify-between items-center">
+      <nav className="sticky top-0 z-[100] bg-white border-b border-[#e5e5e5] px-5 md:px-12 py-4 flex justify-between items-center">
         <Link
           href="/"
           onClick={() => setAnimKey((k) => k + 1)}

@@ -5,10 +5,10 @@ import GKUXIntroAnimation from "./GKUXIntroAnimation";
 
 const PHRASES = [
   "AI Products",
-  "0→1 Product Design",
+  "0→1 Products",
   "Human–AI Interaction",
   "Conversational UX",
-  "Intelligent Systems",
+  "UX Research",
 ];
 
 const EMAIL = "galinauxdesign@gmail.com";
@@ -223,7 +223,7 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="bg-[#e8e3dc] min-h-[90vh] grid grid-cols-2 items-stretch relative overflow-visible"
+      className="bg-[#e8e3dc] min-h-[90vh] grid grid-cols-1 md:grid-cols-2 items-stretch relative overflow-visible"
       style={{ padding: "clamp(40px,8vw,100px) clamp(16px,4vw,48px) clamp(40px,6vw,80px)", gap: "clamp(16px,3vw,40px)" }}
     >
       <canvas
@@ -234,14 +234,14 @@ export default function Hero() {
 
       {/* Left: GKUX intro animation (native React, transparent — blends with hero blob) */}
       <div
-        className="relative flex items-center justify-center"
-        style={{ minHeight: "50vh", zIndex: 2, transform: "translateY(20%)" }}
+        className="relative flex items-center justify-center order-2 md:order-1 md:translate-y-[20%]"
+        style={{ minHeight: "40vh", zIndex: 2 }}
       >
         <GKUXIntroAnimation />
       </div>
 
       {/* Right: info */}
-      <div className="relative flex flex-col justify-center" style={{ zIndex: 2, transform: "translateY(-20%)" }}>
+      <div className="relative flex flex-col justify-center order-1 md:order-2 md:-translate-y-[20%]" style={{ zIndex: 2 }}>
         <p
           className="font-body text-[#4A5565] uppercase tracking-[0.08em] opacity-80 mb-3.5"
           style={{ fontSize: "13px" }}
@@ -249,8 +249,8 @@ export default function Hero() {
           PORTFOLIO 2026
         </p>
         <h2
-          className="font-body font-medium mb-7"
-          style={{ fontSize: "clamp(1.5rem,2.5vw,2.2rem)", lineHeight: 1.5 }}
+          className="font-heading font-medium mb-7 text-[17px] md:text-[30px] tracking-[-0.02em]"
+          style={{ lineHeight: 1.08 }}
         >
           Designing intuitive experiences for AI-powered and digital products.
         </h2>
@@ -268,28 +268,29 @@ export default function Hero() {
           </div>
           <div>
             <div className="font-body text-2xl font-medium">Galina Kupina</div>
-            <div className="font-body text-[0.82rem] text-[#4A5565] opacity-80 mt-0.5">
-              Product Designer | UX Designer | AI Product Experiences
-            </div>
-            <div className="flex items-center gap-1 mt-1 font-body text-[0.78rem] text-[#4A5565] opacity-90">
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <span>San Francisco Bay Area, CA</span>
+            <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mt-0.5 font-body text-[0.8rem] text-[#4A5565] opacity-90">
+              <span>Product Designer</span>
+              <span className="opacity-40">·</span>
+              <span className="inline-flex items-center gap-1">
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                San Francisco Bay Area, CA
+              </span>
             </div>
             <div className="flex items-center gap-1.5 mt-3" style={{ fontSize: "0.85rem", color: "#4A5565", minHeight: "1.4em" }}>
-              <span className="opacity-60 whitespace-nowrap flex-shrink-0 font-body">Designing for</span>
+              <span className="opacity-60 whitespace-nowrap flex-shrink-0 font-body">Specializing in</span>
               <span
                 ref={twRef}
                 className="font-medium text-[#1a1a1a] typewriter-cursor whitespace-nowrap overflow-hidden font-body"

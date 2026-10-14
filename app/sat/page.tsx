@@ -49,18 +49,18 @@ function H3({ children, white }: { children: React.ReactNode; white?: boolean })
     </h3>
   );
 }
-function H4({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function H4({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
     <h4 className={`font-heading font-semibold mb-2 ${className}`}
-      style={{ fontSize: "0.9375rem" }}>
+      style={{ fontSize: "0.9375rem", ...style }}>
       {children}
     </h4>
   );
 }
-function Body({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Body({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
     <p className={`font-body leading-[1.72] max-w-[700px] ${className}`}
-      style={{ fontSize: "0.9375rem", color: SAT.subtleText }}>
+      style={{ fontSize: "0.9375rem", color: SAT.subtleText, ...style }}>
       {children}
     </p>
   );
@@ -206,24 +206,24 @@ export default function SATPage() {
       <CaseStudyNav />
 
       {/* ── Hero ── */}
-      <div className="px-14 pt-14 pb-8 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 pb-8 max-w-[1200px] mx-auto">
         <PillLight>UX/UI Design · Front-End (HTML/CSS)</PillLight>
         <PageH1>AI-Powered SAT Prep Platform</PageH1>
         <PageSub>PrepMate — EdTech · Team Project</PageSub>
       </div>
 
       {/* ── Hero image ── */}
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div className="relative w-full" style={{ maxWidth: "900px", aspectRatio: "1560/1008" }}>
           <Image src="/images/PrepMate-hero-v2.png" alt="SAT Hero" fill className="object-contain" priority />
         </div>
       </div>
 
       {/* ── Meta ── */}
-      <div className="px-14 max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-4 gap-8 py-8 border-b border-[#E2E8F0] mt-10 mb-2">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-b border-[#E2E8F0] mt-10 mb-2">
           <div><InfoLabel>Role</InfoLabel><InfoVal>UX Researcher<br/>UX/UI Designer<br/>Front-End (HTML/CSS)</InfoVal></div>
-          <div><InfoLabel>Timeline</InfoLabel><InfoVal>10 Weeks<br/>Sept. – Nov. 2024<span className="block mt-2">AI Strategy · Feb. 2026</span></InfoVal></div>
+          <div><InfoLabel>Timeline</InfoLabel><InfoVal>March – May 2025<span className="block mt-2">AI Strategy · Feb. 2026</span></InfoVal></div>
           <div><InfoLabel>Team</InfoLabel><InfoVal>Galina Kupina<br/>Daniel Opoku<br/>Alen Ghavami</InfoVal></div>
           <div><InfoLabel>Tools</InfoLabel><InfoVal>Figma · Miro<br/>Canva · Vision Studio<br/>GitHub</InfoVal></div>
         </div>
@@ -240,7 +240,7 @@ export default function SATPage() {
 
       {/* ── The Problem — deep slate ── */}
       <section className="py-16 mt-12" style={{ background: SAT.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <H2 white>The Problem</H2>
           <p
             className="font-body leading-[1.75] max-w-[820px] mb-5"
@@ -260,7 +260,7 @@ export default function SATPage() {
         </div>
       </section>
 
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <Divider />
 
         {/* ── Phase 01 ── */}
@@ -283,20 +283,20 @@ export default function SATPage() {
 
         <H3>Interview Insights</H3>
         <Body className="max-w-3xl">
-          We sat down with <strong>5 students</strong> in the middle of their SAT journey,
-          some still in high school, some in college reflecting back. The conversations were less
-          about study tips and more about how it actually felt: the pressure, the doubt, and the
-          small things that made the difference.
+          We interviewed <strong>five students</strong> at various stages of their SAT journey.
+          Some are still in high school, while others are in college reflecting on their
+          experiences. All five interviews were conducted over Zoom, using a shared discussion
+          guide. We then synthesized their responses to identify recurring themes.
         </Body>
 
-        <div className="grid grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           {[
             { icon: icons.zap,    title: "Overwhelm",           text: "Every student we talked to felt buried by the sheer amount of material. \"Where do I even start?\" came up again and again." },
             { icon: icons.target, title: "Need for Focus",      text: "Students didn't want to relearn what they already knew. They wanted help pinpointing the gaps and going straight to those." },
             { icon: icons.trend,  title: "Progress Visibility", text: "Four out of five said seeing real progress, even small wins, was what kept them coming back to study." },
             { icon: icons.clock,  title: "Time Constraints",    text: "Long study sessions weren't realistic. Most needed something they could fit into 20 minutes between school, work, and life." },
             { icon: icons.chat,   title: "Feedback Gap",        text: "A wrong answer with no explanation felt like a dead end. Students cared less about the score and more about understanding why." },
-            { icon: icons.dollar, title: "Cost Barrier",        text: "Tutors and paid prep books weren't an option for most. Affordability wasn't a nice-to-have; it was the deciding factor." },
+            { icon: icons.dollar, title: "Cost Barrier",        text: "For three out of five, a tutor was out of reach on cost. Books were the affordable fallback, but when they got stuck, there was no one to explain why." },
           ].map(({ icon, title, text }) => (
             <CardBlue key={title}>
               <div className="mb-3 w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: SAT.brandLight, color: SAT.brandMid, border: `1px solid ${SAT.brandBorder}` }}>
@@ -311,11 +311,11 @@ export default function SATPage() {
         {/* ── Persona ── */}
         <H3>User Persona</H3>
         <div className="mt-4 rounded-2xl overflow-hidden border border-[#E2E8F0]">
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-8 border-r border-[#E2E8F0]">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 relative">
-                  <Image src="/images/sarah-persona.jpg" alt="Sarah" fill className="object-cover" />
+                  <Image src="/images/sarah-persona-v2.png" alt="Sarah" fill className="object-cover" />
                 </div>
                 <div>
                   <div className="font-heading font-bold text-[#0F172A]" style={{ fontSize: "1.0625rem" }}>Sarah Martinez</div>
@@ -327,9 +327,9 @@ export default function SATPage() {
                 <Sm>A high school student preparing for the SAT, juggling classes, family expectations, and the quiet pressure of figuring out where to apply next.</Sm>
               </div>
               <InfoLabel>Goals</InfoLabel>
-              <Bullet>Achieve higher test scores</Bullet>
-              <Bullet>Access flexible learning</Bullet>
-              <Bullet>Track progress effectively</Bullet>
+              <Bullet>Hit a target score for her college list</Bullet>
+              <Bullet>Build confidence and lower test-day anxiety</Bullet>
+              <Bullet>Stay consistent and motivated</Bullet>
             </div>
             <div className="p-8">
               <InfoLabel>Frustrations</InfoLabel>
@@ -341,7 +341,7 @@ export default function SATPage() {
               <div className="p-5 rounded-xl relative" style={{ background: SAT.brandLight, borderLeft: `3px solid ${SAT.brandMid}` }}>
                 <div className="font-heading font-bold mb-2" style={{ fontSize: "2.5rem", color: SAT.brandBorder, lineHeight: 1 }}>&ldquo;</div>
                 <Body className="italic" style={{ color: SAT.bodyText } as React.CSSProperties}>
-                  There&apos;s so much to study. I don&apos;t even know where to start. I just want something that tells me what to actually focus on.
+                  There&apos;s so much to study. I don&apos;t even know where to start and what to actually focus on.
                 </Body>
               </div>
             </div>
@@ -350,20 +350,20 @@ export default function SATPage() {
 
         {/* ── Context Scenario ── */}
         <H3>Context Scenario</H3>
-        <Body className="mb-4 max-w-3xl">We mapped out what real moments of using PrepMate might look like, from a quick 15-minute review on the bus to a longer Saturday-morning session at home, to make sure the design held up across the messy reality of student life.</Body>
-        <Image src="/images/sat-context-scenario.png" alt="Context Scenario" width={1200} height={700}
-          className="w-full rounded-xl border border-[#E2E8F0]" />
+        <Body className="mb-4 max-w-3xl">We mapped Sarah&apos;s journey with PrepMate as one continuous story, from the overwhelm of too many books and no clear place to start, to finding the app, getting a personalized dashboard and instant feedback, and slowly building the confidence to walk into test day ready.</Body>
+        <Image src="/images/sat-context-storyboard.png" alt="Context Scenario" width={1536} height={1024}
+          className="w-full h-auto rounded-xl border border-[#E2E8F0]" />
 
         {/* ── Journey Map ── */}
         <H3>Journey Map</H3>
         <Sm className="mb-5">Walking through Sarah&apos;s journey from her first practice question to test day surfaced the exact moments where students lose momentum, lose confidence, or just lose interest, and those moments became our design targets.</Sm>
         <div className="p-6 rounded-2xl" style={{ background: SAT.brandLight }}>
-          <Image src="/images/sat-journey-map.jpg" alt="Journey Map" width={1200} height={600} className="w-full rounded-xl" />
+          <Image src="/images/sat-journey-map-v2.jpg" alt="Journey Map" width={1366} height={994} className="w-full rounded-xl" />
         </div>
 
         {/* ── Stats ── */}
         <H3>Research & Statistics</H3>
-        <div className="grid grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <CardWhite>
             <StatNum>43%</StatNum>
             <Sm>Per the College Board, fewer than half of students meet college-readiness benchmarks. The other 57% need more than a study guide can offer.</Sm>
@@ -380,9 +380,9 @@ export default function SATPage() {
         <PhaseBadge label="Phase 02" />
         <H2>Define & Vision</H2>
         <Body className="max-w-3xl">
-          With the research in hand, we stepped back to make sense of what we had heard. The
-          patterns were clearer than we expected, and they pointed to a sharper problem, a
-          stronger vision, and a set of goals worth designing around.
+          After our research, we took a step back to look at what we&apos;d learned. A few clear
+          patterns emerged, helping us better define the problem, shape our vision, and set goals
+          for the design.
         </Body>
 
         <H3>Project Vision</H3>
@@ -401,8 +401,212 @@ export default function SATPage() {
 
         <Divider />
 
+      </div>
+
+      {/* ── Design Goals — light blue section ── */}
+      <section style={{ background: SAT.brandLight }} className="py-20">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
+          <H2>Design Goals</H2>
+          <Body className="mb-10 max-w-2xl">
+            Four goals fell out of the research, each one a direct response to something we kept
+            hearing from students. They became the guardrails for every design decision that followed.
+          </Body>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              { n: "01", title: "Personalized Study Plans",  desc: "The AI looks at where each student is strong, where they're shaky, and quietly builds a path that grows with them." },
+              { n: "02", title: "Adaptive Difficulty",       desc: "Questions get easier or harder as the student goes, keeping the work challenging but never crushing." },
+              { n: "03", title: "Real-Time Feedback",        desc: "Feedback shows up the moment a student needs it, with the kind of explanation a good teacher would give, in plain language." },
+              { n: "04", title: "Progress Tracking",         desc: "A clear dashboard shows what's clicking and what still needs work, so progress feels real instead of imagined." },
+            ].map(({ n, title, desc }) => (
+              <div
+                key={n}
+                className="bg-white rounded-2xl p-7 border relative overflow-hidden"
+                style={{ borderColor: SAT.brandBorder }}
+              >
+                <div className="absolute top-0 left-0 h-1 w-full" style={{ background: SAT.brand }} />
+                <span
+                  className="font-heading font-bold block mb-3"
+                  style={{ fontSize: "2rem", color: SAT.brand, lineHeight: 1, letterSpacing: "-0.02em" }}
+                >
+                  {n}
+                </span>
+                <H4 className="text-[#0F172A] mb-2">{title}</H4>
+                <Sm>{desc}</Sm>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
+        <Divider />
+
+        {/* ── Phase 03 ── */}
+        <PhaseBadge label="Phase 03" />
+        <H2>Design & Ideation</H2>
+        <Body className="max-w-3xl">
+          Once we had a clear problem and a set of goals, the fun part started. We sketched,
+          wireframed, and traced flows on paper, trying ideas quickly so we could throw out the
+          ones that didn&apos;t hold up.
+        </Body>
+
+        <H3>Initial Sketches & Wireframes</H3>
+        <Image src="/images/sat-sketches.jpg" alt="Sketches" width={1200} height={700}
+          className="w-full mt-4 rounded-xl border border-[#E2E8F0]" />
+
+        <H3>Task Flows</H3>
+        <Body className="mb-4 max-w-3xl">
+          Mapping the flows step by step, from onboarding all the way to reviewing a score
+          report, helped us catch dead ends and awkward jumps before they ever made it into a
+          screen.
+        </Body>
+        <Image src="/images/sat-task-flows.jpg" alt="Task Flows" width={1200} height={700}
+          className="w-full rounded-xl" />
+
+        <Divider />
+
+        {/* ── Phase 04 ── */}
+        <PhaseBadge label="Phase 04" />
+        <H2>Prototyping & Testing</H2>
+        <Body className="max-w-3xl">
+          With the structure in place, we built mid-fidelity prototypes that we could put in
+          front of real students. The goal wasn&apos;t a polished demo, it was a chance to find
+          out what didn&apos;t work yet.
+        </Body>
+
+        <H3>Mid-Fidelity Prototype</H3>
+        <Image src="/images/sat-midfi.jpg" alt="Mid-Fidelity Prototype" width={1200} height={700}
+          className="w-full mt-4 rounded-xl" />
+        <Body className="mt-5 max-w-3xl">
+          The prototype covered the moments that matter most: onboarding, the learning-style
+          check, practice sessions, the score report, and the dashboard that ties it all together.
+        </Body>
+
+        <H3>Usability Test Insights</H3>
+        <Body className="max-w-3xl">We ran moderated sessions with four students and the feedback was honest, useful, and exactly what we needed to hear.</Body>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <CardWhite>
+            <H4 className="text-[#0F172A] mb-3">Key Findings</H4>
+            <Bullet><><strong>Home Page Confusion:</strong> Students opened the app and weren&apos;t sure where to go first. The starting point wasn&apos;t obvious.</></Bullet>
+            <Bullet><><strong>Button Inconsistency:</strong> Different labels and styles for similar actions left people second-guessing themselves.</></Bullet>
+            <Bullet><><strong>Data Overload:</strong> The dashboard tried to say everything at once, and students tuned it out.</></Bullet>
+          </CardWhite>
+          <CardWhite>
+            <H4 className="text-[#0F172A] mb-3">Recommendations</H4>
+            <Bullet><><strong>Clearer Navigation:</strong> A redesigned home page with one obvious next step.</></Bullet>
+            <Bullet><><strong>Consistent Buttons:</strong> One label, one style, one expectation across the app.</></Bullet>
+            <Bullet><><strong>Simplified Data:</strong> Show what matters first, let the rest reveal itself when needed.</></Bullet>
+            <Bullet><><strong>Motivating Elements:</strong> Small visual cues for progress, so studying feels like it&apos;s adding up to something.</></Bullet>
+          </CardWhite>
+        </div>
+
+        <H3>Issue Prioritization Matrix</H3>
+        <Sm className="mt-1 mb-5">
+          Not every issue needed fixing at once. We sorted them by how much they hurt the
+          experience (impact) and how often they showed up (frequency), so we knew where to
+          spend our energy.
+        </Sm>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-xl p-6 bg-[#FEF2F2] border-2 border-[#FCA5A5]">
+            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#DC2626] mb-2 font-body font-semibold">Critical Priority</div>
+            <H4 className="text-[#7F1D1D]">High Impact + High Frequency</H4>
+            <Bullet>Navigation clarity issues</Bullet>
+            <Bullet>Home page intuitiveness problems</Bullet>
+          </div>
+          <div className="rounded-xl p-6 bg-[#FFF7ED] border-2 border-[#FDBA74]">
+            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#EA580C] mb-2 font-body font-semibold">High Priority</div>
+            <H4 className="text-[#7C2D12]">High Impact + Low Frequency</H4>
+            <Bullet>Consistency principles</Bullet>
+            <Bullet>Feedback mechanisms</Bullet>
+          </div>
+          <div className="rounded-xl p-6 bg-[#FEFCE8] border-2 border-[#FDE047]">
+            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#CA8A04] mb-2 font-body font-semibold">Medium Priority</div>
+            <H4 className="text-[#713F12]">Low Impact + High Frequency</H4>
+            <Bullet>Visual hierarchy refinements</Bullet>
+            <Bullet>Minor UI inconsistencies</Bullet>
+          </div>
+          <div className="rounded-xl p-6 bg-[#F0FDF4] border-2 border-[#86EFAC]">
+            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#16A34A] mb-2 font-body font-semibold">Low Priority</div>
+            <H4 className="text-[#14532D]">Low Impact + Low Frequency</H4>
+            <Bullet>Edge case scenarios</Bullet>
+            <Bullet>Nice-to-have features</Bullet>
+          </div>
+        </div>
+
+        <Divider />
+
+        {/* ── Phase 05 ── */}
+        <PhaseBadge label="Phase 05" />
+        <H2>Design Iterations</H2>
+        <Body className="max-w-3xl">
+          With the feedback sorted and the worst friction points named, we went back to the
+          screens. Each iteration was a small step closer to a product that felt clear, calm,
+          and trustworthy, and along the way, a design system started to take shape.
+        </Body>
+        <div className="flex flex-col gap-4 mt-5">
+          {["sat-iteration1.png","sat-iteration2.png","sat-iteration3.png","sat-iteration4.png"].map((img, i) => (
+            <div key={img} className="border border-[#E2E8F0] rounded-xl overflow-hidden">
+              <Image
+                src={`/images/${img}`}
+                alt={`Iteration ${i + 1}`}
+                width={1200}
+                height={700}
+                className="w-full block"
+                style={img === "sat-iteration2.png" ? { marginBottom: "-18px" } : undefined}
+              />
+            </div>
+          ))}
+        </div>
+
+        <H3>Design System</H3>
+        <Body className="mb-4 max-w-3xl">
+          We pulled the recurring pieces, colors, type, components, and interaction patterns,
+          into a single, documented system. Once it was in place, the design moved faster and
+          stayed quieter, the way good systems do.
+        </Body>
+        <Image src="/images/sat-design-system.png" alt="Design System" width={1200} height={700}
+          className="w-full rounded-xl border border-[#E2E8F0]" />
+
+        <Divider />
+
+      </div>
+
+      {/* ── Impact — blue-tinted ── */}
+      <section className="py-20" style={{ background: SAT.brandLight }}>
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
+          <H2>Impact & Results</H2>
+          <Body className="max-w-2xl mb-10">
+            The design changes weren&apos;t just abstract improvements, they showed up clearly in
+            how students used the product. A few of the numbers we&apos;re most proud of:
+          </Body>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              { num: "Half → Nearly all", title: "Task Completion",  desc: "Across the test tasks, completion climbed from about half to nearly all in round two, once the key screens were redesigned." },
+              { num: "100%",      title: "Dashboard Clarity",      desc: "After simplifying what the dashboard tried to say, all four testers told us it finally made sense at a glance." },
+              { num: "38% Faster", title: "Task Efficiency",       desc: "Students moved through the same tasks 38% faster in round two, the kind of speed-up that comes from removing friction, not adding shortcuts." },
+              { num: "5 → 0",    title: "Design Consistency",      desc: "The design system erased the button inconsistencies we found in testing, and they didn't come back." },
+            ].map(({ num, title, desc }) => (
+              <CardWhite key={title}>
+                <StatNum>{num}</StatNum>
+                <H4 className="text-[#0F172A] mb-2">{title}</H4>
+                <Sm>{desc}</Sm>
+              </CardWhite>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
+
         {/* ── AI Adaptive Engine ── */}
         <PhaseBadge label="AI Strategy" />
+        <Body className="max-w-3xl">
+          This part came later. After completing Stanford&apos;s <strong>UI/UX Design for AI
+          Products</strong> program, I returned to PrepMate to put my new knowledge into practice,
+          rethinking the adaptive AI behind the product and how its intelligence should surface for
+          students.
+        </Body>
         <H2>The AI Adaptive Engine</H2>
         <Body className="max-w-3xl">
           Under the hood, PrepMate runs on a single adaptive engine, but it&apos;s really four
@@ -412,7 +616,7 @@ export default function SATPage() {
         </Body>
 
         <H3>The Four Signals</H3>
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {[
             {
               label: "Signal 01",
@@ -494,7 +698,7 @@ export default function SATPage() {
           behind why it appeared.
         </Sm>
         <CardBlue>
-          <div className="grid grid-cols-5 gap-4 items-start text-center relative">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-start text-center relative">
             {[
               { label: "Student answers", desc: "Question, hint use, time spent" },
               { label: "Engine updates", desc: "All four signals re-score" },
@@ -571,179 +775,12 @@ export default function SATPage() {
         </div>
 
         <Divider />
-      </div>
 
-      {/* ── Design Goals — light blue section ── */}
-      <section style={{ background: SAT.brandLight }} className="py-20">
-        <div className="px-14 max-w-[1200px] mx-auto">
-          <H2>Design Goals</H2>
-          <Body className="mb-10 max-w-2xl">
-            Four goals fell out of the research, each one a direct response to something we kept
-            hearing from students. They became the guardrails for every design decision that followed.
-          </Body>
-
-          <div className="grid grid-cols-2 gap-5">
-            {[
-              { n: "01", title: "Personalized Study Plans",  desc: "The AI looks at where each student is strong, where they're shaky, and quietly builds a path that grows with them." },
-              { n: "02", title: "Adaptive Difficulty",       desc: "Questions get easier or harder as the student goes, keeping the work challenging but never crushing." },
-              { n: "03", title: "Real-Time Feedback",        desc: "Feedback shows up the moment a student needs it, with the kind of explanation a good teacher would give, in plain language." },
-              { n: "04", title: "Progress Tracking",         desc: "A clear dashboard shows what's clicking and what still needs work, so progress feels real instead of imagined." },
-            ].map(({ n, title, desc }) => (
-              <div
-                key={n}
-                className="bg-white rounded-2xl p-7 border relative overflow-hidden"
-                style={{ borderColor: SAT.brandBorder }}
-              >
-                <div className="absolute top-0 left-0 h-1 w-full" style={{ background: SAT.brand }} />
-                <span
-                  className="font-heading font-bold block mb-3"
-                  style={{ fontSize: "2rem", color: SAT.brand, lineHeight: 1, letterSpacing: "-0.02em" }}
-                >
-                  {n}
-                </span>
-                <H4 className="text-[#0F172A] mb-2">{title}</H4>
-                <Sm>{desc}</Sm>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="px-14 pt-16 max-w-[1200px] mx-auto">
-        <Divider />
-
-        {/* ── Phase 03 ── */}
-        <PhaseBadge label="Phase 03" />
-        <H2>Design & Ideation</H2>
-        <Body className="max-w-3xl">
-          Once we had a clear problem and a set of goals, the fun part started. We sketched,
-          wireframed, and traced flows on paper, trying ideas quickly so we could throw out the
-          ones that didn&apos;t hold up.
-        </Body>
-
-        <H3>Initial Sketches & Wireframes</H3>
-        <Image src="/images/sat-sketches.jpg" alt="Sketches" width={1200} height={700}
-          className="w-full mt-4 rounded-xl border border-[#E2E8F0]" />
-
-        <H3>Task Flows</H3>
-        <Body className="mb-4 max-w-3xl">
-          Mapping the flows step by step, from onboarding all the way to reviewing a score
-          report, helped us catch dead ends and awkward jumps before they ever made it into a
-          screen.
-        </Body>
-        <Image src="/images/sat-task-flows.jpg" alt="Task Flows" width={1200} height={700}
-          className="w-full rounded-xl" />
-
-        <Divider />
-
-        {/* ── Phase 04 ── */}
-        <PhaseBadge label="Phase 04" />
-        <H2>Prototyping & Testing</H2>
-        <Body className="max-w-3xl">
-          With the structure in place, we built mid-fidelity prototypes that we could put in
-          front of real students. The goal wasn&apos;t a polished demo, it was a chance to find
-          out what didn&apos;t work yet.
-        </Body>
-
-        <H3>Mid-Fidelity Prototype</H3>
-        <Image src="/images/sat-midfi.jpg" alt="Mid-Fidelity Prototype" width={1200} height={700}
-          className="w-full mt-4 rounded-xl" />
-        <Body className="mt-5 max-w-3xl">
-          The prototype covered the moments that matter most: onboarding, the learning-style
-          check, practice sessions, the score report, and the dashboard that ties it all together.
-        </Body>
-
-        <H3>Usability Test Insights</H3>
-        <Body className="max-w-3xl">We ran moderated sessions with four students and the feedback was honest, useful, and exactly what we needed to hear.</Body>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <CardWhite>
-            <H4 className="text-[#0F172A] mb-3">Key Findings</H4>
-            <Bullet><><strong>Home Page Confusion:</strong> Students opened the app and weren&apos;t sure where to go first. The starting point wasn&apos;t obvious.</></Bullet>
-            <Bullet><><strong>Button Inconsistency:</strong> Different labels and styles for similar actions left people second-guessing themselves.</></Bullet>
-            <Bullet><><strong>Data Overload:</strong> The dashboard tried to say everything at once, and students tuned it out.</></Bullet>
-          </CardWhite>
-          <CardWhite>
-            <H4 className="text-[#0F172A] mb-3">Recommendations</H4>
-            <Bullet><><strong>Clearer Navigation:</strong> A redesigned home page with one obvious next step.</></Bullet>
-            <Bullet><><strong>Consistent Buttons:</strong> One label, one style, one expectation across the app.</></Bullet>
-            <Bullet><><strong>Simplified Data:</strong> Show what matters first, let the rest reveal itself when needed.</></Bullet>
-            <Bullet><><strong>Motivating Elements:</strong> Small visual cues for progress, so studying feels like it&apos;s adding up to something.</></Bullet>
-          </CardWhite>
-        </div>
-
-        <H3>Issue Prioritization Matrix</H3>
-        <Sm className="mt-1 mb-5">
-          Not every issue needed fixing at once. We sorted them by how much they hurt the
-          experience (impact) and how often they showed up (frequency), so we knew where to
-          spend our energy.
-        </Sm>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl p-6 bg-[#FEF2F2] border-2 border-[#FCA5A5]">
-            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#DC2626] mb-2 font-body font-semibold">Critical Priority</div>
-            <H4 className="text-[#7F1D1D]">High Impact + High Frequency</H4>
-            <Bullet>Navigation clarity issues</Bullet>
-            <Bullet>Home page intuitiveness problems</Bullet>
-          </div>
-          <div className="rounded-xl p-6 bg-[#FFF7ED] border-2 border-[#FDBA74]">
-            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#EA580C] mb-2 font-body font-semibold">High Priority</div>
-            <H4 className="text-[#7C2D12]">High Impact + Low Frequency</H4>
-            <Bullet>Consistency principles</Bullet>
-            <Bullet>Feedback mechanisms</Bullet>
-          </div>
-          <div className="rounded-xl p-6 bg-[#FEFCE8] border-2 border-[#FDE047]">
-            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#CA8A04] mb-2 font-body font-semibold">Medium Priority</div>
-            <H4 className="text-[#713F12]">Low Impact + High Frequency</H4>
-            <Bullet>Visual hierarchy refinements</Bullet>
-            <Bullet>Minor UI inconsistencies</Bullet>
-          </div>
-          <div className="rounded-xl p-6 bg-[#F0FDF4] border-2 border-[#86EFAC]">
-            <div className="text-[0.6875rem] uppercase tracking-[0.12em] text-[#16A34A] mb-2 font-body font-semibold">Low Priority</div>
-            <H4 className="text-[#14532D]">Low Impact + Low Frequency</H4>
-            <Bullet>Edge case scenarios</Bullet>
-            <Bullet>Nice-to-have features</Bullet>
-          </div>
-        </div>
-
-        <Divider />
-
-        {/* ── Phase 05 ── */}
-        <PhaseBadge label="Phase 05" />
-        <H2>Design Iterations</H2>
-        <Body className="max-w-3xl">
-          With the feedback sorted and the worst friction points named, we went back to the
-          screens. Each iteration was a small step closer to a product that felt clear, calm,
-          and trustworthy, and along the way, a design system started to take shape.
-        </Body>
-        <div className="flex flex-col gap-4 mt-5">
-          {["sat-iteration1.png","sat-iteration2.png","sat-iteration3.png","sat-iteration4.png"].map((img, i) => (
-            <div key={img} className="border border-[#E2E8F0] rounded-xl overflow-hidden">
-              <Image
-                src={`/images/${img}`}
-                alt={`Iteration ${i + 1}`}
-                width={1200}
-                height={700}
-                className="w-full block"
-                style={img === "sat-iteration2.png" ? { marginBottom: "-18px" } : undefined}
-              />
-            </div>
-          ))}
-        </div>
-
-        <H3>Design System</H3>
-        <Body className="mb-4 max-w-3xl">
-          We pulled the recurring pieces, colors, type, components, and interaction patterns,
-          into a single, documented system. Once it was in place, the design moved faster and
-          stayed quieter, the way good systems do.
-        </Body>
-        <Image src="/images/sat-design-system.png" alt="Design System" width={1200} height={700}
-          className="w-full rounded-xl border border-[#E2E8F0]" />
-
-        <Divider />
       </div>
 
       {/* ── Ethics & Responsible AI ── */}
       <section className="py-20" style={{ background: SAT.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <PhaseBadge label="Ethics & Responsible AI" />
           <H2 white>Building an AI Experience Students &amp; Parents Can Trust</H2>
           <p className="font-body leading-[1.72] max-w-[760px] mb-10" style={{ fontSize: "0.9375rem", color: "#CBD5E1" }}>
@@ -795,34 +832,9 @@ export default function SATPage() {
         </div>
       </section>
 
-      {/* ── Impact — blue-tinted ── */}
-      <section className="py-20" style={{ background: SAT.brandLight }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
-          <H2>Impact & Results</H2>
-          <Body className="max-w-2xl mb-10">
-            The design changes weren&apos;t just abstract improvements, they showed up clearly in
-            how students used the product. A few of the numbers we&apos;re most proud of:
-          </Body>
-          <div className="grid grid-cols-2 gap-5">
-            {[
-              { num: "58% → 91%", title: "Task Completion Rate",   desc: "Once the key screens were redesigned, far more students made it through the core flows from start to finish." },
-              { num: "100%",      title: "Dashboard Clarity",      desc: "After simplifying what the dashboard tried to say, every tester told us it finally made sense at a glance." },
-              { num: "38% Faster", title: "Task Efficiency",       desc: "Students moved through the same tasks 38% faster in round two, the kind of speed-up that comes from removing friction, not adding shortcuts." },
-              { num: "5 → 0",    title: "Design Consistency",      desc: "The design system erased the button inconsistencies we found in testing, and they didn't come back." },
-            ].map(({ num, title, desc }) => (
-              <CardWhite key={title}>
-                <StatNum>{num}</StatNum>
-                <H4 className="text-[#0F172A] mb-2">{title}</H4>
-                <Sm>{desc}</Sm>
-              </CardWhite>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Key Learnings ── */}
-      <div className="px-14 py-20 max-w-[1200px] mx-auto">
-        <div className="grid gap-12 items-start" style={{ gridTemplateColumns: "1fr 2fr" }}>
+      <div className="px-6 md:px-14 py-20 max-w-[1200px] mx-auto">
+        <div className="grid gap-6 md:gap-12 items-start grid-cols-1 md:grid-cols-[1fr_2fr]">
           <div>
             <H2>Key Learnings</H2>
           </div>
@@ -843,7 +855,7 @@ export default function SATPage() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="px-14 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: SAT.brandBorder }}>
+      <footer className="px-6 md:px-14 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: SAT.brandBorder }}>
         <p className="font-body text-[0.875rem]" style={{ color: SAT.muted }}>
           Thank you for reading this case study!
         </p>

@@ -1,7 +1,21 @@
 {
   "permissions": {
     "allow": [
-      "Bash(awk 'NR>=347 && NR<=430' /Users/galina/Downloads/portfolio-16.html)"
+      "Bash(awk 'NR>=347 && NR<=430' /Users/galina/Downloads/portfolio-16.html)",
+      "Bash(cp /tmp/sat-iter2-backup.png /Users/galina/Documents/portfolio/public/images/sat-iteration2.png)",
+      "Bash(sips -g pixelHeight /Users/galina/Documents/portfolio/public/images/sat-iteration2.png)",
+      "Bash(brew list *)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/galina/Documents/portfolio/public/images/sat-hero-v2.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/galina/Documents/portfolio/public/images/nutri-hero-v2.png)",
+      "Bash(curl -s -o /dev/null -w \"SAT: %{http_code}\\\\n\" http://localhost:3000/sat)",
+      "Bash(curl -s -o /dev/null -w \"Nutri: %{http_code}\\\\n\" http://localhost:3000/nutri)",
+      "Bash(curl -s -o /dev/null -w \"SAT: %{http_code}\\\\nNutri: %{http_code}\\\\n\" http://localhost:3000/sat http://localhost:3000/nutri)",
+      "Read(//Users/galina/Desktop/Standfort/**)",
+      "Bash(ls -la \"Capstone Project Part 1.docx\" \"Capstone Project Part 2.docx\" \"Capstone Project Part 3.docx\")",
+      "Bash(npx skills *)",
+      "Bash(cd /Users/galina/Documents/gkux-intro && ls && cat package.json)",
+      "Bash(lsof -ti:3000)",
+      "Bash(find /tmp /var/folders -maxdepth 4 -type f \\\\\\( -name \"*.jpg\" -o -name \"*.jpeg\" -o -name \"*.png\" -o -name \"*.webp\" \\\\\\) -newer /tmp -mmin -10 2>/dev/null | head -10)"
     ]
   }
 }

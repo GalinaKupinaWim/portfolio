@@ -209,15 +209,17 @@ export default function GKUXIntroAnimation() {
   const X_X = startX + letterW + gutter;
   const X_Y = startY + letterH + vGutter;
 
-  const G_ENTER = FPS * 2;
-  const K_ENTER = FPS * 2 + FPS * 0.4;
-  const U_ENTER = FPS * 2 + FPS * 0.8;
-  const X_ENTER = FPS * 2 + FPS * 1.2;
-  const ENTER_DUR = FPS * 1.0;
+  // Intro: letters arrive right away (G at 0s), but the entrance (appearing +
+  // settling into place) now plays 1.5× slower — bigger stagger, longer settle.
+  const G_ENTER = 0;
+  const K_ENTER = FPS * 0.27;
+  const U_ENTER = FPS * 0.54;
+  const X_ENTER = FPS * 0.81;
+  const ENTER_DUR = FPS * 1.125;
 
-  // Held state: 3.6s-5.3s (1.7s of breathing). Signature: 5.3s-6.9s.
-  const SIG_START = FPS * 5.3;
-  const SIG_END = FPS * 6.9;
+  // Last letter lands ~1.94s; brief hold, then signature 2.05s-3.0s (same speed).
+  const SIG_START = FPS * 2.05;
+  const SIG_END = FPS * 3.0;
 
   const kSlide = -letterW * 0.78;
   const gSlideX = -letterW / 2;

@@ -3,36 +3,144 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-const projects = [
+type Project = {
+  num: string;
+  href: string;
+  image: string;
+  title: string;
+  desc: string;
+  role: string;
+  team: string;
+  year: string;
+  platforms: string[];
+  fit?: "cover" | "contain";
+  bgColor?: string;
+};
+
+// SAT leads as the featured case study.
+const featured: Project = {
+  num: "01",
+  href: "/sat",
+  image: "/images/sat-card.jpg",
+  title: "PrepMate — AI-Powered SAT Prep Platform",
+  desc: "Adaptive practice that tells students what to study next, on web and mobile.",
+  role: "UX/UI Design, Front-End",
+  team: "Team of 3 · Design lead",
+  year: "2025",
+  platforms: ["Web app", "Mobile app"],
+};
+
+const projects: Project[] = [
   {
-    href: "/sat",
-    image: "/images/sat-card.jpg",
-    title: "AI-Powered SAT Prep Platform",
-    cat: "AI Product · Web App · Mobile App · UX/UI Design · Front-End (HTML/CSS)",
-  },
-  {
+    num: "02",
     href: "/nutri",
     image: "/images/nutri-card.jpg",
-    title: "Personalized Nutrition App",
-    cat: "AI Product · Mobile App · UX Research · UX/UI Design",
+    title: "NutriWise — Personalized Nutrition App",
+    desc: "An AI assistant for meal planning, shopping and tracking that keeps users in control of every choice.",
+    role: "UX Research, UX/UI Design",
+    team: "Solo",
+    year: "2025",
+    platforms: ["Mobile app"],
   },
   {
+    num: "03",
     href: "/sfpl",
     image: "/images/sfpl-card-ia-clean.png",
     title: "SF Public Library — IA Redesign",
-    cat: "Information Architecture · UX Research · Tree Testing",
+    desc: "Restructuring the library website so patrons can find e-books, events and membership without getting lost.",
+    role: "Information Architecture, UX Research",
+    team: "Team of 3",
+    year: "2024",
+    platforms: ["Website"],
     fit: "contain",
     bgColor: "#E6E6E6",
   },
-  {
-    href: null,
-    image: null,
-    bgColor: "#cfd4d8",
-    title: "Freelance Projects",
-    cat: "Selected client work · Available on request",
-    comingSoon: true,
-  },
 ];
+
+function FeaturedCard({ p }: { p: Project }) {
+  return (
+    <Link
+      href={p.href}
+      className="proj-card reveal group no-underline text-inherit block overflow-hidden"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-[1.35fr_1fr]">
+        {/* Image */}
+        <div
+          className="relative aspect-[16/11] md:aspect-auto md:min-h-[360px] overflow-hidden"
+          style={{ background: p.bgColor || "#e0ddd7" }}
+        >
+          <Image
+            src={p.image}
+            alt={p.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 55vw"
+            className={`${p.fit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-[600ms] group-hover:scale-[1.04]`}
+          />
+        </div>
+
+        {/* Details */}
+        <div className="flex flex-col pt-6 md:pt-1 md:pl-10 md:pb-1">
+          <div className="font-body text-[11px] tracking-[0.16em] uppercase text-[#4A5565] opacity-70 mb-4">
+            {p.num} · Featured
+          </div>
+          <h3
+            className="font-heading font-medium text-[#1a1a1a] tracking-[-0.01em]"
+            style={{ fontSize: "clamp(1.5rem,2.6vw,2.1rem)", lineHeight: 1.12 }}
+          >
+            {p.title}
+          </h3>
+          <p className="font-body text-[0.98rem] text-[#4A5565] leading-relaxed mt-3 max-w-[42ch]">
+            {p.desc}
+          </p>
+
+          <div className="mt-auto pt-7">
+            <div className="border-t border-[rgba(26,26,26,0.12)] pt-4 font-body text-[13px] text-[#4A5565]">
+              {p.role} · {p.team} · {p.year}
+            </div>
+          </div>
+
+          <div className="mt-6 inline-flex items-center gap-1.5 font-body text-[13px] font-medium text-[#1B2B4B] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+            Read case study
+            <span aria-hidden>→</span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function ProjectCard({ p }: { p: Project }) {
+  return (
+    <Link href={p.href} className="proj-card reveal group no-underline text-inherit flex flex-col">
+      <div
+        className="aspect-[4/3] overflow-hidden relative mb-4"
+        style={{ background: p.bgColor || "#e0ddd7" }}
+      >
+        <Image
+          src={p.image}
+          alt={p.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className={`${p.fit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-[600ms] group-hover:scale-105`}
+        />
+      </div>
+
+      <div className="font-body text-[11px] tracking-[0.16em] uppercase text-[#4A5565] opacity-70 mb-2">
+        {p.num}
+      </div>
+      <h3 className="font-heading text-[1.2rem] font-medium text-[#1a1a1a] tracking-[-0.01em] leading-snug">
+        {p.title}
+      </h3>
+      <p className="font-body text-[0.92rem] text-[#4A5565] leading-relaxed mt-2 max-w-[44ch]">
+        {p.desc}
+      </p>
+
+      <div className="mt-4 font-body text-[12px] text-[#4A5565]">
+        {p.role} · {p.team} · {p.year}
+      </div>
+    </Link>
+  );
+}
 
 export default function WorkSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -61,55 +169,26 @@ export default function WorkSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work-sec" className="px-16 py-20">
-      <div className="flex justify-between items-center mb-12">
-        <h2 className="reveal font-body font-medium text-[#1a1a1a]" style={{ fontSize: "clamp(1.6rem,4vw,2.8rem)" }}>
+    <section ref={sectionRef} id="work-sec" className="px-5 md:px-16 py-20">
+      <div className="reveal flex items-baseline justify-between mb-10">
+        <h2 className="font-body font-medium text-[#1a1a1a]" style={{ fontSize: "clamp(1.6rem,4vw,2.8rem)" }}>
           work.
         </h2>
-        <button className="reveal bg-[#e8e3dc] border-none px-7 py-3.5 font-body text-[0.75rem] font-medium text-[#1a1a1a]">
-          Show More
-        </button>
+        <span className="font-body text-[12px] tracking-[0.12em] uppercase text-[#4A5565] opacity-70">
+          3 case studies
+        </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-7">
-        {projects.map((p, i) => {
-          const card = (
-            <div className="proj-card reveal group" key={i}>
-              <div className="aspect-[4/3] overflow-hidden relative mb-3.5" style={{ background: p.bgColor || "#e0ddd7" }}>
-                {p.image && (
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
-                    className={`${p.fit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-[600ms] group-hover:scale-105`}
-                  />
-                )}
-                {p.comingSoon && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="coming-soon-badge">Coming Soon</span>
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                  {p.href && (
-                    <span className="font-body text-[13px] font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 tracking-[0.05em]">
-                      View Case Study
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="font-body text-[1.15rem] font-medium mb-1">{p.title}</div>
-              <div className="font-body text-[12px] text-[#666]">{p.cat}</div>
-            </div>
-          );
+      {/* Featured */}
+      <div className="mb-8">
+        <FeaturedCard p={featured} />
+      </div>
 
-          return p.href ? (
-            <Link key={i} href={p.href} className="no-underline text-inherit">
-              {card}
-            </Link>
-          ) : (
-            card
-          );
-        })}
+      {/* Remaining case studies */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map((p) => (
+          <ProjectCard key={p.href} p={p} />
+        ))}
       </div>
     </section>
   );

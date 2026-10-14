@@ -10,7 +10,7 @@ interface Props {
 
 export default function CaseStudyNav({ backHref = "/", backLabel = "Back to Portfolio", tag = "Case Study" }: Props) {
   return (
-    <nav className="sticky top-0 bg-white/97 border-b border-[#e5e5e5] px-16 py-[18px] flex justify-between items-center z-[100]">
+    <nav className="sticky top-0 bg-white/97 border-b border-[#e5e5e5] px-5 md:px-16 py-[18px] flex justify-between items-center z-[100]">
       <Link href={backHref} className="flex items-center gap-2 font-body text-[14px] text-[#1a1a1a] no-underline hover:opacity-60 transition-opacity">
         <ChevronLeft size={16} />
         {backLabel}

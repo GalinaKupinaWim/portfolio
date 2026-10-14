@@ -3,14 +3,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-// How I work — the throughline across projects.
-const PROCESS = [
-  "Research",
-  "UX Architecture",
-  "Rapid Prototyping",
-  "Usability Testing",
-  "Product Development",
-  "Iteration",
+// The career arc — my strongest differentiator, told up front.
+const PATH = [
+  { label: "People & HR", years: "2008 – 2013" },
+  { label: "Product Management", years: "2015 – 2025" },
+  { label: "Product & UX Design", years: "2025 — now" },
+];
+
+// How I work — principles in my own voice (not a textbook pipeline).
+const PRINCIPLES = [
+  {
+    title: "Prototype fast, learn faster.",
+    body:
+      "I use AI to get clickable prototypes in front of real users in days, not weeks — so decisions come from evidence, not opinion.",
+  },
+  {
+    title: "Design the whole system.",
+    body:
+      "User, product, team, and business are one picture. I design for all four at once.",
+  },
+  {
+    title: "Ship, then sharpen.",
+    body:
+      "I'd rather test a rough version early and improve it than polish in a vacuum.",
+  },
 ];
 
 // What I do, and the tools I reach for at each stage.
@@ -117,7 +133,7 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about-sec" className="relative overflow-hidden px-16 py-20">
+    <section ref={sectionRef} id="about-sec" className="relative overflow-hidden px-5 md:px-16 py-20">
       {/* Warm blob accent */}
       <div
         aria-hidden
@@ -147,10 +163,7 @@ export default function AboutSection() {
           </Link>
         </div>
 
-        <div
-          className="grid gap-x-14 gap-y-12"
-          style={{ gridTemplateColumns: "minmax(0, 1fr) 300px" }}
-        >
+        <div className="grid gap-x-14 gap-y-10 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px]">
           {/* Left column: intro, process, capabilities */}
           <div>
             <p
@@ -158,42 +171,91 @@ export default function AboutSection() {
               style={{
                 fontSize: "clamp(1.05rem,1.7vw,1.45rem)",
                 lineHeight: 1.55,
-                maxWidth: "44ch",
+                maxWidth: "46ch",
                 fontWeight: 400,
               }}
             >
-              I combine business thinking, human-centered design, and AI fluency
-              to transform complex ideas into trusted user experiences through
-              rapid prototyping, early testing, and continuous iteration.
+              My path to UX wasn&apos;t a straight line, and it shaped how I
+              approach design. Years in HR taught me to understand people; leading
+              digital product development taught me how products are built and
+              shipped. Design brings it all together. I look at the user, the
+              product, the team, and the business as one connected system —
+              creating experiences that work for people and make sense for the
+              product.
             </p>
 
-            {/* Process flow */}
+            {/* Career arc — the differentiator, shown as a timeline */}
+            <div className="reveal trigger mt-9">
+              <div
+                className="font-body uppercase text-[#4A5565] mb-4"
+                style={{ fontSize: "0.72rem", letterSpacing: "0.16em", opacity: 0.8 }}
+              >
+                How I got here
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-y-3">
+                {PATH.map((stage, i) => (
+                  <div key={stage.label} className="flex items-center sm:flex-1">
+                    <div className="flex flex-col">
+                      <span
+                        className="font-body font-medium text-[#1B2B4B]"
+                        style={{ fontSize: "0.98rem" }}
+                      >
+                        {stage.label}
+                      </span>
+                      <span
+                        className="font-body text-[#4A5565] mt-0.5"
+                        style={{ fontSize: "0.76rem", opacity: 0.75, letterSpacing: "0.04em" }}
+                      >
+                        {stage.years}
+                      </span>
+                    </div>
+                    {i < PATH.length - 1 && (
+                      <span
+                        className="hidden sm:block mx-4 flex-1 h-px bg-[#1B2B4B]"
+                        style={{ opacity: 0.2 }}
+                        aria-hidden
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* How I work — principles */}
             <div className="reveal trigger flow-block mt-10">
               <div
                 className="font-body uppercase text-[#4A5565] mb-3"
                 style={{ fontSize: "0.72rem", letterSpacing: "0.16em", opacity: 0.8 }}
               >
-                My Design Process
+                How I work
               </div>
-              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
-                {PROCESS.map((step, i) => (
-                  <span
-                    key={step}
-                    className="flow-item"
+              <p
+                className="font-body text-[#1a1a1a] mb-6"
+                style={{ fontSize: "0.98rem", lineHeight: 1.6, maxWidth: "52ch", opacity: 0.9 }}
+              >
+                A few principles guide every project — and a focused toolkit lets
+                me act on them quickly, at each stage of the work.
+              </p>
+              <div className="grid gap-x-8 gap-y-6 sm:grid-cols-3">
+                {PRINCIPLES.map((p, i) => (
+                  <div
+                    key={p.title}
+                    className="principle-item"
                     style={{ "--i": i } as React.CSSProperties}
                   >
-                    <span
-                      className="font-body font-medium text-[#1B2B4B]"
-                      style={{ fontSize: "0.95rem" }}
+                    <div
+                      className="font-body font-medium text-[#1B2B4B] mb-1.5"
+                      style={{ fontSize: "0.98rem", lineHeight: 1.3 }}
                     >
-                      {step}
-                    </span>
-                    {i < PROCESS.length - 1 && (
-                      <span className="text-[#1B2B4B] opacity-30" aria-hidden>
-                        →
-                      </span>
-                    )}
-                  </span>
+                      {p.title}
+                    </div>
+                    <p
+                      className="font-body text-[#4A5565]"
+                      style={{ fontSize: "0.86rem", lineHeight: 1.55 }}
+                    >
+                      {p.body}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -253,7 +315,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right column: portrait */}
-          <div className="reveal">
+          <div className="reveal order-first lg:order-none w-full max-w-[280px] lg:max-w-none mx-auto lg:mx-0">
             <div
               ref={portraitRef}
               className="relative rounded-[18px] overflow-hidden"

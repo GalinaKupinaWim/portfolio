@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Unbounded } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
+import AIChatWidget from "@/components/AIChatWidget";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="font-body bg-white text-[#1a1a1a] antialiased overflow-x-hidden">
         <CustomCursor />
         {children}
+        <AIChatWidget />
       </body>
     </html>
   );

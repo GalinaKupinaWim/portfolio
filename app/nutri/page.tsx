@@ -90,9 +90,9 @@ function Body({ children, className = "" }: { children: React.ReactNode; classNa
   );
 }
 
-function BodySm({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function BodySm({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
-    <p className={`font-body leading-[1.7] max-w-[700px] ${className}`} style={{ fontSize: "0.875rem", color: N.subtleText }}>
+    <p className={`font-body leading-[1.7] max-w-[700px] ${className}`} style={{ fontSize: "0.875rem", color: N.subtleText, ...style }}>
       {children}
     </p>
   );
@@ -215,7 +215,7 @@ export default function NutriPage() {
       <CaseStudyNav />
 
       {/* ── Hero ── */}
-      <div className="px-14 pt-16 pb-10 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-16 pb-10 max-w-[1200px] mx-auto">
         <TagPill>AI Product · Mobile App · UX Research · UX/UI Design</TagPill>
         <h1
           className="font-heading font-bold tracking-[-0.025em] mb-3"
@@ -232,16 +232,16 @@ export default function NutriPage() {
       </div>
 
       {/* Hero image */}
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div className="relative w-full" style={{ maxWidth: "900px", aspectRatio: "1684/934" }}>
           <Image src="/images/nutri-hero-v3.png" alt="NutriWise Mockups" fill className="object-contain" priority />
         </div>
       </div>
 
       {/* ── Project meta ── */}
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div
-          className="grid grid-cols-4 gap-8 py-7 my-10 border-t border-b"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 py-7 my-10 border-t border-b"
           style={{ borderColor: N.brandBorder }}
         >
           <div><InfoLabel>Role</InfoLabel><InfoVal>UX Researcher<br />UX/UI Designer</InfoVal></div>
@@ -257,7 +257,7 @@ export default function NutriPage() {
           preserving their sense of control over the choices that shape their day.
         </Body>
 
-        <div className="grid grid-cols-3 gap-5 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
           <CardGreen>
             <H4>Problem Solved</H4>
             <BodySm>Reduces the cognitive load of recurring food decisions, what to cook, what to buy, what to skip, by offering flexible, personalized guidance instead of generic meal plans.</BodySm>
@@ -277,7 +277,7 @@ export default function NutriPage() {
 
       {/* ── The Problem — deep forest ── */}
       <section className="py-16" style={{ background: N.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <H2 className="!text-white">The Problem</H2>
           <p
             className="font-body leading-[1.75] max-w-[820px]"
@@ -292,13 +292,13 @@ export default function NutriPage() {
       </section>
 
       {/* ── Phase 01 ── */}
-      <div className="px-14 pt-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 max-w-[1200px] mx-auto">
         <PhasePill>Phase 01</PhasePill>
         <H2>User Research</H2>
         <Body>Before any design work, I wanted to understand what eating well looks like in practice, in real kitchens, real shopping habits, and real experiences with the apps people had tried and abandoned.</Body>
 
         <H3>Research Methods</H3>
-        <div className="grid grid-cols-3 gap-5 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
           <CardWhite>
             <H4>Research Approach</H4>
             <BodySm>A qualitative study built around six in-depth interviews with people who cook regularly at home, focused on their habits, challenges, and the role technology plays in their food choices.</BodySm>
@@ -324,7 +324,7 @@ export default function NutriPage() {
             <Bullet>Busy professionals and family cooks, the audiences most affected by daily decision fatigue</Bullet>
           </div>
           {/* 6 participant photos — staggered grid matching original */}
-          <div className="grid grid-cols-3 gap-4 w-[58%]">
+          <div className="grid grid-cols-3 gap-4 w-full md:w-[58%]">
             {[
               { img: "nutri-participant-1.png", mt: "0" },
               { img: "nutri-participant-2.png", mt: "32px" },
@@ -346,7 +346,7 @@ export default function NutriPage() {
 
         <H3>Experience with Nutrition Apps</H3>
         <Body>Understanding participants&apos; prior experience revealed a consistent pattern of why most nutrition apps fail to retain their users.</Body>
-        <div className="grid grid-cols-3 gap-5 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
           {[
             {
               pct: "17%",
@@ -484,7 +484,7 @@ export default function NutriPage() {
         </div>
 
         <H3>Recommendations for App Development</H3>
-        <div className="grid grid-cols-3 gap-5 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
           {[
             {
               title: "User-Friendly Interface",
@@ -535,7 +535,7 @@ export default function NutriPage() {
 
       {/* ── Phase 02 — light green ── */}
       <section className="py-16" style={{ background: N.brandLight }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <PhasePill>Phase 02</PhasePill>
           <H2>Define &amp; Synthesize</H2>
           <Body>After the research phase, I worked through the findings to separate the strongest signals from incidental feedback. From there, the problem statement and design goals began to take shape.</Body>
@@ -553,7 +553,7 @@ export default function NutriPage() {
           </div>
 
           <H3>Design Goals</H3>
-          <div className="grid grid-cols-3 gap-5 mt-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
             {[
               { emoji: "⚡", title: "Simplify Food Logging", desc: "Reduce the time and effort required to log meals through smart features such as barcode scanning, photo recognition, and recent meal suggestions." },
               { emoji: "🎯", title: "Provide Personalized Insights", desc: "Deliver actionable recommendations based on each user's preferences, schedule, and goals rather than population averages." },
@@ -575,7 +575,7 @@ export default function NutriPage() {
       </section>
 
       {/* ── AI Strategy — Capstone-driven ── */}
-      <div className="px-14 pt-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 max-w-[1200px] mx-auto">
         <PhasePill>AI Strategy</PhasePill>
         <H2>Designing for Human-AI Collaboration</H2>
         <Body>
@@ -592,7 +592,7 @@ export default function NutriPage() {
           prioritized for MVP based on impact and feasibility, the other two were scoped as
           fast-follows.
         </Body>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {[
             {
               title: "AI Meal Planning Engine",
@@ -651,7 +651,7 @@ export default function NutriPage() {
           className="p-7 rounded-2xl border"
           style={{ background: N.brandLight, borderColor: N.brandBorder }}
         >
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div
               className="font-heading font-bold"
               style={{ fontSize: "0.75rem", letterSpacing: "0.12em", color: N.brand }}
@@ -690,7 +690,7 @@ export default function NutriPage() {
           To make the AI feel like a partner rather than a black box, I designed every
           interaction around six principles that keep users in control.
         </Body>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
             { n: "01", title: "Gradual Onboarding", desc: "Users select their preferred level of AI involvement upfront, hands-on, semi-automatic, or fully automatic, so the experience begins on their terms." },
             { n: "02", title: "Mixed-Initiative Interaction", desc: "The user always has final say. The AI fills in supporting decisions when invited, never preemptively." },
@@ -753,7 +753,7 @@ export default function NutriPage() {
       </div>
 
       {/* ── Phase 03 ── */}
-      <div className="px-14 pt-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 max-w-[1200px] mx-auto">
         <PhasePill>Phase 03</PhasePill>
         <H2>Ideation &amp; Concept Development</H2>
         <Body>With the problem statement and design goals established, I began exploring solutions through persona development, structured brainstorming, user flow mapping, and rapid sketching to identify the directions worth carrying forward.</Body>
@@ -860,7 +860,7 @@ export default function NutriPage() {
         </div>
 
         <H3>Feature Prioritization</H3>
-        <div className="grid grid-cols-2 gap-5 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           <CardGreen>
             <H4 style={{ color: N.brand }}>HIGH PRIORITY (MVP)</H4>
             <Bullet>AI-powered food recognition</Bullet>
@@ -913,7 +913,7 @@ export default function NutriPage() {
 
       {/* ── Phase 04 — deep forest ── */}
       <section className="py-16" style={{ background: N.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <PhasePill>Phase 04</PhasePill>
         <H2 className="!text-white">Testing and Refine</H2>
         <p className="font-body leading-[1.75] mb-8" style={{ fontSize: "0.9375rem", color: "#DFF5EC" }}>
@@ -921,7 +921,7 @@ export default function NutriPage() {
         </p>
 
         <H3 className="!text-white">Key Testing Insights</H3>
-        <div className="grid grid-cols-3 gap-5 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
           {[
             {
               img: "nutri-wireframe1.jpg",
@@ -959,7 +959,7 @@ export default function NutriPage() {
         <p className="font-body leading-[1.75] mb-6" style={{ fontSize: "0.9375rem", color: "#DFF5EC" }}>
           The app is organized into five main sections accessible via bottom navigation, designed for easy one-handed use during cooking, shopping, and other on-the-go moments.
         </p>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
             { emoji: "👤", title: "Profile", desc: "Settings & goals" },
             { emoji: "📅", title: "Meal Plan", desc: "Plan your meals" },
@@ -997,7 +997,7 @@ export default function NutriPage() {
       </section>
 
       {/* ── Phase 05 ── */}
-      <div className="px-14 pt-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 max-w-[1200px] mx-auto">
         <PhasePill>Phase 05</PhasePill>
         <H2>Mid-Fidelity Prototype</H2>
         <Body>
@@ -1006,7 +1006,7 @@ export default function NutriPage() {
           The goal was a prototype users could meaningfully test, not a final visual presentation.
         </Body>
 
-        <div className="grid grid-cols-4 gap-10 mt-8 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-8 w-full">
           {[
             { img: "nutri-midfi1.png", mt: "0" },
             { img: "nutri-midfi2.png", mt: "48px" },
@@ -1044,7 +1044,7 @@ export default function NutriPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <CardGreen>
               <H4 style={{ color: N.brand }}>What Worked Well ✓</H4>
               <Bullet>The user flow was clear and intuitive, allowing participants to complete tasks without confusion.</Bullet>
@@ -1077,7 +1077,7 @@ export default function NutriPage() {
 
       {/* ── Ethics & Responsible AI ── */}
       <section className="py-16" style={{ background: N.brandLight }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <PhasePill>Ethics &amp; Responsible AI</PhasePill>
           <H2>Designing AI That Earns Its Place</H2>
           <Body className="mb-8">
@@ -1086,7 +1086,7 @@ export default function NutriPage() {
             and developed a clear design response to each.
           </Body>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
               {
                 title: "Data Privacy",
@@ -1167,7 +1167,7 @@ export default function NutriPage() {
 
       {/* ── Impact & Results — deep teal ── */}
       <section className="py-16" style={{ background: N.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <H2 className="!text-white">Impact &amp; Results</H2>
         <p className="font-body leading-[1.75] max-w-[760px] mb-10" style={{ fontSize: "0.9375rem", color: "#DFF5EC" }}>
           By grounding every decision in user research and validating each step through hands-on
@@ -1175,7 +1175,7 @@ export default function NutriPage() {
           experience.
         </p>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
             {
               num: "6",
@@ -1201,7 +1201,7 @@ export default function NutriPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-5 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           {[
             {
               num: "3 Steps",
@@ -1226,9 +1226,9 @@ export default function NutriPage() {
 
       {/* ── Next Steps — light green ── */}
       <section className="py-16" style={{ background: N.brandLight }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <H2>Next Steps</H2>
-        <div className="grid grid-cols-3 gap-5 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
           {[
             { title: "High-Fidelity Design", desc: "Develop the full visual identity, including color palette, typography, and polished UI components, to bring the experience to its final form." },
             { title: "Iteration & Refinement", desc: "Address remaining usability issues identified in testing, thoroughly evaluate the AI meal scanning feature, and introduce thoughtful gamification through challenges and rewards." },
@@ -1250,7 +1250,7 @@ export default function NutriPage() {
       </section>
 
       {/* ── Key Takeaways ── */}
-      <div className="px-14 py-16 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 py-16 max-w-[1200px] mx-auto">
         <H2>Key Takeaways</H2>
         <div className="flex flex-col gap-5 mt-6">
           {[
@@ -1277,7 +1277,7 @@ export default function NutriPage() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="px-12 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: N.brandBorder }}>
+      <footer className="px-5 md:px-12 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: N.brandBorder }}>
         <p className="font-body text-[0.875rem]" style={{ color: N.muted }}>
           Thank you for reading this case study!
         </p>

@@ -576,10 +576,23 @@
   transition-delay: calc(var(--i) * 170ms);
 }
 
+/* How-I-work principles — staggered reveal */
+.principle-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flow-block.visible .principle-item {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * 130ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cap-label,
   .pill-wrap,
-  .flow-item {
+  .flow-item,
+  .principle-item {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -595,4 +608,16 @@
 .mic-listening { animation: micPulse 1.3s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .mic-listening { animation: none; }
+}
+
+/* Chat launcher "Ask my AI" nudge — fades in, holds, fades out */
+@keyframes chatLabelInOut {
+  0%   { opacity: 0; transform: translateX(10px); }
+  10%  { opacity: 1; transform: translateX(0); }
+  86%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(10px); }
+}
+.chat-label-pill { animation: chatLabelInOut 6s ease forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .chat-label-pill { animation: none; }
 }

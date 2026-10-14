@@ -138,8 +138,8 @@ export default function ExperienceSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="experience-sec" className="px-16 pt-10 pb-20">
-      <div className="flex justify-between items-end mb-14">
+    <section ref={sectionRef} id="experience-sec" className="px-5 md:px-16 pt-10 pb-20">
+      <div className="flex flex-col gap-1.5 sm:flex-row sm:justify-between sm:items-end mb-8 sm:mb-14">
         <h2
           className="reveal font-body font-medium text-[#1a1a1a]"
           style={{ fontSize: "clamp(1.6rem,4vw,2.8rem)" }}
@@ -155,9 +155,8 @@ export default function ExperienceSection() {
         {EXPERIENCE.map((job, i) => (
           <div
             key={job.title + job.company + job.dates}
-            className="reveal grid gap-8 py-9"
+            className="reveal grid gap-2 md:gap-8 py-9 grid-cols-1 md:grid-cols-[minmax(170px,1fr)_6fr]"
             style={{
-              gridTemplateColumns: "minmax(170px, 1fr) 6fr",
               borderTop: i === 0 ? "1px solid rgba(26,26,26,0.1)" : undefined,
               borderBottom: "1px solid rgba(26,26,26,0.1)",
             }}

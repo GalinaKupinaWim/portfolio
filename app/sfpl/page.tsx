@@ -215,14 +215,14 @@ export default function SFPLPage() {
       <CaseStudyNav />
 
       {/* ── Hero ── */}
-      <div className="px-14 pt-14 pb-8 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-14 pb-8 max-w-[1200px] mx-auto">
         <PillLight>Information Architecture · UX Research</PillLight>
         <PageH1>Rebuilding the San Francisco Public Library Website</PageH1>
         <PageSub>SFPL · Information Architecture Redesign · Team Project</PageSub>
       </div>
 
       {/* ── Hero image ── */}
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div className="rounded-2xl overflow-hidden border" style={{ borderColor: SF.brandBorder }}>
           <div className="relative w-full" style={{ aspectRatio: "1586/992" }}>
             <Image src="/images/sfpl-card-ia-clean.png" alt="San Francisco Public Library — IA Redesign concept" fill className="object-contain" priority />
@@ -231,8 +231,8 @@ export default function SFPLPage() {
       </div>
 
       {/* ── Meta ── */}
-      <div className="px-14 max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-4 gap-8 py-8 border-b mt-10 mb-2" style={{ borderColor: SF.brandBorder }}>
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-b mt-10 mb-2" style={{ borderColor: SF.brandBorder }}>
           <div><InfoLabel>Role</InfoLabel><InfoVal>Information Architect<br/>UX Researcher<br/>(1 of 3 UX Designers)</InfoVal></div>
           <div><InfoLabel>Timeline</InfoLabel><InfoVal>2024<br/>Berkeley UX Design<br/>Professional Certificate</InfoVal></div>
           <div><InfoLabel>Team</InfoLabel><InfoVal>Galina Kupina<br/>Anuja<br/>Anushka</InfoVal></div>
@@ -267,7 +267,7 @@ export default function SFPLPage() {
 
       {/* ── The Problem — dark ── */}
       <section className="py-16 mt-12" style={{ background: SF.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <H2 white>The Problem</H2>
           <p className="font-body leading-[1.75] max-w-[820px] mb-5" style={{ fontSize: "0.9375rem", color: "#D6CFC7" }}>
             The current SFPL website faced real usability challenges that got in the way of finding
@@ -283,7 +283,7 @@ export default function SFPLPage() {
         </div>
       </section>
 
-      <div className="px-14 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <Divider />
 
         {/* ── Phase 01 ── */}
@@ -297,7 +297,7 @@ export default function SFPLPage() {
 
         <H3>Business Goals</H3>
         <Body>We grounded the project in five goals the library cares about:</Body>
-        <div className="grid grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           {[
             { icon: icons.users, title: "Increase User Engagement", text: "Encourage patrons to explore events, workshops, and resources, fostering community and lifelong learning." },
             { icon: icons.card,  title: "Boost Membership & Patronage", text: "Drive library-card sign-ups and increase foot traffic to physical branches." },
@@ -323,7 +323,7 @@ export default function SFPLPage() {
 
         {/* Persona — Emily */}
         <div className="mt-4 rounded-2xl overflow-hidden border" style={{ borderColor: SF.brandBorder }}>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-8 border-r" style={{ borderColor: SF.brandBorder }}>
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 relative">
@@ -371,7 +371,7 @@ export default function SFPLPage() {
           To decide what to test, we listed the common patron tasks that also serve a business goal,
           the intersection where fixing navigation matters most. A sample of the high-priority tasks:
         </Body>
-        <div className="grid grid-cols-2 gap-x-8 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
           <div>
             <Bullet>Browse digital resources like audiobooks or e-books</Bullet>
             <Bullet>Download e-books and audiobooks</Bullet>
@@ -411,7 +411,7 @@ export default function SFPLPage() {
         />
 
         <H3>Gap Analysis: Key Insights</H3>
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {[
             { task: "Download audiobooks", note: "A missing opportunity, buried four levels deep instead of living in “Books & Media,” where users expect it." },
             { task: "Membership requirements", note: "Too many competing paths to get a library card, scattered across different levels of the site." },
@@ -432,7 +432,7 @@ export default function SFPLPage() {
           real users completing the priority tasks. The overall success rate was just{" "}
           <strong>51%</strong>, with several tasks falling below 25%.
         </Body>
-        <div className="grid grid-cols-2 gap-5 mt-5 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 items-start">
           <Figure
             src="/images/sfpl-treetest-old.jpg"
             alt="Baseline tree test overview showing 51% success"
@@ -458,7 +458,7 @@ export default function SFPLPage() {
 
       {/* ── Phase 03 — cream section ── */}
       <section style={{ background: SF.brandLight }} className="py-20">
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <PhaseBadge label="Phase 03" />
           <H2>Rebuilding the Structure</H2>
           <Body className="max-w-3xl">
@@ -499,7 +499,7 @@ export default function SFPLPage() {
             cleaner structure split into clear primary navigation, with account and membership items
             grouped sensibly.
           </Body>
-          <div className="grid grid-cols-2 gap-5 mt-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 items-start">
             <div>
               <Figure
                 src="/images/sfpl-sitemap-old.png"
@@ -520,7 +520,7 @@ export default function SFPLPage() {
         </div>
       </section>
 
-      <div className="px-14 pt-16 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
         <Divider />
 
         {/* ── Phase 04 ── */}
@@ -532,7 +532,7 @@ export default function SFPLPage() {
           structure itself.
         </Body>
 
-        <div className="grid grid-cols-2 gap-5 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           <CardWhite>
             <span className="font-body font-semibold uppercase px-2.5 py-1 rounded-full inline-block mb-3"
               style={{ fontSize: "0.6875rem", letterSpacing: "0.08em", color: SF.brand, background: SF.brandLight, border: `1px solid ${SF.brandBorder}` }}>
@@ -586,14 +586,14 @@ export default function SFPLPage() {
 
       {/* ── Phase 05 — Validation, dark ── */}
       <section className="py-20" style={{ background: SF.dark }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <PhaseBadge label="Phase 05" />
           <H2 white>Validating the New Structure</H2>
           <p className="font-body leading-[1.72] max-w-[760px] mb-8" style={{ fontSize: "0.9375rem", color: "#D6CFC7" }}>
             A redesign is only as good as its evidence. We ran a second tree test on the new
             structure with the same priority tasks and compared the results head-to-head.
           </p>
-          <div className="grid grid-cols-2 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             <div className="rounded-xl overflow-hidden bg-white border" style={{ borderColor: SF.brandBorder }}>
               <div className="px-5 pt-4 pb-1">
                 <div className="font-body font-semibold" style={{ fontSize: "0.8125rem", color: SF.muted }}>Existing structure</div>
@@ -622,7 +622,7 @@ export default function SFPLPage() {
       </section>
 
       {/* ── Final Prototype ── */}
-      <div className="px-14 pt-16 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
         <PhaseBadge label="Prototype" />
         <H2>The Redesigned Experience</H2>
         <Body className="max-w-3xl">
@@ -639,13 +639,13 @@ export default function SFPLPage() {
 
       {/* ── Impact — cream ── */}
       <section className="py-20" style={{ background: SF.brandLight }}>
-        <div className="px-14 max-w-[1200px] mx-auto">
+        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
           <H2>Impact &amp; Results</H2>
           <Body className="max-w-2xl mb-10">
             Restructuring the information architecture, not redesigning a single pixel, produced
             measurable gains in how easily patrons could find what they needed.
           </Body>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
               { num: "51% → 78%", title: "Task Success Rate",     desc: "Overall success across priority tasks climbed 27 points after restructuring the IA and relabeling navigation." },
               { num: "63–100%",   title: "Recovered Tasks",        desc: "The four worst-performing tasks (2, 5, 7, 9) went from under 25% to between 63% and 100% success." },
@@ -662,7 +662,7 @@ export default function SFPLPage() {
         </div>
       </section>
 
-      <div className="px-14 pt-16 max-w-[1200px] mx-auto">
+      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
         <Divider />
 
         {/* ── Conclusion / Next Steps ── */}
@@ -673,7 +673,7 @@ export default function SFPLPage() {
           online-learning topics made findable. The next steps were to wireframe the new structure,
           test the prototype with users matched to our personas, iterate, and publish.
         </Body>
-        <div className="grid grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           {[
             { n: "01", t: "Wireframe", d: "Build out wireframes based on the new structure." },
             { n: "02", t: "Test", d: "Test the prototype with users selected from our personas." },
@@ -691,7 +691,7 @@ export default function SFPLPage() {
         <Divider />
 
         {/* ── Key Learnings ── */}
-        <div className="grid gap-12 items-start py-4" style={{ gridTemplateColumns: "1fr 2fr" }}>
+        <div className="grid gap-6 md:gap-12 items-start py-4 grid-cols-1 md:grid-cols-[1fr_2fr]">
           <div>
             <H2>Key Learnings</H2>
           </div>
@@ -712,7 +712,7 @@ export default function SFPLPage() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="px-14 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: SF.brandBorder }}>
+      <footer className="px-6 md:px-14 py-10 flex justify-between items-center border-t max-w-[1200px] mx-auto" style={{ borderColor: SF.brandBorder }}>
         <p className="font-body text-[0.875rem]" style={{ color: SF.muted }}>
           Thank you for reading this case study!
         </p>
