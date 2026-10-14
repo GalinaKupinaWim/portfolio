@@ -11,6 +11,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+    // An explicit #anchor is a request to land there — don't override it.
+    if (window.location.hash) return;
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 

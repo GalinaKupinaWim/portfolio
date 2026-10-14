@@ -1,9 +1,17 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+
+interface Action {
+  label: string;
+  href: string;
+}
 
 interface Message {
   role: "user" | "bot";
   text: string;
+  actions?: Action[];
 }
 
 // Suggested questions. Each topic carries the label we send and the follow-ups
@@ -83,12 +91,52 @@ const FALLBACK_ANSWERS: Record<string, string> = {
     "Galina is a freelance UX/UI & Product Designer (since Nov 2025), with 10+ years across digital product work. She spent a decade as a Project Manager in digital product development at AcademProject \u2014 shipping CRM platforms, a photography marketplace, and mobile apps \u2014 with earlier roles in HR and operations. That business-and-people background shapes her pragmatic, user-centered approach. The full timeline is on her resume.",
 };
 
+// Where each answer should send the reader next. Keyed off the same classifier
+// as the chips, so these follow the live API's answers as well as the offline
+// ones — an answer the visitor likes always has somewhere to go.
+const EMAIL = "mailto:galinauxdesign@gmail.com";
+
+const TOPIC_ACTIONS: Record<string, Action[]> = {
+  prepmate:     [{ label: "Open the PrepMate case study", href: "/sat" }],
+  nutriwise:    [{ label: "Open the NutriWise case study", href: "/nutri" }],
+  sfpl:         [{ label: "Open the library case study", href: "/sfpl" }],
+  casestudies:  [{ label: "See all three", href: "/#work-sec" }],
+  background:   [{ label: "View full resume", href: "/resume" }],
+  education:    [{ label: "View full resume", href: "/resume" }],
+  skills:       [{ label: "View full resume", href: "/resume" }],
+  process:      [{ label: "How she works", href: "/#about-sec" }],
+  availability: [{ label: "Email Galina", href: EMAIL }, { label: "View full resume", href: "/resume" }],
+  contact:      [{ label: "Email Galina", href: EMAIL }, { label: "LinkedIn", href: "https://www.linkedin.com/in/galina-kupina-a219821a" }],
+  location:     [{ label: "Email Galina", href: EMAIL }],
+};
+
 const FALLBACK_DEFAULT =
   "I can only speak to Galina's work, background, skills, and availability. For anything else, reach her directly at galinauxdesign@gmail.com \u2014 she'd love to chat.";
 
 function getFallbackReply(text: string): string {
   const topic = topicOf(text);
   return (topic && FALLBACK_ANSWERS[topic]) || FALLBACK_DEFAULT;
+}
+
+// Actions read as destinations, not questions: navy outline vs the chips' grey.
+const ACTION_CLASS =
+  "font-body text-[11px] font-medium px-2.5 py-1.5 rounded-full border border-[#1B2B4B] " +
+  "bg-white text-[#1B2B4B] no-underline inline-flex items-center gap-1 " +
+  "hover:bg-[#1B2B4B] hover:text-white transition-colors duration-150";
+
+// The App Router won't scroll to a hash that lives on another route: the target
+// isn't mounted when navigation resolves. Poll briefly until it appears.
+function scrollToHash(id: string) {
+  const start = Date.now();
+  const tick = () => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (Date.now() - start < 3000) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 // Strip emoji / symbols so speech synthesis reads cleanly.
@@ -102,6 +150,8 @@ export default function AIChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     { role: "bot", text: "Hi! 👋 What would you like to know about Galina?" },
   ]);
+  const router = useRouter();
+  const pathname = usePathname();
   const [suggestions, setSuggestions] = useState<string[]>(OPENING_TOPICS);
   const askedRef = useRef<string[]>([]);
   const [input, setInput] = useState("");
@@ -230,11 +280,11 @@ export default function AIChatWidget() {
     // No live answer (no server key, error, or empty) → use the built-in knowledge.
     if (!reply) reply = getFallbackReply(text);
 
-    setMessages((m) => [...m, { role: "bot", text: reply }]);
+    const topic = topicOf(text);
+    setMessages((m) => [...m, { role: "bot", text: reply, actions: (topic && TOPIC_ACTIONS[topic]) || undefined }]);
     setHistory((h) => [...h, { role: "assistant", content: reply }]);
 
     // Offer the next step rather than leaving an empty input.
-    const topic = topicOf(text);
     if (topic && !askedRef.current.includes(topic)) askedRef.current = [...askedRef.current, topic];
     setSuggestions(nextSuggestions(text, askedRef.current));
 
@@ -297,15 +347,51 @@ export default function AIChatWidget() {
         {/* Messages */}
         <div className="p-3.5 max-h-[280px] overflow-y-auto flex flex-col gap-2">
           {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`font-body text-[12px] leading-[1.55] px-3 py-2 rounded-[10px] max-w-[88%] ${
-                m.role === "bot"
-                  ? "bg-white text-[#292524] border border-[rgba(26,26,26,0.06)] self-start rounded-bl-[3px]"
-                  : "bg-[#1B2B4B] text-white self-end rounded-br-[3px]"
-              }`}
-            >
-              {m.text}
+            <div key={i} className="contents">
+              <div
+                className={`font-body text-[12px] leading-[1.55] px-3 py-2 rounded-[10px] max-w-[88%] ${
+                  m.role === "bot"
+                    ? "bg-white text-[#292524] border border-[rgba(26,26,26,0.06)] self-start rounded-bl-[3px]"
+                    : "bg-[#1B2B4B] text-white self-end rounded-br-[3px]"
+                }`}
+              >
+                {m.text}
+              </div>
+              {m.actions && (
+                <div className="self-start flex flex-wrap gap-1.5 max-w-[88%]">
+                  {m.actions.map((a) =>
+                    a.href.startsWith("/") ? (
+                      <Link
+                        key={a.href}
+                        href={a.href}
+                        onClick={(e) => {
+                          const [path, hash] = a.href.split("#");
+                          if (!hash) return;
+                          e.preventDefault();
+                          const target = path || "/";
+                          if (pathname !== target) router.push(a.href);
+                          else window.history.replaceState(null, "", a.href);
+                          scrollToHash(hash);
+                        }}
+                        className={ACTION_CLASS}
+                      >
+                        {a.label}
+                        <span aria-hidden>→</span>
+                      </Link>
+                    ) : (
+                      <a
+                        key={a.href}
+                        href={a.href}
+                        {...(a.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className={ACTION_CLASS}
+                      >
+                        {a.label}
+                        <span aria-hidden>↗</span>
+                      </a>
+                    )
+                  )}
+                </div>
+              )}
             </div>
           ))}
           {loading && (
