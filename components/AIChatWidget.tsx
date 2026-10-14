@@ -120,7 +120,7 @@ function getFallbackReply(text: string): string {
 
 // Actions read as destinations, not questions: navy outline vs the chips' grey.
 const ACTION_CLASS =
-  "font-body text-[11px] font-medium px-2.5 py-1.5 rounded-full border border-[#1B2B4B] " +
+  "font-body text-[12px] font-medium px-3 py-2 rounded-full border border-[#1B2B4B] " +
   "bg-white text-[#1B2B4B] no-underline inline-flex items-center gap-1 " +
   "hover:bg-[#1B2B4B] hover:text-white transition-colors duration-150";
 
@@ -147,6 +147,8 @@ function speakableText(text: string): string {
 export default function AIChatWidget() {
   const [open, setOpen] = useState(false);
   const [showLabel, setShowLabel] = useState(true);
+  const [labelText, setLabelText] = useState("Ask me anything");
+  const everOpenedRef = useRef(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "bot", text: "Hi! 👋 What would you like to know about Galina?" },
   ]);
@@ -178,8 +180,32 @@ export default function AIChatWidget() {
     return () => clearTimeout(t);
   }, []);
   useEffect(() => {
-    if (open) setShowLabel(false);
+    if (open) {
+      everOpenedRef.current = true;
+      setShowLabel(false);
+    }
   }, [open]);
+
+  // The first nudge fades after 6s, long before most people have read anything.
+  // Bring it back once, deeper into the page, for anyone who never opened it —
+  // by then a bare circle reads as generic support chat, not an AI assistant.
+  useEffect(() => {
+    const onScroll = () => {
+      if (everOpenedRef.current) {
+        window.removeEventListener("scroll", onScroll);
+        return;
+      }
+      const max = document.body.scrollHeight - window.innerHeight;
+      if (max > 0 && window.scrollY / max >= 0.35) {
+        setLabelText("Questions about her work?");
+        setShowLabel(true);
+        window.removeEventListener("scroll", onScroll);
+        setTimeout(() => setShowLabel(false), 9000);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     voiceOnRef.current = voiceOn;
@@ -298,10 +324,10 @@ export default function AIChatWidget() {
   });
 
   return (
-    <div className="no-print fixed bottom-7 right-7 z-[300] flex flex-col items-end gap-3 pointer-events-none">
+    <div className="no-print fixed bottom-4 right-4 sm:bottom-7 sm:right-7 z-[300] flex flex-col items-end gap-3 pointer-events-none">
       {/* Chat window */}
       <div
-        className={`w-[300px] bg-[#fafaf7] rounded-2xl border border-[rgba(26,26,26,0.08)] overflow-hidden shadow-[0_24px_60px_-22px_rgba(0,0,0,0.22),0_8px_18px_-6px_rgba(0,0,0,0.08)] origin-bottom-right transition-all duration-300 ${
+        className={`w-[calc(100vw-2rem)] max-w-[360px] sm:w-[360px] max-h-[calc(100vh-7rem)] flex flex-col bg-[#fafaf7] rounded-2xl border border-[rgba(26,26,26,0.08)] overflow-hidden shadow-[0_24px_60px_-22px_rgba(0,0,0,0.22),0_8px_18px_-6px_rgba(0,0,0,0.08)] origin-bottom-right transition-all duration-300 ${
           open ? "scale-100 opacity-100 pointer-events-auto" : "scale-0 opacity-0 pointer-events-none"
         }`}
       >
@@ -310,8 +336,8 @@ export default function AIChatWidget() {
           <div className="flex items-center gap-2.5">
             <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80]" />
             <div>
-              <div className="font-heading text-[12px] font-medium text-white tracking-[-0.01em]">Galina&apos;s AI assistant</div>
-              <div className="font-body text-[10px] text-[#9fb0c4]">Conversational UX demo she built</div>
+              <div className="font-heading text-[13px] font-medium text-white tracking-[-0.01em]">Galina&apos;s AI assistant</div>
+              <div className="font-body text-[11px] text-[#9fb0c4]">Conversational UX demo she built</div>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
@@ -321,7 +347,7 @@ export default function AIChatWidget() {
                 title={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
                 aria-label={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
                 aria-pressed={voiceOn}
-                className={`w-6 h-6 rounded-full border-none flex items-center justify-center transition-colors ${
+                className={`relative w-7 h-7 rounded-full border-none flex items-center justify-center transition-colors after:absolute after:-inset-2 after:content-[''] ${
                   voiceOn ? "bg-[#4ade80] text-[#1B2B4B]" : "bg-transparent text-[#9fb0c4] hover:text-white"
                 }`}
               >
@@ -340,16 +366,16 @@ export default function AIChatWidget() {
                 )}
               </button>
             )}
-            <button onClick={() => setOpen(false)} aria-label="Close chat" className="bg-transparent border-none text-[#9fb0c4] hover:text-white text-lg leading-none">×</button>
+            <button onClick={() => setOpen(false)} aria-label="Close chat" className="relative w-7 h-7 flex items-center justify-center bg-transparent border-none text-[#9fb0c4] hover:text-white text-xl leading-none after:absolute after:-inset-2 after:content-['']">×</button>
           </div>
         </div>
 
         {/* Messages */}
-        <div className="p-3.5 max-h-[280px] overflow-y-auto flex flex-col gap-2">
+        <div className="p-3.5 flex-1 min-h-0 max-h-[min(50vh,340px)] overflow-y-auto flex flex-col gap-2">
           {messages.map((m, i) => (
             <div key={i} className="contents">
               <div
-                className={`font-body text-[12px] leading-[1.55] px-3 py-2 rounded-[10px] max-w-[88%] ${
+                className={`font-body text-[14px] leading-[1.5] px-3 py-2 rounded-[10px] max-w-[88%] ${
                   m.role === "bot"
                     ? "bg-white text-[#292524] border border-[rgba(26,26,26,0.06)] self-start rounded-bl-[3px]"
                     : "bg-[#1B2B4B] text-white self-end rounded-br-[3px]"
@@ -413,7 +439,7 @@ export default function AIChatWidget() {
               <button
                 key={id}
                 onClick={() => send(TOPICS[id].label)}
-                className="font-body text-[11px] px-2.5 py-1.5 rounded-full border border-[rgba(26,26,26,0.12)] bg-white text-[#57534E] whitespace-nowrap hover:bg-[#1B2B4B] hover:text-white hover:border-[#1B2B4B] transition-all duration-150"
+                className="font-body text-[12px] px-3 py-2 rounded-full border border-[rgba(26,26,26,0.12)] bg-white text-[#57534E] whitespace-nowrap hover:bg-[#1B2B4B] hover:text-white hover:border-[#1B2B4B] transition-all duration-150"
               >
                 {TOPICS[id].label}
               </button>
@@ -424,7 +450,7 @@ export default function AIChatWidget() {
         {/* Input */}
         <div className="px-3.5 py-2.5 border-t border-[rgba(26,26,26,0.08)] flex gap-2 items-center">
           <input
-            className="flex-1 border-none outline-none font-body text-[12px] text-[#292524] bg-transparent placeholder-[#a8a29e]"
+            className="flex-1 min-w-0 border-none outline-none font-body text-[16px] text-[#292524] bg-transparent placeholder-[#a8a29e]"
             placeholder={listening ? "Listening…" : sttSupported ? "Type or speak…" : "Type your question…"}
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -436,13 +462,13 @@ export default function AIChatWidget() {
               title={listening ? "Stop listening" : "Speak your question"}
               aria-label={listening ? "Stop listening" : "Speak your question"}
               aria-pressed={listening}
-              className={`w-7 h-7 rounded-full border-none flex items-center justify-center flex-shrink-0 transition-all ${
+              className={`relative w-9 h-9 rounded-full border-none flex items-center justify-center flex-shrink-0 transition-all after:absolute after:-inset-1 after:content-[''] ${
                 listening
                   ? "bg-[#ef4444] mic-listening"
                   : "bg-[#efe7db] hover:bg-[#e6dccb]"
               }`}
             >
-              <svg width="12" height="12" fill="none" stroke={listening ? "#fff" : "#1B2B4B"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <svg width="15" height="15" fill="none" stroke={listening ? "#fff" : "#1B2B4B"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
                 <line x1="12" y1="19" x2="12" y2="23" />
@@ -452,11 +478,11 @@ export default function AIChatWidget() {
           )}
           <button
             onClick={() => send(input)}
-            disabled={loading}
+            disabled={loading || !input.trim()}
             aria-label="Send message"
-            className="w-7 h-7 rounded-full bg-[#1B2B4B] border-none flex items-center justify-center flex-shrink-0 hover:opacity-80 disabled:opacity-30 transition-opacity"
+            className="relative w-9 h-9 rounded-full bg-[#1B2B4B] border-none flex items-center justify-center flex-shrink-0 hover:opacity-80 disabled:opacity-30 transition-opacity after:absolute after:-inset-1 after:content-['']"
           >
-            <svg width="12" height="12" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24">
+            <svg width="15" height="15" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
@@ -471,7 +497,7 @@ export default function AIChatWidget() {
             onClick={() => setOpen(true)}
             className="chat-label-pill pointer-events-auto font-body text-[12px] font-medium text-[#1B2B4B] bg-white rounded-full pl-3.5 pr-3 py-2 shadow-[0_6px_22px_-6px_rgba(0,0,0,0.28)] border border-[rgba(26,26,26,0.08)] whitespace-nowrap flex items-center gap-1.5"
           >
-            Ask my AI
+            {labelText}
             <svg aria-hidden width="11" height="11" viewBox="0 0 24 24" style={{ color: "#E0A82E" }}>
               <path d="M12 0C12 6.6 6.6 12 0 12c6.6 0 12 5.4 12 12 0-6.6 5.4-12 12-12-6.6 0-12-5.4-12-12z" fill="currentColor" />
             </svg>
@@ -481,7 +507,9 @@ export default function AIChatWidget() {
           onClick={() => setOpen((o) => !o)}
           title="Chat with Galina's AI assistant"
           aria-label="Chat with Galina's AI assistant"
-          className="relative w-12 h-12 rounded-full bg-[#1B2B4B] border-none flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform pointer-events-auto"
+          className={`relative h-12 rounded-full bg-[#1B2B4B] border-none flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform pointer-events-auto ${
+            open ? "w-12" : "pl-4 pr-4"
+          }`}
         >
           {open ? (
             <svg width="18" height="18" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24">
@@ -489,12 +517,10 @@ export default function AIChatWidget() {
             </svg>
           ) : (
             <>
-              <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-              <svg aria-hidden width="11" height="11" viewBox="0 0 24 24" className="absolute top-[9px] right-[9px]" style={{ color: "#F5D06B" }}>
+              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" style={{ color: "#F5D06B" }}>
                 <path d="M12 0C12 6.6 6.6 12 0 12c6.6 0 12 5.4 12 12 0-6.6 5.4-12 12-12-6.6 0-12-5.4-12-12z" fill="currentColor" />
               </svg>
+              <span className="font-body text-[13px] font-medium text-white">Ask AI</span>
             </>
           )}
         </button>
