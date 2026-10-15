@@ -110,6 +110,8 @@ const TOPIC_ACTIONS: Record<string, Action[]> = {
   location:     [{ label: "Email Galina", href: EMAIL }],
 };
 
+const GREETING: Message = { role: "bot", text: "Hi! 👋 What would you like to know about Galina?" };
+
 const FALLBACK_DEFAULT =
   "I can only speak to Galina's work, background, skills, and availability. For anything else, reach her directly at galinauxdesign@gmail.com \u2014 she'd love to chat.";
 
@@ -149,17 +151,27 @@ export default function AIChatWidget() {
   const [showLabel, setShowLabel] = useState(true);
   const [labelText, setLabelText] = useState("Ask me anything");
   const everOpenedRef = useRef(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "bot", text: "Hi! 👋 What would you like to know about Galina?" },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([GREETING]);
+  // The API turns are just the transcript in another shape, so derive them
+  // instead of keeping a second copy in state that has to be written in step.
+  const messagesRef = useRef<Message[]>(messages);
   const router = useRouter();
   const pathname = usePathname();
   const [suggestions, setSuggestions] = useState<string[]>(OPENING_TOPICS);
   const askedRef = useRef<string[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState<{ role: string; content: string }[]>([]);
   const msgEndRef = useRef<HTMLDivElement>(null);
+
+  // Start over: a visitor who has wandered off-topic shouldn't have to close
+  // and reopen (which wouldn't clear anything) to get a clean slate.
+  const resetChat = () => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
+    askedRef.current = [];
+    setMessages([GREETING]);
+    setSuggestions(OPENING_TOPICS);
+    setInput("");
+  };
 
   // Voice
   const [listening, setListening] = useState(false);
@@ -171,6 +183,7 @@ export default function AIChatWidget() {
   const voiceOnRef = useRef(false);
 
   useEffect(() => {
+    messagesRef.current = messages;
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
@@ -284,9 +297,15 @@ export default function AIChatWidget() {
     if (!text.trim() || loading) return;
     setSuggestions([]);
     setInput("");
-    const newHistory = [...history, { role: "user", content: text }];
+    // Everything after the greeting, plus the turn being sent.
+    const newHistory = [
+      ...messagesRef.current.slice(1).map((m) => ({
+        role: m.role === "bot" ? "assistant" : "user",
+        content: m.text,
+      })),
+      { role: "user", content: text },
+    ];
     setMessages((m) => [...m, { role: "user", text }]);
-    setHistory(newHistory);
     setLoading(true);
 
     let reply = "";
@@ -308,7 +327,6 @@ export default function AIChatWidget() {
 
     const topic = topicOf(text);
     setMessages((m) => [...m, { role: "bot", text: reply, actions: (topic && TOPIC_ACTIONS[topic]) || undefined }]);
-    setHistory((h) => [...h, { role: "assistant", content: reply }]);
 
     // Offer the next step rather than leaving an empty input.
     if (topic && !askedRef.current.includes(topic)) askedRef.current = [...askedRef.current, topic];
@@ -340,15 +358,30 @@ export default function AIChatWidget() {
               <div className="font-body text-[11px] text-[#9fb0c4]">Conversational UX demo she built</div>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
+            {messages.length > 1 && (
+              <button
+                onClick={resetChat}
+                title="Start over"
+                aria-label="Start over"
+                className="relative w-7 h-7 rounded-full border-none flex items-center justify-center bg-transparent text-[#9fb0c4] hover:text-white transition-colors after:absolute after:-inset-2 after:content-['']"
+              >
+                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M3 2v6h6" />
+                  <path d="M3 13a9 9 0 1 0 3-7.7L3 8" />
+                </svg>
+              </button>
+            )}
             {ttsSupported && (
+              // Labelled, not a bare icon: nothing else on the page tells a
+              // visitor the assistant can speak its answers.
               <button
                 onClick={() => setVoiceOn((v) => !v)}
-                title={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
-                aria-label={voiceOn ? "Turn off voice replies" : "Read replies aloud"}
+                title={voiceOn ? "Turn off spoken replies" : "Have replies read aloud"}
+                aria-label={voiceOn ? "Turn off spoken replies" : "Have replies read aloud"}
                 aria-pressed={voiceOn}
-                className={`relative w-7 h-7 rounded-full border-none flex items-center justify-center transition-colors after:absolute after:-inset-2 after:content-[''] ${
-                  voiceOn ? "bg-[#4ade80] text-[#1B2B4B]" : "bg-transparent text-[#9fb0c4] hover:text-white"
+                className={`relative h-7 pl-2 pr-2.5 rounded-full border-none flex items-center gap-1.5 font-body text-[11px] font-medium transition-colors after:absolute after:-inset-2 after:content-[''] ${
+                  voiceOn ? "bg-[#4ade80] text-[#1B2B4B]" : "bg-[rgba(255,255,255,0.12)] text-[#cdd8e6] hover:text-white"
                 }`}
               >
                 {voiceOn ? (
@@ -364,6 +397,7 @@ export default function AIChatWidget() {
                     <line x1="17" y1="9" x2="23" y2="15" />
                   </svg>
                 )}
+                Voice
               </button>
             )}
             <button onClick={() => setOpen(false)} aria-label="Close chat" className="relative w-7 h-7 flex items-center justify-center bg-transparent border-none text-[#9fb0c4] hover:text-white text-xl leading-none after:absolute after:-inset-2 after:content-['']">×</button>
