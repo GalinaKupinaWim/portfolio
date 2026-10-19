@@ -125,6 +125,28 @@ function InfoLabel({ children }: { children: React.ReactNode }) {
 function InfoVal({ children }: { children: React.ReactNode }) {
   return <div className="font-body text-[0.875rem] leading-[1.6]" style={{ color: SAT.bodyText }}>{children}</div>;
 }
+// Numbered walkthrough note used by the screen deep-dives. n:"*" marks the
+// motion note, which the design sets apart with a gold star.
+function ScreenNote({ n, title, children, signal }: { n: string; title: string; children: React.ReactNode; signal?: string }) {
+  const isStar = n === "*";
+  return (
+    <div className="flex items-start gap-3">
+      <span
+        className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-body text-[0.75rem] font-bold"
+        style={isStar ? { background: "#F5D06B", color: SAT.brand } : { background: SAT.brand, color: "#fff" }}
+      >
+        {isStar ? "\u2726" : n}
+      </span>
+      <span className="block">
+        <span className="block font-body text-[0.9375rem] font-semibold" style={{ color: "#0F172A" }}>{title}</span>
+        <span className="block font-body text-[0.875rem] leading-[1.6] mt-1" style={{ color: SAT.subtleText }}>
+          {children}
+          {signal && <span className="block italic mt-1" style={{ color: SAT.muted }}>{signal}</span>}
+        </span>
+      </span>
+    </div>
+  );
+}
 function StatNum({ children }: { children: React.ReactNode }) {
   return (
     <div className="font-heading font-bold mb-3" style={{ fontSize: "clamp(1.6rem,3.5vw,2.5rem)", color: SAT.brand, lineHeight: 1 }}>
@@ -885,7 +907,7 @@ export default function SATPage() {
 
         {/* Each screen carries the accent it has on the control scale above, so the
             two sections read as one argument rather than two lists. */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-16 mt-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-16 mt-10 mb-16">
           {[
             { file: "sat-ai-home.png",      n: "01", title: "Home",           accent: "#1E40AF", caption: "“Up next” pick with its reason; Swap anytime",    alt: "PrepMate home screen with a recommended Geometry practice set and the reason for the pick" },
             { file: "sat-ai-score.png",     n: "02", title: "Score report",   accent: "#638CE6", caption: "Score as a range; likely mistake causes",         alt: "PrepMate score report showing 1330 with range 1300–1360 and mistake causes" },
@@ -927,6 +949,192 @@ export default function SATPage() {
                   </span>
                 </span>
               </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Prototype CTA */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 mb-16">
+          <a
+            href="/prototypes/prepmate.html"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-body text-[0.9375rem] font-semibold text-white no-underline transition-colors"
+            style={{ background: SAT.brand }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = SAT.brandMid)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = SAT.brand)}
+          >
+            Try the clickable prototype
+            <span aria-hidden>↗</span>
+          </a>
+          <span className="font-body text-[0.8125rem]" style={{ color: SAT.muted }}>
+            Interaction prototype · sample data · best on desktop
+          </span>
+        </div>
+
+        {/* 2c · Home, before and after */}
+        <H3>Home: from a status dashboard to a clear next step</H3>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[190px_215px_1fr] gap-8 lg:gap-12 items-start mt-6 mb-16">
+          {/* before */}
+          <div className="max-w-[190px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3" style={{ color: SAT.muted }}>
+              Before
+            </div>
+            <Image
+              src="/images/sat-ai-home-before.png"
+              alt="The original PrepMate home screen: a donut chart of daily task completion, a Recent Activity card and a list of subjects"
+              width={470}
+              height={987}
+              sizes="190px"
+              className="w-full h-auto"
+            />
+          </div>
+
+          {/* after */}
+          <div className="max-w-[215px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3 font-semibold" style={{ color: SAT.brand }}>
+              After
+            </div>
+            <Image
+              src="/images/sat-ai-home.png"
+              alt="The redesigned PrepMate home screen: a Study Coach “Up next” card naming the topic, the reason for the pick, and Start practice and Swap actions"
+              width={390}
+              height={844}
+              sizes="215px"
+              className="w-full h-auto"
+              style={{ borderRadius: "14.36% / 6.64%" }}
+            />
+          </div>
+
+          {/* what changed, and why */}
+          <div className="flex flex-col gap-5 lg:pt-7">
+            {[
+              { n: "1", title: "One primary action", body: "The donut chart reported status. “Up next” tells Tim what to do now, with a 50px button instead of a small “Continue” pill." },
+              { n: "2", title: "The AI explains its pick", body: "The recommendation cites a specific mistake and says what would change the pick, so students can check it. “Swap” opens 2–3 ranked alternatives with reasons, so the student decides." },
+              { n: "3", title: "Progress against a goal", body: "Score and goal replace abstract completion percentages, and the test date adds urgency." },
+              { n: "4", title: "One visual language", body: "Line icons only, an active tab state, nothing below 11pt, and white cards on a lighter background for contrast." },
+            ].map(({ n, title, body }) => (
+              <div key={n} className="flex items-start gap-3">
+                <span
+                  className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-body text-[0.75rem] font-bold text-white"
+                  style={{ background: SAT.brand }}
+                >
+                  {n}
+                </span>
+                <span className="block">
+                  <span className="block font-body text-[0.9375rem] font-semibold" style={{ color: "#0F172A" }}>
+                    {title}
+                  </span>
+                  <span className="block font-body text-[0.875rem] leading-[1.6] mt-1" style={{ color: SAT.subtleText }}>
+                    {body}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
+        {/* 2d · Score report */}
+        <H3>Score report: from a list of numbers to &ldquo;why&rdquo; and &ldquo;what next&rdquo;</H3>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[215px_1fr] gap-8 lg:gap-12 items-start mt-6 mb-16">
+          <div className="max-w-[215px]">
+            <Image
+              src="/images/sat-ai-score.png"
+              alt="PrepMate score report: a total of 1330 inside a likely range of 1300 to 1360, mistakes grouped by likely cause, and the weakest domains"
+              width={390}
+              height={844}
+              sizes="215px"
+              className="w-full h-auto"
+              style={{ borderRadius: "14.36% / 6.64%" }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <ScreenNote n="1" title="A range, not a verdict" signal="Signal 04 · Score trajectory">
+              1330 sits inside a 1300–1360 band, with the goal marked on the same scale. This applies
+              the transparency principle from the ethics review.
+            </ScreenNote>
+            <ScreenNote n="2" title="Why, not just how many" signal="Signal 03 · Mistake patterns">
+              Mistakes are grouped by cause. Time-outs need pacing practice, concept gaps need lessons,
+              careless errors need a review habit. Causes are labelled &ldquo;likely&rdquo;, and
+              &ldquo;Fix a label&rdquo; shows why the coach guessed, lets the student correct it, and
+              confirms the plan will adjust.
+            </ScreenNote>
+            <ScreenNote n="3" title="Weakest first" signal="Signal 01 · Knowledge tracing">
+              Eight domains sorted by accuracy, two shown and the rest one tap away. Official SAT domain
+              names, and counts that add up.
+            </ScreenNote>
+            <ScreenNote n="4" title="The loop closes">
+              &ldquo;Practice Geometry&rdquo; feeds the same pick shown on Home&apos;s &ldquo;Up next&rdquo; card.
+            </ScreenNote>
+            <ScreenNote n="*" title="Reveal, once">
+              The score counts up from the last test (1270 → 1330), the range band settles, and the bars
+              fill in sequence. About 1.2s total, skipped with reduced motion.
+            </ScreenNote>
+          </div>
+        </div>
+
+        {/* 2f · Quiz, self-check and privacy */}
+        <H3>Quiz, self-check and privacy: the parts of the AI strategy not yet on screen</H3>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mt-6">
+          {[
+            {
+              file: "sat-ai-quiz.png",
+              label: "4 · Quiz question",
+              alt: "PrepMate quiz question marked “A bit harder” with a link explaining why the difficulty changed",
+              notes: [
+                ["Difficulty is visible.", "“A bit harder” plus a one-line reason.", "Signal 02 · Difficulty calibration"],
+                ["Coach speaks only after the answer.", "No hints or pop-ups mid-question. Feedback names the likely mistake and the fix."],
+              ],
+            },
+            {
+              file: "sat-ai-selfcheck.png",
+              label: "5 · Self-check before the pick",
+              alt: "PrepMate weekly check-in asking the student which topic they think they should practise, before showing the coach’s suggestion",
+              notes: [
+                ["Think first, then compare.", "The student commits before seeing the AI’s pick, so they don’t accept it by default. It also builds their own judgement."],
+                ["Either choice is fine.", "Both options carry equal weight; the coach doesn’t override."],
+                ["Neutral, not praising.", "A different pick gets a plain comparison, not “good instinct”, so the tone stays honest when it repeats. After three different picks in a row the coach asks instead: “You often skip Geometry. Should I suggest it less?”"],
+              ],
+            },
+            {
+              file: "sat-ai-privacy.png",
+              label: "6 · Privacy & data",
+              alt: "PrepMate privacy settings: a parent view the student controls, quiet hours, a forgiving streak, and controls to download or delete history",
+              notes: [
+                ["The student owns the data.", "Parents see progress, never individual mistakes. From the ethics review: no surveillance."],
+                ["Healthy habits over engagement.", "Quiet hours and a forgiving streak counter late-night pressure."],
+                ["Memory is visible and editable.", "Students can correct what the coach remembers."],
+              ],
+            },
+          ].map(({ file, label, alt, notes }) => (
+            <div key={file}>
+              <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3 font-semibold" style={{ color: SAT.brand }}>
+                {label}
+              </div>
+              <div className="max-w-[215px]">
+                <Image
+                  src={`/images/${file}`}
+                  alt={alt}
+                  width={390}
+                  height={844}
+                  sizes="215px"
+                  className="w-full h-auto"
+                  style={{ borderRadius: "14.36% / 6.64%" }}
+                />
+              </div>
+              <div className="mt-5 flex flex-col gap-3">
+                {notes.map(([lead, body, signal]) => (
+                  <p key={lead} className="font-body text-[0.875rem] leading-[1.6]" style={{ color: SAT.subtleText }}>
+                    <strong style={{ color: "#0F172A" }}>{lead}</strong> {body}
+                    {signal && <span className="block italic mt-1" style={{ color: SAT.muted }}>{signal}</span>}
+                  </p>
+                ))}
               </div>
             </div>
           ))}
