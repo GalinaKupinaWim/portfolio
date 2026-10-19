@@ -68,7 +68,7 @@ const FALLBACK_ANSWERS: Record<string, string> = {
   greeting:
     "Hi there! \ud83d\udc4b I can tell you about Galina's projects, background, skills, or availability. What would you like to know?",
   prepmate:
-    "PrepMate is an AI-powered SAT prep platform (EdTech). Galina was UX Researcher, UX/UI Designer and Front-End dev \u2014 one of three on the team \u2014 from March\u2013May 2025, plus an AI Strategy phase in Feb 2026 after Stanford's AI products program. Difficulty adapts to each student, driven by four AI signals. In moderated testing with 4 students, task completion rose from about half to nearly all, tasks got ~38% faster, and UI inconsistencies went from 5 to 0.",
+    "PrepMate is an AI-powered SAT prep platform (EdTech). Galina was UX Researcher, UX/UI Designer and Front-End dev \u2014 one of three on the team \u2014 from March\u2013May 2025. She then designed the 2026 AI layer solo, after Stanford's AI products program. Difficulty adapts to each student, driven by four AI signals. In moderated testing with 4 students, task completion rose from about half to nearly all, tasks got ~38% faster, and UI inconsistencies went from 5 to 0.",
   nutriwise:
     "NutriWise is a personalized nutrition app Galina designed solo over 20 weeks (Jan\u2013June 2025), plus an AI Strategy phase in Dec 2025. It runs on a mixed-initiative model \u2014 the AI proposes, the user decides \u2014 with an AI Meal Planning Engine and Meal Scanning in the MVP, and a Grocery Optimizer and Fast Meal Suggestions as fast-follows. It's built around 6 trust-building principles that keep users in control.",
   sfpl:

@@ -210,12 +210,32 @@ export default function SATPage() {
         <PillLight>UX/UI Design · Front-End (HTML/CSS)</PillLight>
         <PageH1>AI-Powered SAT Prep Platform</PageH1>
         <PageSub>PrepMate — EdTech · Team Project</PageSub>
+
+        {/* Phase 06 sits ~70% down a very long page; say it's there up front. */}
+        <div
+          className="mt-6 inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl px-4 py-3"
+          style={{ background: SAT.brandLight, border: `1px solid ${SAT.brandBorder}` }}
+        >
+          <span className="font-body text-[0.875rem] font-semibold" style={{ color: SAT.brand }}>
+            2026 update
+          </span>
+          <span className="font-body text-[0.875rem]" style={{ color: SAT.bodyText }}>
+            I added an AI layer — six screens, a control model, and a plan to validate it.
+          </span>
+          <a
+            href="#ai-layer"
+            className="font-body text-[0.875rem] font-medium no-underline whitespace-nowrap hover:opacity-70 transition-opacity"
+            style={{ color: SAT.brand }}
+          >
+            Jump to it →
+          </a>
+        </div>
       </div>
 
       {/* ── Hero image ── */}
       <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div className="relative w-full" style={{ maxWidth: "900px", aspectRatio: "1560/1008" }}>
-          <Image src="/images/PrepMate-hero-v2.png" alt="SAT Hero" fill className="object-contain" priority />
+          <Image src="/images/PrepMate-hero-v2.png" alt="SAT Hero" fill sizes="(max-width: 900px) 100vw, 900px" className="object-contain" priority />
         </div>
       </div>
 
@@ -223,8 +243,8 @@ export default function SATPage() {
       <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-b border-[#E2E8F0] mt-10 mb-2">
           <div><InfoLabel>Role</InfoLabel><InfoVal>UX Researcher<br/>UX/UI Designer<br/>Front-End (HTML/CSS)</InfoVal></div>
-          <div><InfoLabel>Timeline</InfoLabel><InfoVal>March – May 2025<span className="block mt-2">AI Strategy · Feb. 2026</span></InfoVal></div>
-          <div><InfoLabel>Team</InfoLabel><InfoVal>Galina Kupina<br/>Daniel Opoku<br/>Alen Ghavami</InfoVal></div>
+          <div><InfoLabel>Timeline</InfoLabel><InfoVal>March – May 2025<a href="#ai-layer" className="block mt-2 w-fit no-underline border-b border-dashed hover:opacity-70 transition-opacity" style={{ color: SAT.brand, borderColor: SAT.brandBorder }}>AI Strategy · Feb. 2026</a></InfoVal></div>
+          <div><InfoLabel>Team</InfoLabel><InfoVal>Galina Kupina<br/>Daniel Opoku<br/>Alen Ghavami<span className="block mt-2 italic" style={{ color: SAT.muted }}>AI layer (2026): solo</span></InfoVal></div>
           <div><InfoLabel>Tools</InfoLabel><InfoVal>Figma · Miro<br/>Canva · Vision Studio<br/>GitHub</InfoVal></div>
         </div>
 
@@ -315,7 +335,7 @@ export default function SATPage() {
             <div className="p-8 border-r border-[#E2E8F0]">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 relative">
-                  <Image src="/images/sarah-persona-v2.png" alt="Sarah" fill className="object-cover" />
+                  <Image src="/images/sarah-persona-v2.png" alt="Sarah" fill sizes="64px" className="object-cover" />
                 </div>
                 <div>
                   <div className="font-heading font-bold text-[#0F172A]" style={{ fontSize: "1.0625rem" }}>Sarah Martinez</div>
@@ -597,10 +617,13 @@ export default function SATPage() {
         </div>
       </section>
 
-      <div className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto">
+      <div id="ai-layer" className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto scroll-mt-24">
 
         {/* ── AI Adaptive Engine ── */}
-        <PhaseBadge label="AI Strategy" />
+        <div className="flex flex-wrap items-center gap-3">
+          <PhaseBadge label="Phase 06" />
+          <PillLight>AI Strategy · Solo · 2026</PillLight>
+        </div>
         <Body className="max-w-3xl">
           This part came later. After completing Stanford&apos;s <strong>UI/UX Design for AI
           Products</strong> program, I returned to PrepMate to put my new knowledge into practice,
@@ -661,7 +684,7 @@ export default function SATPage() {
             {
               label: "Signal 04",
               title: "Score Trajectory Prediction",
-              desc: "Shows students where their current effort could take them. Not a fixed verdict, but a hopeful arc that updates as they grow.",
+              desc: "Shows students where their current effort could take them, an arc that updates as they grow.",
               icon: (
                 <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
@@ -691,47 +714,6 @@ export default function SATPage() {
           ))}
         </div>
 
-        <H3>How the Signals Feed the Experience</H3>
-        <Sm className="mt-1 mb-5">
-          On their own, each signal is just an observation. Together, they form a loop that
-          shapes everything a student touches, from the next question to the small explanation
-          behind why it appeared.
-        </Sm>
-        <CardBlue>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-start text-center relative">
-            {[
-              { label: "Student answers", desc: "Question, hint use, time spent" },
-              { label: "Engine updates", desc: "All four signals re-score" },
-              { label: "Decision", desc: "Next question, topic, or break" },
-              { label: "Surface", desc: "Shown with reasoning" },
-              { label: "Feedback", desc: "Student response loops back" },
-            ].map((step, i) => (
-              <div key={step.label} className="flex flex-col items-center gap-2 relative">
-                {i < 4 && (
-                  <div
-                    className="absolute top-4 hidden md:block"
-                    style={{ right: "-12%", color: SAT.brandBorder, fontSize: "1.25rem" }}
-                  >
-                    →
-                  </div>
-                )}
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center font-body font-bold text-white"
-                  style={{ background: SAT.brand, fontSize: "0.75rem" }}
-                >
-                  {i + 1}
-                </div>
-                <div className="font-body font-semibold" style={{ fontSize: "0.8125rem", color: SAT.bodyText }}>
-                  {step.label}
-                </div>
-                <div className="font-body" style={{ fontSize: "0.6875rem", color: SAT.muted, lineHeight: 1.45 }}>
-                  {step.desc}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardBlue>
-
         <H3>Designing Around the Engine</H3>
         <Body className="max-w-3xl">
           Students never see the four signals as raw data. Each one quietly shapes something they
@@ -743,15 +725,10 @@ export default function SATPage() {
 
         <H3>AI Decisions &amp; Trade-offs</H3>
         <Sm className="mt-1 mb-5">
-          Two decisions shaped how the AI actually feels to a student. Both came down to the same
-          question: how do we use the system&apos;s intelligence without taking away the student&apos;s?
+          One decision shaped how the AI actually feels to a student more than any other.
         </Sm>
         <div className="flex flex-col gap-4">
           {[
-            {
-              q: "Why adaptive difficulty instead of fixed practice tests?",
-              a: "Fixed tests favor students who already get it and frustrate the ones still finding their footing. Adaptive difficulty meets students where they actually are and grows the challenge with them, the way a good tutor does: pushing just hard enough to stretch, never hard enough to break.",
-            },
             {
               q: "Why design the AI to sound like a tutor, not a testing engine?",
               a: "Tone decides whether a student leans in or shuts down. A flat \"You answered 7 of 10 correctly\" doesn’t help when someone is already struggling. But \"You’re getting closer on geometry — let’s try a slightly harder one\" keeps them in the seat.",
@@ -778,57 +755,292 @@ export default function SATPage() {
 
       </div>
 
-      {/* ── Ethics & Responsible AI ── */}
-      <section className="py-20" style={{ background: SAT.dark }}>
-        <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
-          <PhaseBadge label="Ethics & Responsible AI" />
-          <H2 white>Building an AI Experience Students &amp; Parents Can Trust</H2>
-          <p className="font-body leading-[1.72] max-w-[760px] mb-10" style={{ fontSize: "0.9375rem", color: "#CBD5E1" }}>
-            AI in education isn&apos;t a low-stakes space. Most users are kids, the test
-            influences where they go to college, and the same tools that could narrow
-            achievement gaps could just as easily widen them. So we sat with the risks honestly
-            and designed deliberate responses to three of the biggest.
-          </p>
+      {/* ── Phase 06, continued · AI layer ── */}
+      <section className="px-6 md:px-14 pt-14 pb-20 max-w-[1200px] mx-auto">
 
-          <div className="flex flex-col gap-5">
+        <H2>AI layer: from strategy to screens</H2>
+
+        {/* 1 · How the study coach works */}
+        <H3>How the study coach works</H3>
+        <Sm className="max-w-[820px]">
+          Each AI feature is one concrete mapping from input to output. If I couldn&apos;t name
+          both, the feature wasn&apos;t ready to design.
+        </Sm>
+
+        <div className="mt-6 rounded-[20px] p-8" style={{ background: SAT.brandLight }}>
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr_1fr] gap-5 items-center">
+            {/* inputs */}
+            <div>
+              <InfoLabel>What goes in</InfoLabel>
+              <div className="flex flex-col gap-2.5">
+                {["Answers per topic", "Time per question", "Practice test history", "Test date"].map((t) => (
+                  <div key={t} className="bg-white rounded-[10px] px-3.5 py-2.5 font-body text-[0.875rem]"
+                    style={{ border: `1px solid ${SAT.brandBorder}`, color: SAT.bodyText }}>
+                    {t}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* core */}
+            <div className="flex flex-col md:flex-row items-center gap-3">
+              <span aria-hidden className="text-[1.375rem] rotate-90 md:rotate-0" style={{ color: SAT.brandMid }}>→</span>
+              <div className="flex-1 rounded-[18px] p-[22px] text-white w-full" style={{ background: SAT.brand }}>
+                <div className="font-heading text-[1.25rem] font-semibold whitespace-nowrap mb-3">Study coach</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Predicts mastery", "Recommends", "Classifies mistakes", "Estimates score", "Writes feedback"].map((p) => (
+                    <span key={p} className="font-body text-[0.75rem] px-2.5 py-1 rounded-full whitespace-nowrap"
+                      style={{ background: "rgba(255,255,255,.14)" }}>
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <span aria-hidden className="text-[1.375rem] rotate-90 md:rotate-0" style={{ color: SAT.brandMid }}>→</span>
+            </div>
+
+            {/* outputs */}
+            <div>
+              <InfoLabel>What comes out</InfoLabel>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  ["Next set + reason", "Home"],
+                  ["Harder or easier question", "Quiz"],
+                  ["Likely mistake causes", "Report"],
+                  ["Test-day score range", "Progress"],
+                ].map(([left, right]) => (
+                  <div key={left} className="bg-white rounded-[10px] px-3.5 py-2.5 flex justify-between items-center gap-3"
+                    style={{ border: `1px solid ${SAT.brandBorder}` }}>
+                    <span className="font-body text-[0.875rem]" style={{ color: SAT.bodyText }}>{left}</span>
+                    <span className="font-body text-[0.75rem] whitespace-nowrap" style={{ color: SAT.muted }}>{right}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 text-center font-body text-[0.8125rem]"
+            style={{ borderTop: `1px dashed ${SAT.brandBorder}`, color: SAT.subtleText }}>
+            ↺ The student acts on it, and every new answer feeds the coach again.
+          </div>
+        </div>
+
+        {/* 2 · Control scale */}
+        <H3>The AI suggests, the student decides</H3>
+        <Sm className="max-w-[820px]">
+          For every screen I chose how much the AI does on its own and how the student takes
+          control back.
+        </Sm>
+
+        <div className="mt-6 mb-14 overflow-x-auto">
+          <div className="relative min-w-[700px] h-[250px]">
+            {/* the bar */}
+            <div className="absolute left-0 right-0 rounded-[4px]"
+              style={{ top: "126px", height: "8px", background: "linear-gradient(to right, #BFDBFE, #1E40AF)" }} />
+            {/* end labels */}
+            <div className="absolute left-0 font-body text-[0.6875rem] uppercase tracking-[0.12em]"
+              style={{ top: "228px", color: SAT.muted }}>Student controls</div>
+            <div className="absolute right-0 font-body text-[0.6875rem] uppercase tracking-[0.12em]"
+              style={{ top: "228px", color: SAT.muted }}>AI acts</div>
+
             {[
-              {
-                title: "Data Privacy",
-                risk: "Students using PrepMate are minors. Their study patterns, mistakes, and projected scores are personal, and in the wrong hands (advertisers, colleges, even an anxious parent), that data can shape someone's future unfairly.",
-                response: "Collect only what personalization actually needs. Stay aligned with FERPA and COPPA. Let students decide what parents see, never share with third parties, and give students the right to delete their mistake history on request.",
-              },
-              {
-                title: "Algorithm Overreliance",
-                risk: "If the AI is always the one choosing what to study next, students stop building the most important skill of all: knowing themselves as learners. That's the skill they'll need long after the SAT.",
-                response: "The AI suggests a daily plan, but the student leads. They can change the order, swap a subject, or skip a topic outright. The system offers a map, not a leash.",
-              },
-              {
-                title: "Transparency",
-                risk: "A silent \"do this next\" doesn’t teach anything. Students either follow blindly or stop trusting the system the first time it feels arbitrary. Either outcome is a loss.",
-                response: "Every recommendation comes with a small honest reason: which concept, which mistake pattern, which time of day. Score predictions show a range, not a verdict, so progress feels like possibility instead of pressure.",
-              },
-            ].map(({ title, risk, response }) => (
+              { left: "10%", above: true,  title: "Settings",     caption: "Student owns the data",       dot: "#93B4F5" },
+              { left: "26%", above: false, title: "Self-check",   caption: "Student picks first",         dot: "#7BA0EE" },
+              { left: "42%", above: true,  title: "Score report", caption: "Causes are editable guesses", dot: "#638CE6" },
+              { left: "58%", above: false, title: "Progress",     caption: "Range + “why”",               dot: "#4B78DF" },
+              { left: "74%", above: true,  title: "Quiz",         caption: "Adjusts difficulty, says why", dot: "#3364D7" },
+              { left: "90%", above: false, title: "Home",         caption: "Picks for you, Swap anytime", dot: "#1E40AF" },
+            ].map(({ left, above, title, caption, dot }) => (
               <div
                 key={title}
-                className="p-6 rounded-2xl bg-white border"
-                style={{ borderColor: SAT.brandBorder }}
+                className="absolute w-[150px] -translate-x-1/2 flex flex-col items-center text-center"
+                style={above ? { left, bottom: "111px" } : { left, top: "136px" }}
               >
-                <H4 className="text-[#0F172A] mb-3">{title}</H4>
-                <div className="mb-3">
-                  <div className="font-body font-semibold mb-1" style={{ fontSize: "0.6875rem", letterSpacing: "0.08em", color: "#B45309", textTransform: "uppercase" }}>
-                    Risk
-                  </div>
-                  <Sm>{risk}</Sm>
-                </div>
-                <div>
-                  <div className="font-body font-semibold mb-1" style={{ fontSize: "0.6875rem", letterSpacing: "0.08em", color: SAT.brand, textTransform: "uppercase" }}>
-                    Design Response
-                  </div>
-                  <Sm>{response}</Sm>
-                </div>
+                {above ? (
+                  <>
+                    <div className="font-body text-[0.875rem] font-semibold" style={{ color: "#0F172A" }}>{title}</div>
+                    <div className="font-body text-[0.75rem] mt-0.5" style={{ color: SAT.subtleText }}>{caption}</div>
+                    <div className="w-0.5 h-[26px] mt-1.5" style={{ background: SAT.brandBorder }} />
+                    <div className="w-[18px] h-[18px] rounded-full bg-white" style={{ border: `4px solid ${dot}` }} />
+                  </>
+                ) : (
+                  <>
+                    <div className="w-[18px] h-[18px] rounded-full bg-white -mt-3.5" style={{ border: `4px solid ${dot}` }} />
+                    <div className="w-0.5 h-[26px] mb-1.5" style={{ background: SAT.brandBorder }} />
+                    <div className="font-body text-[0.875rem] font-semibold" style={{ color: "#0F172A" }}>{title}</div>
+                    <div className="font-body text-[0.75rem] mt-0.5" style={{ color: SAT.subtleText }}>{caption}</div>
+                  </>
+                )}
               </div>
             ))}
           </div>
+        </div>
+
+        {/* 2b · The six screens */}
+        <H3>The six screens</H3>
+        <Sm className="max-w-[820px]">
+          Each screen puts one AI signal into the interface. Concept work, not yet tested with
+          students.
+        </Sm>
+
+        {/* Each screen carries the accent it has on the control scale above, so the
+            two sections read as one argument rather than two lists. */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-16 mt-10">
+          {[
+            { file: "sat-ai-home.png",      n: "01", title: "Home",           accent: "#1E40AF", caption: "“Up next” pick with its reason; Swap anytime",    alt: "PrepMate home screen with a recommended Geometry practice set and the reason for the pick" },
+            { file: "sat-ai-score.png",     n: "02", title: "Score report",   accent: "#638CE6", caption: "Score as a range; likely mistake causes",         alt: "PrepMate score report showing 1330 with range 1300–1360 and mistake causes" },
+            { file: "sat-ai-progress.png",  n: "03", title: "Progress",       accent: "#4B78DF", caption: "Trend and test-day projection as a band",         alt: "PrepMate progress chart with three practice tests and a projected score range" },
+            { file: "sat-ai-quiz.png",      n: "04", title: "Quiz",           accent: "#3364D7", caption: "Difficulty adjusts and says why",                 alt: "PrepMate quiz question with a difficulty change note" },
+            { file: "sat-ai-selfcheck.png", n: "05", title: "Self-check",     accent: "#7BA0EE", caption: "Student picks first, then sees the coach’s pick", alt: "PrepMate self-check asking the student what to practise before showing the AI pick" },
+            { file: "sat-ai-privacy.png",   n: "06", title: "Privacy & data", accent: "#93B4F5", caption: "Student controls what parents see",               alt: "PrepMate privacy settings with parent view and data deletion controls" },
+          ].map(({ file, n, title, caption, alt, accent }, i) => (
+            // Middle column rides lower, so the row reads as a board rather than a table.
+            <div key={file} className={i % 3 === 1 ? "md:mt-16" : ""}>
+              <div className="w-4/5 mx-auto">
+              <div className="relative">
+                <div
+                  aria-hidden
+                  className="absolute inset-x-0 rounded-[28px]"
+                  style={{ top: "6%", bottom: "6%", background: SAT.brandLight }}
+                />
+                <Image
+                  src={`/images/${file}`}
+                  alt={alt}
+                  width={390}
+                  height={844}
+                  sizes="(min-width:768px) 27vw, 40vw"
+                  className="relative w-full h-auto"
+                  style={{ borderRadius: "14.36% / 6.64%" }}
+                />
+              </div>
+
+              <div className="mt-5 flex items-start gap-3">
+                <span className="font-heading text-[1.625rem] font-bold leading-none" style={{ color: accent }}>
+                  {n}
+                </span>
+                <span className="block pt-0.5">
+                  <span className="block font-body text-[0.875rem] font-semibold" style={{ color: "#0F172A" }}>
+                    {title}
+                  </span>
+                  <span className="block font-body text-[0.8125rem] mt-1" style={{ color: SAT.subtleText }}>
+                    {caption}
+                  </span>
+                </span>
+              </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 h-px" style={{ background: `linear-gradient(to right, ${SAT.brandBorder}, transparent)` }} />
+
+        {/* 3 · Validation plan */}
+        <H3>How I&apos;d validate this</H3>
+        <Sm className="max-w-[820px]">
+          Four cheap steps before any model is built, from &ldquo;is the output useful?&rdquo; to
+          &ldquo;do real students trust it?&rdquo;.
+        </Sm>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          {[
+            { n: "1", title: "LLM value test", body: "Paste a student's real test answers into an LLM. Ask for the next set, a reason and mistake causes. Show students the output, with no UI.", tests: "is the pick useful and believable?" },
+            { n: "2", title: "Wizard of Oz", body: "A tutor hand-picks “Up next” and writes the reason, delivered through the prototype for one week.", tests: "do students follow the pick or swap it?" },
+            { n: "3", title: "Simulated students", body: "Run the flows past 10–20 AI student personas (anxious junior, short-on-time athlete, English learner) to collect likely objections.", tests: "hypotheses only, not evidence." },
+            { n: "4", title: "Real students", body: "Moderated sessions with 4–5 students on the clickable prototype, focused on what simulation flagged.", tests: "trust, understanding, control." },
+          ].map(({ n, title, body, tests }) => (
+            <div key={n} className="relative bg-white rounded-2xl pt-7 px-[1.375rem] pb-[1.375rem] overflow-hidden"
+              style={{ border: `1px solid ${SAT.brandBorder}` }}>
+              <div className="absolute top-0 left-0 right-0 h-1" style={{ background: SAT.brand }} />
+              <div className="font-heading text-[2rem] font-bold leading-none mb-2" style={{ color: SAT.brand }}>{n}</div>
+              <H4 className="mb-2" style={{ color: "#0F172A" }}>{title}</H4>
+              <p className="font-body text-[0.875rem] leading-[1.6] mb-2" style={{ color: SAT.bodyText }}>{body}</p>
+              <p className="font-body text-[0.8125rem] italic" style={{ color: SAT.muted }}>Tests: {tests}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* 4 · Success metrics */}
+        <H3>What would prove it works</H3>
+        <Sm className="max-w-[820px]">
+          The goal is students who learn faster with the AI than without it. Targets would be set
+          during the pilot.
+        </Sm>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          {[
+            { title: "Score gain per week", body: "Students following picks vs choosing alone." },
+            { title: "Repeated mistakes", body: "Same mistake type showing up again within two weeks." },
+            { title: "Time to goal score", body: "Weeks from first test to target." },
+          ].map(({ title, body }) => (
+            <div key={title} className="rounded-2xl p-[1.375rem]"
+              style={{ background: SAT.brandLight, border: `1px solid ${SAT.brandBorder}` }}>
+              <H4 className="mb-2" style={{ color: SAT.brand }}>{title}</H4>
+              <p className="font-body text-[0.875rem] leading-[1.6]" style={{ color: SAT.bodyText }}>{body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 rounded-2xl px-[1.375rem] py-5 bg-white" style={{ border: "1px solid #E2E8F0" }}>
+          <div className="flex flex-wrap justify-between items-baseline gap-2 mb-3">
+            <H4 style={{ color: "#0F172A" }}>Healthy trust</H4>
+            <span className="font-body text-[0.8125rem]" style={{ color: SAT.muted }}>
+              Share of coach picks students accept
+            </span>
+          </div>
+          <div className="flex gap-0.5 h-3.5 rounded-[7px] overflow-hidden">
+            <div className="basis-0 grow" style={{ background: "#FDBA74" }} />
+            <div className="basis-0 grow-[2]" style={{ background: "#86EFAC" }} />
+            <div className="basis-0 grow" style={{ background: "#FDBA74" }} />
+          </div>
+          <div className="flex gap-0.5 mt-2 font-body text-[0.75rem]">
+            <span className="basis-0 grow" style={{ color: SAT.muted }}>Almost none · students don&apos;t trust it</span>
+            <span className="basis-0 grow-[2] text-center font-semibold" style={{ color: "#14532D" }}>Mix of accept, swap and relabel</span>
+            <span className="basis-0 grow text-right" style={{ color: SAT.muted }}>Almost all · accepted without thinking</span>
+          </div>
+        </div>
+
+        <div className="mt-14 h-px" style={{ background: `linear-gradient(to right, ${SAT.brandBorder}, transparent)` }} />
+
+        {/* 5 · Ethics and society review */}
+        <H3>Ethics and society review</H3>
+        <Sm className="max-w-[820px]">
+          AI in education isn&apos;t a low-stakes space. Most users are kids, the test influences
+          where they go to college, and the same tools that could narrow achievement gaps could
+          just as easily widen them. For each risk I set a principle, then turned it into a
+          concrete design decision.
+        </Sm>
+
+        <div className="mt-6 overflow-x-auto rounded-2xl" style={{ border: "1px solid #E2E8F0" }}>
+          <table className="w-full border-collapse min-w-[720px]">
+            <thead>
+              <tr style={{ background: SAT.brandLight }}>
+                {["Risk", "Principle", "Design decision"].map((h, i) => (
+                  <th key={h}
+                    className="text-left font-body text-[0.6875rem] uppercase tracking-[0.12em] font-semibold px-[1.125rem] py-3.5"
+                    style={{ color: SAT.muted, width: i === 2 ? "39%" : "30.5%" }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["Parents or schools watching every mistake", "The student owns their data", "Parent view shows scores and practice time only, and the student turns it on"],
+                ["Students leaning on the AI instead of learning to study", "Build self-direction, not dependence", "The AI proposes a daily plan; students reorder, swap or skip any of it — a map, not a leash"],
+                ["A silent “do this next” teaching nothing", "Every pick explains itself", "Each recommendation names the concept, mistake pattern or time of day behind it"],
+                ["Projections discouraging lower-scoring students", "Encourage, never label ability", "Ranges, “Why this estimate?” and a how-to-improve step next to every projection"],
+                ["Model works worse for some groups", "Equal accuracy across students", "Check pick and mistake-label accuracy for English learners and other groups before launch"],
+                ["Streaks causing stress and late-night study", "Healthy habits over engagement", "Forgiving streak and quiet hours, both on by default"],
+                ["Minors' data reused or sold", "Transparency and consent", "Collect only what personalization needs, aligned with FERPA and COPPA; download and delete history, and we never sell data"],
+              ].map(([risk, principle, decision]) => (
+                <tr key={risk} style={{ borderTop: "1px solid #E2E8F0" }}>
+                  <td className="align-top px-[1.125rem] py-3.5 font-body text-[0.875rem] font-semibold leading-[1.6]" style={{ color: "#0F172A" }}>{risk}</td>
+                  <td className="align-top px-[1.125rem] py-3.5 font-body text-[0.875rem] leading-[1.6]" style={{ color: SAT.bodyText }}>{principle}</td>
+                  <td className="align-top px-[1.125rem] py-3.5 font-body text-[0.875rem] leading-[1.6]" style={{ color: SAT.bodyText }}>{decision}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
