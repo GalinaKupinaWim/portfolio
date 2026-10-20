@@ -225,10 +225,10 @@ export default function SATPage() {
 
   return (
     <div ref={pageRef}>
-      <CaseStudyNav />
+      <CaseStudyNav tag="PrepMate · Case Study" />
 
       {/* ── Hero ── */}
-      <div className="px-6 md:px-14 pt-14 pb-8 max-w-[1200px] mx-auto">
+      <div id="overview" className="px-6 md:px-14 pt-14 pb-8 max-w-[1200px] mx-auto scroll-mt-24">
         <PillLight>UX/UI Design · Front-End (HTML/CSS)</PillLight>
         <PageH1>AI-Powered SAT Prep Platform</PageH1>
         <PageSub>PrepMate — EdTech · Team Project</PageSub>
@@ -642,16 +642,39 @@ export default function SATPage() {
       <div id="ai-layer" className="px-6 md:px-14 pt-16 max-w-[1200px] mx-auto scroll-mt-24">
 
         {/* ── AI Adaptive Engine ── */}
-        <div className="flex flex-wrap items-center gap-3">
-          <PhaseBadge label="Phase 06" />
-          <PillLight>AI Strategy · Solo · 2026</PillLight>
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-6 lg:gap-10 items-start">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <PhaseBadge label="Phase 06" />
+              <PillLight>AI Strategy · Solo · 2026</PillLight>
+            </div>
+            <Body className="max-w-3xl">
+              This part came later. After completing Stanford&apos;s <strong>UI/UX Design for AI
+              Products</strong> program, I returned to PrepMate to put my new knowledge into practice,
+              rethinking the adaptive AI behind the product and how its intelligence should surface for
+              students.
+            </Body>
+          </div>
+
+          {/* Sidenote, not part of the flow: this phase is deep-linkable, so people
+              arrive here without having read Phases 01–05. */}
+          <aside className="rounded-xl bg-white p-4 lg:mt-1" style={{ border: `1px solid ${SAT.brandBorder}` }}>
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] font-semibold mb-2" style={{ color: SAT.muted }}>
+              New here?
+            </div>
+            <p className="font-body text-[0.8125rem] leading-[1.6] mb-3" style={{ color: SAT.subtleText }}>
+              <strong style={{ color: "#0F172A" }}>PrepMate</strong> is an AI-powered SAT prep platform
+              (EdTech). Phases 01–05 cover the 2025 team redesign; this phase is the 2026 AI layer.
+            </p>
+            <a
+              href="#overview"
+              className="font-body text-[0.8125rem] font-medium no-underline hover:opacity-70 transition-opacity"
+              style={{ color: SAT.brand }}
+            >
+              Start from the top ↑
+            </a>
+          </aside>
         </div>
-        <Body className="max-w-3xl">
-          This part came later. After completing Stanford&apos;s <strong>UI/UX Design for AI
-          Products</strong> program, I returned to PrepMate to put my new knowledge into practice,
-          rethinking the adaptive AI behind the product and how its intelligence should surface for
-          students.
-        </Body>
         <H2>The AI Adaptive Engine</H2>
         <Body className="max-w-3xl">
           Under the hood, PrepMate runs on a single adaptive engine, but it&apos;s really four
@@ -898,80 +921,12 @@ export default function SATPage() {
           </div>
         </div>
 
-        {/* 2b · The six screens */}
+        {/* 2b · The screens, one at a time */}
         <H3>The six screens</H3>
         <Sm className="max-w-[820px]">
-          Each screen puts one AI signal into the interface. Concept work, not yet tested with
-          students.
+          Each screen puts one AI signal into the interface, and each one is shown against the 2025
+          version it replaced. Concept work, not yet tested with students.
         </Sm>
-
-        {/* Each screen carries the accent it has on the control scale above, so the
-            two sections read as one argument rather than two lists. */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-16 mt-10 mb-16">
-          {[
-            { file: "sat-ai-home.png",      n: "01", title: "Home",           accent: "#1E40AF", caption: "“Up next” pick with its reason; Swap anytime",    alt: "PrepMate home screen with a recommended Geometry practice set and the reason for the pick" },
-            { file: "sat-ai-score.png",     n: "02", title: "Score report",   accent: "#638CE6", caption: "Score as a range; likely mistake causes",         alt: "PrepMate score report showing 1330 with range 1300–1360 and mistake causes" },
-            { file: "sat-ai-progress.png",  n: "03", title: "Progress",       accent: "#4B78DF", caption: "Trend and test-day projection as a band",         alt: "PrepMate progress chart with three practice tests and a projected score range" },
-            { file: "sat-ai-quiz.png",      n: "04", title: "Quiz",           accent: "#3364D7", caption: "Difficulty adjusts and says why",                 alt: "PrepMate quiz question with a difficulty change note" },
-            { file: "sat-ai-selfcheck.png", n: "05", title: "Self-check",     accent: "#7BA0EE", caption: "Student picks first, then sees the coach’s pick", alt: "PrepMate self-check asking the student what to practise before showing the AI pick" },
-            { file: "sat-ai-privacy.png",   n: "06", title: "Privacy & data", accent: "#93B4F5", caption: "Student controls what parents see",               alt: "PrepMate privacy settings with parent view and data deletion controls" },
-          ].map(({ file, n, title, caption, alt, accent }, i) => (
-            // Middle column rides lower, so the row reads as a board rather than a table.
-            <div key={file} className={i % 3 === 1 ? "md:mt-16" : ""}>
-              <div className="w-4/5 mx-auto">
-              <div className="relative">
-                <div
-                  aria-hidden
-                  className="absolute inset-x-0 rounded-[28px]"
-                  style={{ top: "6%", bottom: "6%", background: SAT.brandLight }}
-                />
-                <Image
-                  src={`/images/${file}`}
-                  alt={alt}
-                  width={390}
-                  height={844}
-                  sizes="(min-width:768px) 27vw, 40vw"
-                  className="relative w-full h-auto"
-                  style={{ borderRadius: "14.36% / 6.64%" }}
-                />
-              </div>
-
-              <div className="mt-5 flex items-start gap-3">
-                <span className="font-heading text-[1.625rem] font-bold leading-none" style={{ color: accent }}>
-                  {n}
-                </span>
-                <span className="block pt-0.5">
-                  <span className="block font-body text-[0.875rem] font-semibold" style={{ color: "#0F172A" }}>
-                    {title}
-                  </span>
-                  <span className="block font-body text-[0.8125rem] mt-1" style={{ color: SAT.subtleText }}>
-                    {caption}
-                  </span>
-                </span>
-              </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Prototype CTA */}
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 mb-16">
-          <a
-            href="/prototypes/prepmate.html"
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-body text-[0.9375rem] font-semibold text-white no-underline transition-colors"
-            style={{ background: SAT.brand }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = SAT.brandMid)}
-            onMouseLeave={(e) => (e.currentTarget.style.background = SAT.brand)}
-          >
-            Try the clickable prototype
-            <span aria-hidden>↗</span>
-          </a>
-          <span className="font-body text-[0.8125rem]" style={{ color: SAT.muted }}>
-            Interaction prototype · sample data · best on desktop
-          </span>
-        </div>
 
         {/* 2c · Home, before and after */}
         <H3>Home: from a status dashboard to a clear next step</H3>
@@ -1040,8 +995,25 @@ export default function SATPage() {
         {/* 2d · Score report */}
         <H3>Score report: from a list of numbers to &ldquo;why&rdquo; and &ldquo;what next&rdquo;</H3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[215px_1fr] gap-8 lg:gap-12 items-start mt-6 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[190px_215px_1fr] gap-8 lg:gap-12 items-start mt-6 mb-16">
+          <div className="max-w-[190px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3" style={{ color: SAT.muted }}>
+              Before
+            </div>
+            <Image
+              src="/images/sat-ai-score-before.png"
+              alt="The original PrepMate score report: a total score, section scores, and percentages for each content domain"
+              width={470}
+              height={987}
+              sizes="190px"
+              className="w-full h-auto"
+            />
+          </div>
+
           <div className="max-w-[215px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3 font-semibold" style={{ color: SAT.brand }}>
+              After
+            </div>
             <Image
               src="/images/sat-ai-score.png"
               alt="PrepMate score report: a total of 1330 inside a likely range of 1300 to 1360, mistakes grouped by likely cause, and the weakest domains"
@@ -1074,6 +1046,63 @@ export default function SATPage() {
             <ScreenNote n="*" title="Reveal, once">
               The score counts up from the last test (1270 → 1330), the range band settles, and the bars
               fill in sequence. About 1.2s total, skipped with reduced motion.
+            </ScreenNote>
+          </div>
+        </div>
+
+        {/* 2e · Progress, before and after */}
+        <H3>Progress: from past attempts to where you&rsquo;re heading</H3>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[190px_215px_1fr] gap-8 lg:gap-12 items-start mt-6 mb-16">
+          <div className="max-w-[190px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3" style={{ color: SAT.muted }}>
+              Before
+            </div>
+            <Image
+              src="/images/sat-ai-progress-before.png"
+              alt="The original PrepMate progress screen: three past test attempts listed as bars with no score scale"
+              width={470}
+              height={987}
+              sizes="190px"
+              className="w-full h-auto"
+            />
+          </div>
+
+          <div className="max-w-[215px]">
+            <div className="font-body text-[0.6875rem] uppercase tracking-[0.12em] mb-3 font-semibold" style={{ color: SAT.brand }}>
+              After
+            </div>
+            <Image
+              src="/images/sat-ai-progress.png"
+              alt="The redesigned PrepMate progress screen: a trend line across three tests on a score scale, with a projected test-day range and a coach card"
+              width={390}
+              height={844}
+              sizes="215px"
+              className="w-full h-auto"
+              style={{ borderRadius: "14.36% / 6.64%" }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-5 lg:pt-7">
+            <ScreenNote n="1" title="A real chart" signal="Signal 04 · Score trajectory">
+              Three bars in an empty box become a trend line on a score scale, with the goal drawn on it.
+            </ScreenNote>
+            <ScreenNote n="2" title="Projection as a range">
+              The test-day forecast is a band (1390–1450), never a single promise. &ldquo;Why this
+              estimate?&rdquo; shows what it&apos;s based on and that it isn&apos;t an ability label, and
+              the coach card says how to raise it.
+            </ScreenNote>
+            <ScreenNote n="3" title="Clear deltas">
+              Section changes are labelled and colour-coded. Tabs switch the chart between Total, R&amp;W
+              and Math.
+            </ScreenNote>
+            <ScreenNote n="4" title="Tutor tone, specific action">
+              &ldquo;Consistency is key&rdquo; becomes a concrete plan tied to the mistake pattern from
+              the score report (time-outs in Math).
+            </ScreenNote>
+            <ScreenNote n="*" title="Reveal, once">
+              The line draws through each test, the range band fades in, then the projection extends to
+              test day. About 1.5s, skipped with reduced motion.
             </ScreenNote>
           </div>
         </div>
@@ -1138,6 +1167,25 @@ export default function SATPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Prototype CTA */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 mt-16 mb-16">
+          <a
+            href="/prototypes/prepmate.html"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-body text-[0.9375rem] font-semibold text-white no-underline transition-colors"
+            style={{ background: SAT.brand }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = SAT.brandMid)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = SAT.brand)}
+          >
+            Try the clickable prototype
+            <span aria-hidden>↗</span>
+          </a>
+          <span className="font-body text-[0.8125rem]" style={{ color: SAT.muted }}>
+            Interaction prototype · sample data · best on desktop
+          </span>
         </div>
 
         <div className="mt-14 h-px" style={{ background: `linear-gradient(to right, ${SAT.brandBorder}, transparent)` }} />

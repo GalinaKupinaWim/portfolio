@@ -49,7 +49,7 @@ const CAPABILITIES: Capability[] = [
   },
   {
     area: "AI-Enhanced Product Prototyping",
-    tools: ["Figma Make", "v0"],
+    tools: ["Figma Make", "v0", "Claude Design"],
   },
   {
     area: "AI-Assisted Development",

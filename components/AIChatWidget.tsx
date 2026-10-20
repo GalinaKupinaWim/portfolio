@@ -84,7 +84,7 @@ const FALLBACK_ANSWERS: Record<string, string> = {
   location:
     "Galina is based in the San Francisco Bay Area, CA, and works remotely.",
   skills:
-    "Galina's toolkit \u2014 Design: Figma, Adobe Illustrator, InDesign, Framer, Canva. AI: Claude, Claude Code, ChatGPT, NotebookLM, Cursor, Figma Make, v0. Research & collab: Miro, Optimal Workshop. Code: HTML/CSS, GitHub. Her skills span UX research, information architecture, prototyping, usability testing, and AI-assisted product design & development.",
+    "Galina's toolkit \u2014 Design: Figma, Adobe Illustrator, InDesign, Framer, Canva. AI: Claude, Claude Code, ChatGPT, NotebookLM, Cursor, Figma Make, v0, Claude Design. Research & collab: Miro, Optimal Workshop. Code: HTML/CSS, GitHub. Her skills span UX research, information architecture, prototyping, usability testing, and AI-assisted product design & development.",
   process:
     "Galina works by three principles: prototype fast and learn faster (AI-built clickable prototypes in front of real users in days, so decisions come from evidence); design the whole system (user, product, team and business at once); and ship, then sharpen (test rough versions early and iterate).",
   background:

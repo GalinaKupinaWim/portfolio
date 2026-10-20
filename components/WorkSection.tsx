@@ -12,6 +12,7 @@ type Project = {
   role: string;
   team: string;
   year: string;
+  note?: string;
   platforms: string[];
   fit?: "cover" | "contain";
   bgColor?: string;
@@ -23,10 +24,11 @@ const featured: Project = {
   href: "/sat",
   image: "/images/sat-card.jpg",
   title: "PrepMate — AI-Powered SAT Prep Platform",
-  desc: "Adaptive practice that tells students what to study next, on web and mobile.",
+  desc: "Adaptive practice that helps students identify knowledge gaps, focus on what they need to improve, and build mastery across web and mobile.",
   role: "UX/UI Design, Front-End",
   team: "Team of 3 · Design lead",
   year: "2025",
+  note: "+ 2026 AI strategy layer · solo",
   platforms: ["Web app", "Mobile app"],
 };
 
@@ -96,6 +98,9 @@ function FeaturedCard({ p }: { p: Project }) {
           <div className="mt-auto pt-7">
             <div className="border-t border-[rgba(26,26,26,0.12)] pt-4 font-body text-[13px] text-[#4A5565]">
               {p.role} · {p.team} · {p.year}
+              {p.note && (
+                <span className="block mt-1 font-medium text-[#1B2B4B]">{p.note}</span>
+              )}
             </div>
           </div>
 
@@ -137,6 +142,7 @@ function ProjectCard({ p }: { p: Project }) {
 
       <div className="mt-4 font-body text-[12px] text-[#4A5565]">
         {p.role} · {p.team} · {p.year}
+        {p.note && <span className="block mt-1 font-medium text-[#1B2B4B]">{p.note}</span>}
       </div>
     </Link>
   );

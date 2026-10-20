@@ -23,7 +23,7 @@ She works by a few principles: prototype fast and learn faster (she uses AI to g
 - Product & UX Design: Figma, Adobe Illustrator, InDesign, Framer, Canva
 - UX Research & Synthesis: NotebookLM, Miro, ChatGPT, Claude
 - Information Architecture: Optimal Workshop
-- AI-Enhanced Product Prototyping: Figma Make, v0
+- AI-Enhanced Product Prototyping: Figma Make, v0, Claude Design
 - AI-Assisted Development: Cursor, Claude Code, HTML/CSS, GitHub
 
 # Skills
