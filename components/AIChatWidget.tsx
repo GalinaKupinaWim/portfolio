@@ -149,7 +149,7 @@ function speakableText(text: string): string {
 export default function AIChatWidget() {
   const [open, setOpen] = useState(false);
   const [showLabel, setShowLabel] = useState(true);
-  const [labelText, setLabelText] = useState("Ask me anything");
+  const [labelText, setLabelText] = useState("It knows my work and background");
   const everOpenedRef = useRef(false);
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   // The API turns are just the transcript in another shape, so derive them
@@ -210,7 +210,7 @@ export default function AIChatWidget() {
       }
       const max = document.body.scrollHeight - window.innerHeight;
       if (max > 0 && window.scrollY / max >= 0.35) {
-        setLabelText("Questions about her work?");
+        setLabelText("Questions about my work?");
         setShowLabel(true);
         window.removeEventListener("scroll", onScroll);
         setTimeout(() => setShowLabel(false), 9000);
@@ -539,8 +539,8 @@ export default function AIChatWidget() {
         )}
         <button
           onClick={() => setOpen((o) => !o)}
-          title="Chat with Galina's AI assistant"
-          aria-label="Chat with Galina's AI assistant"
+          title="Ask Galina's AI assistant"
+          aria-label="Ask Galina's AI assistant"
           className={`relative h-12 rounded-full bg-[#1B2B4B] border-none flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform pointer-events-auto ${
             open ? "w-12" : "pl-4 pr-4"
           }`}
@@ -554,7 +554,7 @@ export default function AIChatWidget() {
               <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" style={{ color: "#F5D06B" }}>
                 <path d="M12 0C12 6.6 6.6 12 0 12c6.6 0 12 5.4 12 12 0-6.6 5.4-12 12-12-6.6 0-12-5.4-12-12z" fill="currentColor" />
               </svg>
-              <span className="font-body text-[13px] font-medium text-white">Ask AI</span>
+              <span className="font-body text-[13px] font-medium text-white">Ask my AI</span>
             </>
           )}
         </button>

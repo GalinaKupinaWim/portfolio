@@ -82,15 +82,6 @@ const EXPERIENCE: Job[] = [
       "Managed recruitment, employee relations, payroll administration, and training while supporting organizational growth.",
     compact: true,
   },
-  {
-    dates: "Mar 2006 – Apr 2008",
-    location: "Novosibirsk, Russia",
-    title: "Executive Assistant",
-    company: "Jilfond",
-    summary:
-      "Supported executives and internal stakeholders through coordination, scheduling, communication, expense reporting, and administrative operations.",
-    compact: true,
-  },
 ];
 
 function Dot() {

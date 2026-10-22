@@ -10,7 +10,7 @@ const TOOLS: ToolRow[] = [
   },
   {
     label: "AI",
-    tools: ["Claude", "Claude Code", "ChatGPT", "NotebookLM", "Cursor", "Figma Make", "v0"],
+    tools: ["Claude Code", "Claude Design", "ChatGPT", "NotebookLM", "Cursor", "Figma Make", "v0"],
   },
   {
     label: "Research & Collab",

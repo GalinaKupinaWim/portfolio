@@ -3,29 +3,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-// The career arc — my strongest differentiator, told up front.
-const PATH = [
-  { label: "People & HR", years: "2008 – 2013" },
-  { label: "Product Management", years: "2015 – 2025" },
-  { label: "Product & UX Design", years: "2025 — now" },
-];
 
 // How I work — principles in my own voice (not a textbook pipeline).
+const ABOUT_INTRO =
+  "My path to UX wasn't a straight line, and it shaped how I approach design. Years in HR taught me to understand people; leading digital product development taught me how products are built and shipped. Design brings it all together. I look at the user, the product, the team, and the business as one connected system \u2014 creating experiences that work for people and make sense for the product.";
+
 const PRINCIPLES = [
   {
     title: "Prototype fast, learn faster.",
-    body:
-      "I use AI to get clickable prototypes in front of real users in days, not weeks — so decisions come from evidence, not opinion.",
+    body: "Clickable prototypes with real users in days, not weeks.",
   },
   {
     title: "Design the whole system.",
-    body:
-      "User, product, team, and business are one picture. I design for all four at once.",
+    body: "User, product, team and business — one picture.",
   },
   {
     title: "Ship, then sharpen.",
-    body:
-      "I'd rather test a rough version early and improve it than polish in a vacuum.",
+    body: "Test rough early, then sharpen.",
   },
 ];
 
@@ -175,51 +169,12 @@ export default function AboutSection() {
                 fontWeight: 400,
               }}
             >
-              My path to UX wasn&apos;t a straight line, and it shaped how I
-              approach design. Years in HR taught me to understand people; leading
-              digital product development taught me how products are built and
-              shipped. Design brings it all together. I look at the user, the
-              product, the team, and the business as one connected system —
-              creating experiences that work for people and make sense for the
-              product.
+              {ABOUT_INTRO.split(" ").map((word, i) => (
+                <span key={i} className="about-word">
+                  {word}{" "}
+                </span>
+              ))}
             </p>
-
-            {/* Career arc — the differentiator, shown as a timeline */}
-            <div className="reveal trigger mt-9">
-              <div
-                className="font-body uppercase text-[#4A5565] mb-4"
-                style={{ fontSize: "0.72rem", letterSpacing: "0.16em", opacity: 0.8 }}
-              >
-                How I got here
-              </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-y-3">
-                {PATH.map((stage, i) => (
-                  <div key={stage.label} className="flex items-center sm:flex-1">
-                    <div className="flex flex-col">
-                      <span
-                        className="font-body font-medium text-[#1B2B4B]"
-                        style={{ fontSize: "0.98rem" }}
-                      >
-                        {stage.label}
-                      </span>
-                      <span
-                        className="font-body text-[#4A5565] mt-0.5"
-                        style={{ fontSize: "0.76rem", opacity: 0.75, letterSpacing: "0.04em" }}
-                      >
-                        {stage.years}
-                      </span>
-                    </div>
-                    {i < PATH.length - 1 && (
-                      <span
-                        className="hidden sm:block mx-4 flex-1 h-px bg-[#1B2B4B]"
-                        style={{ opacity: 0.2 }}
-                        aria-hidden
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
 
             {/* How I work — principles */}
             <div className="reveal trigger flow-block mt-10">
@@ -229,20 +184,18 @@ export default function AboutSection() {
               >
                 How I work
               </div>
-              <p
-                className="font-body text-[#1a1a1a] mb-6"
-                style={{ fontSize: "0.98rem", lineHeight: 1.6, maxWidth: "52ch", opacity: 0.9 }}
-              >
-                A few principles guide every project — and a focused toolkit lets
-                me act on them quickly, at each stage of the work.
-              </p>
-              <div className="grid gap-x-8 gap-y-6 sm:grid-cols-3">
+              <div className="grid gap-x-8 gap-y-6 sm:grid-cols-3 mt-5">
                 {PRINCIPLES.map((p, i) => (
                   <div
                     key={p.title}
                     className="principle-item"
                     style={{ "--i": i } as React.CSSProperties}
                   >
+                    <div
+                      className="h-px bg-[#1B2B4B] mb-3"
+                      style={{ opacity: 0.2 }}
+                      aria-hidden
+                    />
                     <div
                       className="font-body font-medium text-[#1B2B4B] mb-1.5"
                       style={{ fontSize: "0.98rem", lineHeight: 1.3 }}

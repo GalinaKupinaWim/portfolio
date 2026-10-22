@@ -621,3 +621,17 @@
 @media (prefers-reduced-motion: reduce) {
   .chat-label-pill { animation: none; }
 }
+
+/* About intro — each word warms to the brand navy as the cursor passes.
+   Quick in, slow out, so a reading sweep leaves a soft trail rather than a flicker. */
+.about-word {
+  transition: color 0.6s ease-out;
+}
+.about-word:hover {
+  color: #2563EB;
+  transition: color 0.08s ease-in;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-word { transition: none; }
+  .about-word:hover { transition: none; }
+}

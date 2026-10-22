@@ -40,7 +40,6 @@ User interviews, usability testing, information architecture, tree testing, wire
 - Human Resources Director — Zelenski Corporate Travel Solutions — Jan 2012–May 2013 — Moscow.
 - Human Resources Generalist — Zelenski Corporate Travel Solutions — Jun 2011–Jan 2012 — Moscow.
 - Human Resources Generalist — AP Real Estate & Tourism Agency — May 2008–Jan 2011 — Novosibirsk.
-- Executive Assistant — Jilfond — Mar 2006–Apr 2008 — Novosibirsk.
 Her business and people background (10+ years before design) informs a pragmatic, user- and business-minded approach.
 
 # Education
