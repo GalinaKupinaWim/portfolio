@@ -312,14 +312,32 @@
     color: #3a3a3a !important;
   }
 
-  /* Bullet dots & separators render fully solid, not faint */
-  #experience-sec li > span:first-child,
-  #experience-sec .flex > span:first-child {
+  /* Bullet dots render fully solid, not faint. Targeted by class: the old
+     positional selector (`.flex > span:first-child`) painted any first child
+     of any flex container black, which caught the "My professional journey"
+     label the moment that row gained a flex wrapper. */
+  .bullet-dot {
     background: #111 !important;
     opacity: 1 !important;
   }
 
+  /* Page breaks. Today every break happens to land between roles, but that is
+     luck, not a rule — one edited bullet could strand a job title at the foot
+     of a page. Keep each role's title and company with what follows, and never
+     leave a single line of a paragraph alone on either side of a break. */
+  .exp-col > div:first-of-type,
+  .exp-col > div:nth-of-type(2),
+  .projects-label {
+    break-after: avoid;
+  }
+  #experience-sec p,
+  #experience-sec li {
+    orphans: 2;
+    widows: 2;
+  }
+
   /* Hide chrome that shouldn't print */
+  .exp-summary,
   nav,
   footer,
   .cursor-dot,
@@ -378,11 +396,17 @@
     margin-bottom: 10pt !important;
   }
 
-  /* Role / school titles */
-  #experience-sec .font-medium,
+  /* Role / school titles. Targeted by class rather than by .font-medium:
+     that caught every medium-weight descendant, so project names printed at
+     12pt — as large as the job title they sat under. */
+  .role-title,
   #education-sec .font-medium {
     font-size: 12pt !important;
     line-height: 1.25 !important;
+  }
+  /* Project names stay emphasised by weight, not by size. */
+  .project-name {
+    font-size: inherit !important;
   }
 
   /* Body copy, summaries, bullets */
@@ -409,14 +433,103 @@
     padding-bottom: 7pt !important;
   }
 
-  /* Small uppercase meta: dates, labels, captions, overline */
-  .uppercase {
-    font-size: 8.5pt !important;
-    letter-spacing: 0.1em !important;
+  /* Compact print layout -----------------------------------------------
+     The printable width is ~510pt, well under the md: breakpoint, so every
+     two-column row silently collapses and each label lands on its own line.
+     Restore a real two-column grid with a narrow label gutter: the labels sit
+     beside their content instead of above it, and the longer skill and tool
+     lists wrap less. Together with tighter rhythm this is worth about a page. */
+  #experience-sec .exp-row,
+  #skills-sec .grid,
+  #tools-sec .grid,
+  #education-sec .grid {
+    display: grid !important;
+    grid-template-columns: 102pt 1fr !important;
+    gap: 0 10pt !important;
+    align-items: baseline !important;
   }
 
-  /* Keep each entry intact across page breaks */
-  #experience-sec .flex.flex-col > div,
+  /* Tighter vertical rhythm throughout the lower half of the page. */
+  section {
+    padding-top: 4pt !important;
+    padding-bottom: 4pt !important;
+  }
+  #skills-sec .grid,
+  #tools-sec .grid,
+  #education-sec .grid {
+    padding-top: 4pt !important;
+    padding-bottom: 4pt !important;
+  }
+  #experience-sec .exp-row {
+    padding-top: 5pt !important;
+    padding-bottom: 5pt !important;
+  }
+  #experience-sec h2,
+  #skills-sec h2,
+  #education-sec h2,
+  #tools-sec h2 {
+    font-size: 12pt !important;
+  }
+  #experience-sec > div:first-child,
+  #skills-sec > div:first-child,
+  #education-sec > div:first-child,
+  #tools-sec > div:first-child {
+    margin-bottom: 6pt !important;
+  }
+  /* Degree and field sit directly under the school, not spaced like body copy. */
+  #education-sec .font-medium {
+    font-size: 11pt !important;
+  }
+  #education-sec .grid > div > div + div {
+    margin-top: 1pt !important;
+  }
+
+  /* Contact row on paper: the address stays on the left, and LinkedIn travels
+     with its QR code to the right edge. The on-screen middot separator would
+     read as a stray mark once they are pushed apart, so it goes. */
+  #resume-contact {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+  #resume-contact .contact-sep {
+    display: none !important;
+  }
+  #resume-contact .contact-linkedin {
+    margin-left: auto !important;
+  }
+
+  /* The company is context for the role, not a peer of it. Without this it
+     inherited the base size and printed as large as the job title. */
+  #experience-sec .role-company {
+    font-size: 9.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  /* The body-copy rule below is written as `#education-sec div` etc. — an ID
+     plus an element, which outranks the bare `.uppercase` class. That left the
+     Education dates and section captions at 10pt while Experience's sat at
+     8.5pt: visibly larger, and wide enough to wrap onto two lines. Re-assert
+     the meta size with matching specificity so every section agrees. */
+  #education-sec .uppercase,
+  #skills-sec .uppercase,
+  #tools-sec .uppercase {
+    font-size: 8.5pt !important;
+  }
+
+  /* Small uppercase meta: dates, labels, captions, overline. Tight tracking
+     keeps "MAY 2008 – JAN 2011" on one line inside the label gutter. */
+  .uppercase {
+    font-size: 8.5pt !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Keep short entries intact across page breaks. Experience rows are
+     deliberately excluded: a long role (bullets plus selected projects) is
+     taller than the space left on a page, so refusing to split it pushed the
+     whole entry overleaf and left the first page half empty. Roles may now
+     flow across the break — the break-after and orphans/widows rules above
+     still stop a title or a lone line from being stranded. */
   #education-sec .flex.flex-col > div,
   #skills-sec .grid,
   #tools-sec .grid {
@@ -576,25 +689,191 @@
   transition-delay: calc(var(--i) * 170ms);
 }
 
-/* How-I-work principles — staggered reveal */
-.principle-item {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+/* Expand-all control, sharing the disclosure toggles' register. */
+.exp-expand-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #364153;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
 }
-.flow-block.visible .principle-item {
+.exp-expand-all:hover {
+  border-bottom-color: rgba(54, 65, 83, 0.4);
+}
+.exp-expand-all:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Experience disclosures ---------------------------------------------------
+   Older roles keep their summary, highlights and projects behind a native
+   <details>, so the page scans as a list of titles and dates. The current role
+   renders open. Native <details> buys keyboard support and, in Chrome,
+   auto-expansion when find-in-page matches text inside a closed one. */
+.exp-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #364153;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.exp-summary::-webkit-details-marker {
+  display: none;
+}
+.exp-summary:hover {
+  border-bottom-color: rgba(54, 65, 83, 0.4);
+}
+.exp-summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.exp-chevron {
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.exp-disclosure[open] .exp-chevron {
+  transform: rotate(90deg);
+}
+/* Native <details> gives no close animation, so only the open is animated. */
+.exp-disclosure[open] .exp-body {
+  animation: exp-body-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes exp-body-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-chevron,
+  .exp-disclosure[open] .exp-body {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Experience timeline spine ------------------------------------------------
+   Anchored to the content column and pulled back by half the 2rem gutter, so
+   it rides the gutter's centre without any column-width arithmetic. The rows
+   carry py-9, so the rail overshoots by 2.25rem at each end to bridge them.
+   Below md the grid collapses to one column and the spine goes with it. */
+@media (min-width: 768px) {
+  .exp-col {
+    position: relative;
+  }
+  .exp-rail,
+  .exp-dot {
+    position: absolute;
+    left: -1rem;
+    transform: translateX(-50%);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .exp-rail {
+    top: -2.25rem;
+    bottom: -2.25rem;
+    width: 1px;
+    background: rgba(26, 26, 26, 0.1);
+  }
+  /* The spine begins at the first dot rather than floating above it. */
+  .exp-rail-first {
+    top: 0.78rem;
+  }
+  .exp-dot {
+    top: 0.56rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(26, 26, 26, 0.28);
+  }
+  /* Current role: filled, with a soft halo so the eye lands here first. */
+  .exp-dot-current {
+    background: #1b2b4b;
+    box-shadow:
+      0 0 0 1px #1b2b4b,
+      0 0 0 5px rgba(27, 43, 75, 0.1);
+  }
+}
+
+/* How-I-work principles — each rule draws itself in blue, its two lines of text
+   follow behind it, and once all three columns have landed the rules settle
+   back to the resting navy together. Timings below assume --i is the column
+   (0-2) and --j the line within it (0 = title, 1 = body):
+     rule draws   i*260ms            for 600ms   -> last ends at 1120ms
+     text in      i*260 + 620 + j*140 for 450ms  -> last ends at 1730ms
+     rules settle 1850ms (same for all three)    for 700ms  */
+.principle-item {
   opacity: 1;
   transform: none;
-  transition-delay: calc(var(--i) * 130ms);
+}
+
+.principle-rule {
+  height: 1px;
+  width: 0;
+  background: #2563eb;
+  opacity: 1;
+  transition:
+    width 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 260ms),
+    background-color 0.7s ease 1.85s,
+    opacity 0.7s ease 1.85s;
+}
+.flow-block.visible .principle-rule {
+  width: 100%;
+  background: #1b2b4b;
+  opacity: 0.2;
+}
+
+.principle-text {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flow-block.visible .principle-text {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * 260ms + 620ms + var(--j) * 140ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .cap-label,
   .pill-wrap,
   .flow-item,
-  .principle-item {
+  .principle-item,
+  .principle-text {
     opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
+  }
+  .principle-rule {
+    width: 100% !important;
+    background: #1b2b4b !important;
+    opacity: 0.2 !important;
     transition: none !important;
   }
   .cap-divider { width: 100% !important; transition: none !important; }

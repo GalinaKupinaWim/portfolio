@@ -191,22 +191,26 @@ export default function AboutSection() {
                     className="principle-item"
                     style={{ "--i": i } as React.CSSProperties}
                   >
+                    <div className="principle-rule mb-3" aria-hidden />
                     <div
-                      className="h-px bg-[#1B2B4B] mb-3"
-                      style={{ opacity: 0.2 }}
-                      aria-hidden
-                    />
-                    <div
-                      className="font-body font-medium text-[#1B2B4B] mb-1.5"
-                      style={{ fontSize: "0.98rem", lineHeight: 1.3 }}
+                      className="principle-text font-body font-medium text-[#1B2B4B] mb-1.5"
+                      style={{ fontSize: "0.98rem", lineHeight: 1.3, "--j": 0 } as React.CSSProperties}
                     >
-                      {p.title}
+                      {p.title.split(" ").map((w, j) => (
+                        <span key={j} className="about-word">
+                          {w}{" "}
+                        </span>
+                      ))}
                     </div>
                     <p
-                      className="font-body text-[#4A5565]"
-                      style={{ fontSize: "0.86rem", lineHeight: 1.55 }}
+                      className="principle-text font-body text-[#4A5565]"
+                      style={{ fontSize: "0.86rem", lineHeight: 1.55, "--j": 1 } as React.CSSProperties}
                     >
-                      {p.body}
+                      {p.body.split(" ").map((w, j) => (
+                        <span key={j} className="about-word">
+                          {w}{" "}
+                        </span>
+                      ))}
                     </p>
                   </div>
                 ))}
@@ -280,10 +284,10 @@ export default function AboutSection() {
               }}
             >
               <Image
-                src="/images/galina-portrait.png"
-                alt="Galina Kupina"
-                width={1085}
-                height={1450}
+                src="/images/galina-portrait-ai.png"
+                alt="Galina Kupina, with a digital network motif flowing from her hair"
+                width={1024}
+                height={1536}
                 sizes="300px"
                 className="w-full h-full object-cover"
               />

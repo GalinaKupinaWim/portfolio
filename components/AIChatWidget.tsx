@@ -78,7 +78,7 @@ const FALLBACK_ANSWERS: Record<string, string> = {
   availability:
     "Yes \u2014 Galina is open to new opportunities. She's looking for Product Designer and UX Designer roles focused on AI product experiences, including 0\u21921 product design and human\u2013AI interaction. Reach out at galinauxdesign@gmail.com to start a conversation.",
   contact:
-    "You can reach Galina at galinauxdesign@gmail.com \u2014 she typically responds within 24 hours. She's also on LinkedIn at linkedin.com/in/galina-kupina-a219821a.",
+    "You can reach Galina at galinauxdesign@gmail.com \u2014 she typically responds within 24 hours. She's also on LinkedIn at linkedin.com/in/galinakupina.",
   education:
     "Galina holds a Certificate of Achievement in UI/UX Design for AI Products from Stanford Continuing Studies (Sep 2025\u2013Jan 2026), a Professional Program in User Experience Design from UC Berkeley (Sep 2023\u2013May 2025), the Google UX Design Professional Certificate (2023\u2013Sep 2024), and a B.S. in Business Administration from Novosibirsk State University (2007).",
   location:
@@ -106,7 +106,7 @@ const TOPIC_ACTIONS: Record<string, Action[]> = {
   skills:       [{ label: "View full resume", href: "/resume" }],
   process:      [{ label: "How she works", href: "/#about-sec" }],
   availability: [{ label: "Email Galina", href: EMAIL }, { label: "View full resume", href: "/resume" }],
-  contact:      [{ label: "Email Galina", href: EMAIL }, { label: "LinkedIn", href: "https://www.linkedin.com/in/galina-kupina-a219821a" }],
+  contact:      [{ label: "Email Galina", href: EMAIL }, { label: "LinkedIn", href: "https://www.linkedin.com/in/galinakupina" }],
   location:     [{ label: "Email Galina", href: EMAIL }],
 };
 
@@ -178,6 +178,7 @@ export default function AIChatWidget() {
   const [voiceOn, setVoiceOn] = useState(false);
   const [sttSupported, setSttSupported] = useState(false);
   const [ttsSupported, setTtsSupported] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
   const recognitionRef = useRef<unknown>(null);
   const sendRef = useRef<(t: string) => void>(() => {});
   const voiceOnRef = useRef(false);
@@ -219,6 +220,19 @@ export default function AIChatWidget() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The launcher parks in the bottom-right corner — exactly where the footer's
+  // social links sit. Dribbble ended up fully covered, so clicking it opened the
+  // chat instead. Step aside while the footer is on screen; that's also where
+  // the contact links make the assistant redundant. An open panel stays put,
+  // since its close control lives in the launcher.
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const io = new IntersectionObserver(([entry]) => setFooterInView(entry.isIntersecting));
+    io.observe(footer);
+    return () => io.disconnect();
+  }, [pathname]);
 
   useEffect(() => {
     voiceOnRef.current = voiceOn;
@@ -354,8 +368,8 @@ export default function AIChatWidget() {
           <div className="flex items-center gap-2.5">
             <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80]" />
             <div>
-              <div className="font-heading text-[13px] font-medium text-white tracking-[-0.01em]">Galina&apos;s AI assistant</div>
-              <div className="font-body text-[11px] text-[#9fb0c4]">Conversational UX demo she built</div>
+              <div className="font-heading text-[14px] font-medium text-white tracking-[-0.01em]">Galina&apos;s AI assistant</div>
+              <div className="font-body text-[12px] text-[#9fb0c4]">Conversational UX demo she built</div>
             </div>
           </div>
           <div className="flex items-center gap-1">
@@ -525,7 +539,12 @@ export default function AIChatWidget() {
       </div>
 
       {/* Launcher: label nudge + toggle button */}
-      <div className="flex items-center gap-2.5">
+      <div
+        aria-hidden={footerInView && !open}
+        className={`flex items-center gap-2.5 transition-all duration-300 ${
+          footerInView && !open ? "opacity-0 translate-y-2 invisible" : "opacity-100 translate-y-0"
+        }`}
+      >
         {showLabel && !open && (
           <button
             onClick={() => setOpen(true)}

@@ -233,8 +233,8 @@ export default function NutriPage() {
 
       {/* Hero image */}
       <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
-        <div className="relative w-full" style={{ maxWidth: "900px", aspectRatio: "1684/934" }}>
-          <Image src="/images/nutri-hero-v3.png" alt="NutriWise Mockups" fill className="object-contain" priority />
+        <div className="relative w-full" style={{ aspectRatio: "1684/934" }}>
+          <Image src="/images/nutri-hero-v3.png" alt="NutriWise Mockups" fill sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1200px) calc(100vw - 112px), 1088px" className="object-contain" priority />
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Project = { name: string; desc: string };
 type Job = {
@@ -39,7 +39,7 @@ const EXPERIENCE: Job[] = [
       "Worked directly with stakeholders to define priorities, communicate progress, gather feedback, and coordinate iterations.",
       "Managed timelines, budgets, resources, and deliverables while recruiting and onboarding technical and creative specialists as project needs required.",
     ],
-    projectsLabel: "Selected product projects",
+    projectsLabel: "Selected projects",
     projects: [
       {
         name: "Real Estate CRM Platform",
@@ -87,7 +87,7 @@ const EXPERIENCE: Job[] = [
 function Dot() {
   return (
     <span
-      className="inline-block flex-shrink-0"
+      className="bullet-dot inline-block flex-shrink-0"
       style={{
         width: 5,
         height: 5,
@@ -100,8 +100,127 @@ function Dot() {
   );
 }
 
+// Summary, highlights and selected projects — everything below the job title.
+// Pulled out so the current role can render it inline while older roles keep
+// it behind a disclosure.
+function RoleBody({ job }: { job: Job }) {
+  return (
+    <>
+    <p
+      className="font-body text-[#1a1a1a] mt-4"
+      style={{
+        fontSize: "clamp(0.95rem,1.4vw,1.08rem)",
+        lineHeight: 1.6,
+        fontWeight: 400,
+        maxWidth: "62ch",
+        opacity: job.compact ? 0.85 : 1,
+      }}
+    >
+      {job.summary}
+    </p>
+
+    {job.bullets && (
+      <ul className="mt-4 flex flex-col gap-2.5" style={{ maxWidth: "62ch" }}>
+        {job.bullets.map((b, j) => (
+          <li key={j} className="flex gap-3">
+            <Dot />
+            <span
+              className="font-body text-[#1a1a1a]"
+              style={{ fontSize: "0.98rem", lineHeight: 1.55, fontWeight: 400 }}
+            >
+              {b}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {job.projects && (
+      <div className="mt-6">
+        {job.projectsLabel && (
+          <div
+            className="projects-label font-body text-[#4A5565] uppercase font-medium mb-3"
+            style={{ fontSize: "0.75rem", letterSpacing: "0.14em" }}
+          >
+            {job.projectsLabel}
+          </div>
+        )}
+        <div className="flex flex-col gap-2.5" style={{ maxWidth: "62ch" }}>
+          {job.projects.map((p) => (
+            <div key={p.name} className="flex gap-3">
+              <Dot />
+              <span
+                className="font-body text-[#1a1a1a]"
+                style={{ fontSize: "0.98rem", lineHeight: 1.55, fontWeight: 400 }}
+              >
+                <span className="project-name font-medium">{p.name}</span>
+                <span className="text-[#4A5565]"> — {p.desc}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+    </>
+  );
+}
+
 export default function ExperienceSection() {
+  const [allOpen, setAllOpen] = useState(false);
+
+  const disclosures = useCallback(
+    () => [...(sectionRef.current?.querySelectorAll<HTMLDetailsElement>("details") ?? [])],
+    [],
+  );
+
+  // `toggle` does not bubble, so the listener is registered in the capture
+  // phase. This keeps the label honest when roles are opened one at a time.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const sync = () => {
+      const all = [...section.querySelectorAll<HTMLDetailsElement>("details")];
+      setAllOpen(all.length > 0 && all.every((d) => d.open));
+    };
+    section.addEventListener("toggle", sync, true);
+    return () => section.removeEventListener("toggle", sync, true);
+  }, []);
+
+  const toggleAll = () => {
+    const next = !allOpen;
+    disclosures().forEach((d) => (d.open = next));
+    setAllOpen(next);
+  };
+
   const sectionRef = useRef<HTMLElement>(null);
+
+  // The PDF is the artifact that gets forwarded, so it must never inherit
+  // whatever the reader happened to leave collapsed. Open every disclosure
+  // before printing, then put them back exactly as they were.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    let changed: [HTMLDetailsElement, boolean][] = [];
+    const expand = () => {
+      // "short" prints only the current role in detail; anything else prints
+      // everything. The intent is stamped on <html> by the save control.
+      const wantOpen = document.documentElement.dataset.printMode !== "short";
+      changed = [...section.querySelectorAll<HTMLDetailsElement>("details")]
+        .filter((d) => d.open !== wantOpen)
+        .map((d) => [d, d.open] as [HTMLDetailsElement, boolean]);
+      changed.forEach(([d]) => (d.open = wantOpen));
+    };
+    const restore = () => {
+      changed.forEach(([d, was]) => (d.open = was));
+      changed = [];
+    };
+    window.addEventListener("beforeprint", expand);
+    window.addEventListener("afterprint", restore);
+    return () => {
+      window.removeEventListener("beforeprint", expand);
+      window.removeEventListener("afterprint", restore);
+    };
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -137,16 +256,41 @@ export default function ExperienceSection() {
         >
           experience.
         </h2>
-        <span className="reveal font-body text-[0.75rem] tracking-[0.12em] uppercase text-[#4A5565] opacity-70 pb-2">
-          My professional journey
-        </span>
+        <div className="reveal flex flex-col sm:items-end gap-2 pb-1">
+          <span className="font-body text-[0.75rem] tracking-[0.12em] uppercase text-[#4A5565] opacity-70">
+            My professional journey
+          </span>
+          <button
+            type="button"
+            onClick={toggleAll}
+            aria-expanded={allOpen}
+            className="exp-expand-all no-print"
+          >
+            <svg
+              className="exp-chevron"
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              style={{ transform: allOpen ? "rotate(90deg)" : undefined }}
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+            {allOpen ? "Collapse all" : "Expand all"}
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col">
         {EXPERIENCE.map((job, i) => (
           <div
             key={job.title + job.company + job.dates}
-            className="reveal grid gap-2 md:gap-8 py-9 grid-cols-1 md:grid-cols-[minmax(170px,1fr)_6fr]"
+            className="reveal exp-row grid gap-2 md:gap-8 py-9 grid-cols-1 md:grid-cols-[minmax(170px,1fr)_6fr]"
             style={{
               borderTop: i === 0 ? "1px solid rgba(26,26,26,0.1)" : undefined,
               borderBottom: "1px solid rgba(26,26,26,0.1)",
@@ -155,8 +299,16 @@ export default function ExperienceSection() {
             {/* Left: dates + location */}
             <div className="pt-1">
               <div
-                className="font-body text-[#4A5565] uppercase font-medium"
-                style={{ fontSize: "0.78rem", letterSpacing: "0.14em" }}
+                className="font-body uppercase"
+                style={{
+                  // Dates orient, they don't carry the story — so they sit a
+                  // step below the role title in size, weight and tracking.
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.1em",
+                  // The current role reads darker, so "what is she doing now"
+                  // is answerable at a glance.
+                  color: i === 0 ? "#1B2B4B" : "#4A5565",
+                }}
               >
                 {job.dates}
               </div>
@@ -170,10 +322,14 @@ export default function ExperienceSection() {
               )}
             </div>
 
-            {/* Right: role details */}
-            <div>
+            {/* Right: role details. Also carries the timeline spine, which is
+                offset back by half the 2rem gutter so it rides the gutter's
+                centre without needing to know the date column's width. */}
+            <div className="exp-col">
+              <span className={`exp-rail${i === 0 ? " exp-rail-first" : ""}`} aria-hidden />
+              <span className={`exp-dot${i === 0 ? " exp-dot-current" : ""}`} aria-hidden />
               <div
-                className="font-body text-[#1a1a1a] font-medium"
+                className="role-title font-body text-[#1a1a1a] font-medium"
                 style={{
                   fontSize: "clamp(1.15rem,1.9vw,1.5rem)",
                   lineHeight: 1.3,
@@ -183,66 +339,40 @@ export default function ExperienceSection() {
                 {job.title}
               </div>
               <div
-                className="font-body text-[#4A5565] mt-1"
-                style={{ fontSize: "0.98rem", lineHeight: 1.5 }}
+                className="role-company font-body text-[#4A5565] mt-1"
+                style={{ fontSize: "0.9rem", lineHeight: 1.5 }}
               >
                 {job.company}
               </div>
 
-              <p
-                className="font-body text-[#1a1a1a] mt-4"
-                style={{
-                  fontSize: "clamp(0.95rem,1.4vw,1.08rem)",
-                  lineHeight: 1.6,
-                  fontWeight: 400,
-                  maxWidth: "62ch",
-                  opacity: job.compact ? 0.85 : 1,
-                }}
-              >
-                {job.summary}
-              </p>
-
-              {job.bullets && (
-                <ul className="mt-4 flex flex-col gap-2.5" style={{ maxWidth: "62ch" }}>
-                  {job.bullets.map((b, j) => (
-                    <li key={j} className="flex gap-3">
-                      <Dot />
-                      <span
-                        className="font-body text-[#1a1a1a]"
-                        style={{ fontSize: "0.98rem", lineHeight: 1.55, fontWeight: 400 }}
-                      >
-                        {b}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {job.projects && (
-                <div className="mt-6">
-                  {job.projectsLabel && (
-                    <div
-                      className="font-body text-[#4A5565] uppercase font-medium mb-3"
-                      style={{ fontSize: "0.72rem", letterSpacing: "0.14em" }}
+              {i === 0 ? (
+                /* Current role stays open — it is the one a reader came for. */
+                <RoleBody job={job} />
+              ) : (
+                /* Native <details>: keyboard-operable, and Chrome expands it
+                   automatically when find-in-page matches text inside. */
+                <details className="exp-disclosure">
+                  <summary className="exp-summary">
+                    <svg
+                      className="exp-chevron"
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
                     >
-                      {job.projectsLabel}
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-2.5" style={{ maxWidth: "62ch" }}>
-                    {job.projects.map((p) => (
-                      <div key={p.name} className="flex gap-3">
-                        <Dot />
-                        <span
-                          className="font-body text-[#1a1a1a]"
-                          style={{ fontSize: "0.98rem", lineHeight: 1.55, fontWeight: 400 }}
-                        >
-                          <span className="font-medium">{p.name}</span>
-                          <span className="text-[#4A5565]"> — {p.desc}</span>
-                        </span>
-                      </div>
-                    ))}
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                    What I did
+                  </summary>
+                  <div className="exp-body">
+                    <RoleBody job={job} />
                   </div>
-                </div>
+                </details>
               )}
             </div>
           </div>

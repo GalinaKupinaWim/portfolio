@@ -75,7 +75,7 @@ export default function DropdownMenu({ open, onClose }: Props) {
         Email
       </a>
       <a
-        href="https://www.linkedin.com/in/galina-kupina-a219821a"
+        href="https://www.linkedin.com/in/galinakupina"
         target="_blank"
         rel="noopener noreferrer"
         onClick={onClose}

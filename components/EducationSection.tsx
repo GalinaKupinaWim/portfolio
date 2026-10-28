@@ -25,7 +25,7 @@ const EDUCATION: EduItem[] = [
     dates: "2023 – Sep 2024",
     school: "Google Career Certificates",
     degree: "Google UX Design Professional Certificate",
-    detail: "Wireframing · Prototyping",
+    detail: "UI/UX Design",
   },
   {
     dates: "Jun 2007",
@@ -88,8 +88,10 @@ export default function EducationSection() {
             }}
           >
             <div
-              className="font-body text-[#4A5565] uppercase font-medium"
-              style={{ fontSize: "0.78rem", letterSpacing: "0.14em" }}
+              // Matches the Experience dates: orienting detail, a step below
+              // the entry title in size, weight and tracking.
+              className="font-body text-[#4A5565] uppercase"
+              style={{ fontSize: "0.75rem", letterSpacing: "0.1em" }}
             >
               {item.dates}
             </div>

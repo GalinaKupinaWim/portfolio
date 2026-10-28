@@ -242,22 +242,22 @@ export default function SATPage() {
             2026 update
           </span>
           <span className="font-body text-[0.875rem]" style={{ color: SAT.bodyText }}>
-            I added an AI layer — six screens, a control model, and a plan to validate it.
+            I came back solo to design the AI layer — six screens and a control model.
           </span>
           <a
             href="#ai-layer"
             className="font-body text-[0.875rem] font-medium no-underline whitespace-nowrap hover:opacity-70 transition-opacity"
             style={{ color: SAT.brand }}
           >
-            Jump to it →
+            Read Phase 06 →
           </a>
         </div>
       </div>
 
       {/* ── Hero image ── */}
       <div className="px-6 md:px-14 max-w-[1200px] mx-auto">
-        <div className="relative w-full" style={{ maxWidth: "900px", aspectRatio: "1560/1008" }}>
-          <Image src="/images/PrepMate-hero-v2.png" alt="SAT Hero" fill sizes="(max-width: 900px) 100vw, 900px" className="object-contain" priority />
+        <div className="relative w-full" style={{ aspectRatio: "1560/1008" }}>
+          <Image src="/images/PrepMate-hero-v2.png" alt="SAT Hero" fill sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1200px) calc(100vw - 112px), 1088px" className="object-contain" priority />
         </div>
       </div>
 

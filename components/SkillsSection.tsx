@@ -34,7 +34,6 @@ const SKILLS: SkillRow[] = [
       "AI Product Design",
       "Conversational UX",
       "Human-AI Interaction",
-      "Prompt Design",
       "AI-Augmented Workflow",
     ],
   },
@@ -117,8 +116,11 @@ export default function SkillsSection() {
             <div
               className="font-body text-[#1a1a1a] flex flex-wrap items-baseline"
               style={{
-                fontSize: "clamp(0.92rem,1.55vw,1.24rem)",
-                lineHeight: 1.65,
+                // Matches the body scale elsewhere on the page. At the old
+                // clamp these ran to 19.8px — larger than any other body text,
+                // which is what made them read as emphasised.
+                fontSize: "0.98rem",
+                lineHeight: 1.6,
                 fontWeight: 400,
               }}
             >
