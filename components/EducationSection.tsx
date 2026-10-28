@@ -22,7 +22,7 @@ const EDUCATION: EduItem[] = [
     detail: "UX Design",
   },
   {
-    dates: "2023 – Sep 2024",
+    dates: "May 2023 – Sep 2024",
     school: "Google Career Certificates",
     degree: "Google UX Design Professional Certificate",
     detail: "UI/UX Design",
