@@ -284,7 +284,7 @@ export default function AboutSection() {
               }}
             >
               <Image
-                src="/images/galina-portrait-ai.png"
+                src="/images/galina-portrait-ai.webp"
                 alt="Galina Kupina, with a digital network motif flowing from her hair"
                 width={1024}
                 height={1536}
